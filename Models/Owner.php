@@ -2,11 +2,6 @@
 	
 	namespace Models;
 
-	class Owner
-	{
+	class Owner	{
 		private $userId;
-
 	}
-
-
- ?>

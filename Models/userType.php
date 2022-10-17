@@ -2,47 +2,38 @@
 
 	namespace Models;
 	
-	class userType
-	{
-		private $name; //Keeper/Owner
+	class UserType {
+		private $name; // Keeper/Owner
 		private $id;
 		private $description;
 
-	    public function getName()
-	    {
+	    public function getName() {
 	        return $this->name;
 	    }
 
-	    public function setName($name)
-	    {
+	    public function setName($name) {
 	        $this->name = $name;
 
 	        return $this;
 	    }
 
-	    public function getId()
-	    {
+	    public function getId() {
 	        return $this->id;
 	    }
 
-	    public function setId($id)
-	    {
+	    public function setId($id) {
 	        $this->id = $id;
 
 	        return $this;
 	    }
 
-	    public function getDescription()
-	    {
+	    public function getDescription() {
 	        return $this->description;
 	    }
 
-	    public function setDescription($description)
-	    {
+	    public function setDescription($description) {
 	        $this->description = $description;
 
 	        return $this;
 	    }
 	}
-
- ?>

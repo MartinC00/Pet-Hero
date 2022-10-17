@@ -2,75 +2,62 @@
 
 	namespace Models;
 
-	class Pet
-	{
-		private $name;
-		private $ownerId;
-		private $size;
-		private $photo;
-		private $breed; //raza
-		private $vaccines; //vacunas, png
-		private $description;
+	class Pet {
+        private $name;
+        private $ownerId;
+        private $size;
+        private $photo;
+        private $breed; // raza
+        private $vaccines; // vacunas, png
+        private $description;
 
-	    public function getSize()
-	    {
-	        return $this->size;
-	    }
+        public function getSize() {
+            return $this->size;
+        }
 
-	    public function setSize($size)
-	    {
-	        $this->size = $size;
+        public function setSize($size) {
+            $this->size = $size;
 
-	        return $this;
-	    }
+            return $this;
+        }
 
-	    public function getPhoto()
-	    {
-	        return $this->photo;
-	    }
+        public function getPhoto() {
+            return $this->photo;
+        }
 
-	    public function setPhoto($photo)
-	    {
-	        $this->photo = $photo;
+        public function setPhoto($photo) {
+            $this->photo = $photo;
 
-	        return $this;
-	    }
+            return $this;
+        }
 
-	    public function getBreed()
-	    {
-	        return $this->breed;
-	    }
+        public function getBreed() {
+            return $this->breed;
+        }
 
-	    public function setBreed($breed)
-	    {
-	        $this->breed = $breed;
+        public function setBreed($breed) {
+            $this->breed = $breed;
 
-	        return $this;
-	    }
+            return $this;
+        }
 
-	    public function getVaccines()
-	    {
-	        return $this->vaccines;
-	    }
+        public function getVaccines() {
+            return $this->vaccines;
+        }
 
-	    public function setVaccines($vaccines)
-	    {
-	        $this->vaccines = $vaccines;
+        public function setVaccines($vaccines) {
+            $this->vaccines = $vaccines;
 
-	        return $this;
-	    }
+            return $this;
+        }
 
-	    public function getDescription()
-	    {
-	        return $this->description;
-	    }
+        public function getDescription() {
+            return $this->description;
+        }
 
-	    public function setDescription($description)
-	    {
-	        $this->description = $description;
+        public function setDescription($description) {
+            $this->description = $description;
 
-	        return $this;
-	    }
-	
-
- ?>
+            return $this;
+        }
+    }
