@@ -19,8 +19,6 @@
 
 	    public function setUsername($username) {
 	        $this->username = $username;
-
-	        return $this;
 	    }
 
 	    public function getPassword() {
@@ -29,8 +27,6 @@
 
 	    public function setPassword($password) {
 	        $this->password = $password;
-
-	        return $this;
 	    }
 
 	    public function getUserTypeId() {
@@ -39,8 +35,6 @@
 	    
 	    public function setUserTypeId($userTypeId) {
 	        $this->userTypeId = $userTypeId;
-
-	        return $this;
 	    }
 	
 	    public function getId() {
@@ -49,7 +43,5 @@
 
 	    public function setId($id) {
 	        $this->id = $id;
-
-	        return $this;
 	    }
 	}
