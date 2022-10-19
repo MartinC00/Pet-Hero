@@ -7,7 +7,7 @@
 		private $id;
 		private $username;
 		private $password;
-		private $UserType;
+		private $userType;
 		private $name;
 		private $lastname;
 		private $DNI;
@@ -53,9 +53,9 @@
 	        return $this->userType;
 	    }
 
-	    public function setUserType(UserType $userType)
+	    public function setUserType(eUserType $userType)
 	    {
-	        $this->UserType = $userType;
+	        $this->userType = $userType;
 
 	        return $this;
 	    }

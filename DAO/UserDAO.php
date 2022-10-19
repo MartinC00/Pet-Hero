@@ -31,7 +31,7 @@
                  $contentArray = ($jsonToDecode) ? json_decode($jsonToDecode, true) : array();
                  
                  foreach($contentArray as $content) {
-                     $user = new user();
+                     $user = new User();
                      $user->setUserName($content["userName"]);
                      $user->setPassword($content["password"]);
 

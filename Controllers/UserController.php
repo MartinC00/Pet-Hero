@@ -1,12 +1,13 @@
 <?php 
 
 	namespace Controllers;
+
 	use Models\User;	
-	use Models\UserType;	
+	use Models\eUserType as eUserType;
 	use DAO\UserDAO;	
 	use DAO\UserTypeDAO;
 
-	class UserController()
+	class UserController
 	{
 		private $UserDAO;
 		private $UserTypeDAO;
@@ -17,21 +18,22 @@
 			$this->UserTypeDAO = new UserTypeDAO();
 		}
 
-		public function add($name, $lastname, $DNI, $phoneNumber, $email, $username, $password, $UserTypeId)
+		public function add ($username, $password, $name, $lastname, $DNI, $phoneNumber, $email, $userType)
 		{
-			$userType = new UserType();
-			$newUserType->setId($UserTypeId);
+			//$userType = new UserType();
+			//$newUserType->setId($UserTypeId);
 
 			$user = new User();
-			$user->setUserType($newUserType);
+			//$user->setUserType($newUserType);
 
-			$user->setName($name)
+			$user->setName($name);
 			$user->setLastName($lastname);
 			$user->setDNI($DNI);
 			$user->setPhoneNumber($phoneNumber);
 			$user->setEmail($email);
 			$user->setUsername($username);
 			$user->setPassword($password);
+            $user->setUserType($userType);
 
 			//Verificaciones antes de hacer el add...
 
@@ -40,6 +42,17 @@
 			$this->showAddView($user->getUserType()->getUserTypeId());
 			
 		}
+
+        private function checkUser($newUser) {
+            $arr = $this->UserDAO->GetAll();
+
+            foreach ($arr as $user) {
+                if ($newUser->getUserName() == $user->getUserName()) {
+
+                }
+            }
+        }
+
 		public function showAddView($userTypeId)
 		{
 			if($userTypeId==2)

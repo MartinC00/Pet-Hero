@@ -35,4 +35,8 @@
 
             $this->Index();
         }
+
+        public function Register() {
+            require_once(VIEWS_PATH."add-user.php");
+        }
     }
