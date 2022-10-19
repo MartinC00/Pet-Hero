@@ -5,67 +5,98 @@
 	use Models\User;	
 	use Models\eUserType as eUserType;
 	use DAO\UserDAO;	
-	use DAO\UserTypeDAO;
 
 	class UserController
 	{
 		private $UserDAO;
-		private $UserTypeDAO;
 
 		public function __construct()
 		{
 			$this->UserDAO = new UserDAO();
-			$this->UserTypeDAO = new UserTypeDAO();
 		}
 
 		public function add ($username, $password, $name, $lastname, $DNI, $phoneNumber, $email, $userType)
 		{
-			//$userType = new UserType();
-			//$newUserType->setId($UserTypeId);
-
 			$user = new User();
-			//$user->setUserType($newUserType);
 
+			$user->setUsername($username);
+			$user->setPassword($password);
 			$user->setName($name);
 			$user->setLastName($lastname);
 			$user->setDNI($DNI);
 			$user->setPhoneNumber($phoneNumber);
 			$user->setEmail($email);
-			$user->setUsername($username);
-			$user->setPassword($password);
             $user->setUserType($userType);
 
-			//Verificaciones antes de hacer el add...
-
-			$this->UserDAO->Add($user);
-
-			$this->showAddView($user->getUserType()->getUserTypeId());
+			$check = $this->checkUser($user)
 			
-		}
-
-        private function checkUser($newUser) {
-            $arr = $this->UserDAO->GetAll();
-
-            foreach ($arr as $user) {
-                if ($newUser->getUserName() == $user->getUserName()) {
-
-                }
-            }
-        }
-
-		public function showAddView($userTypeId)
-		{
-			if($userTypeId==2)
+			if($check==1) { $this->showAddView("Username isn't available, please choose another one"); }
+			else if($check==2) { $this->showAddView("DNI already exists !!"); }
+			else if($check==3) { $this->showAddView("Email already exists !!"); }
+			else
 			{
-				require_once(VIEWS_PATH . "completing-keeper-info.php"); //si el id=2, es un keeper, entonces muestro la vista para cargar los atributos particulares del keeper
+				$this->UserDAO->add($user);
+				$_SESSION["loggedUser"] = $user;
+				$this->showAddView();
 			}
 
 
+			
 		}
-		public function remove()
+		public function showAddView($message='')
 		{
+			if(!isset($_SESSION["loggedUser"])) 
+			{
+				require_once(VIEWS_PATH . "add-user.php");
+			}
+			else if ($_SESSION["loggedUser"]->getUserType()==$eUserType::KEEPER->name)
+			{
+				require_once(VIEWS_PATH . "add-keeper.php"); 
+			}
+			else
+			{
+				// require_once(VIEWS_PATH . "main-owner-panel") o algo asi
+			}
 
 		}
+
+		private function checkUser($newUser) {
+            $userList = $this->UserDAO->getAll();
+
+            foreach ($userList as $user) 
+            {
+                if ($newUser->getUsername() == $user->getUsername()) return 1;
+                
+                else if($newUser->getDNI() == $user->getDNI()) return 2;
+               
+                else if($newUser->getEmail() == $user->getEmail()) return 3;
+            }
+            return 0;
+        }
+		public function showListView()
+		{
+			//ADAPTAR SEGUN KEEPER U OWNER
+
+			$userList=$this->userDAO->getAll();
+			require_once(VIEWS_PATH . "users-list.php")
+		}
+
+		public function remove(//id o username)
+		{
+			$this->userDAO->delete() //Dentro de la DAO uso la funcion delete() para no llamarla tambien remove()
+
+			//adaptar segun usuario...
+
+			$this-> // show algo
+
+		}
+
+		public function modifyUserProfile()
+		{
+
+
+		}
+
 
 	}
 

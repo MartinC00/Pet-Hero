@@ -1,11 +1,11 @@
 <?php
     namespace DAO;
 
-    use Models\User as User;
+    use Models\Keeper;
 
-    interface IUserDAO 
+    interface IKeeperDAO 
     {
-        function add(User $user);
+        function add(Keeper $keeper);
         function getNextId();
         function saveData();
         function retrieveData();

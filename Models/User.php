@@ -7,12 +7,12 @@
 		private $id;
 		private $username;
 		private $password;
-		private $userType;
 		private $name;
 		private $lastname;
 		private $DNI;
 		private $phoneNumber;
 		private $email;
+		private $userType;
 
 
 	    public function getId()

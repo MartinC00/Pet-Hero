@@ -3,6 +3,8 @@
 <h1> Welcome !</h1>
 <h2> Complete Your Data </h2>
 
+<<?php echo $message; ?>
+
 <form action="<?php echo FRONT_ROOT ."User/add" ?>" method="post">
 	<input type="text" name="username" placeholder="Username" required> <br>
 	<input type="password" name="password" placeholder="Password" required> <br>

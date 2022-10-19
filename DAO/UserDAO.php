@@ -4,39 +4,102 @@
     use DAO\IUserDAO as IUserDAO;
     use Models\User as User;
 
-    class UserDAO implements IUserDAO {
+    class UserDAO implements IUserDAO 
+    {
         private $userList = array();
-        private $fileName = ROOT."Data/Users.json";
+        private $filename = ROOT."Data/Users.json";
 
-        public function GetByUserName($userName) {
-            $user = null;
-
-            $this->RetrieveData();
-
-            $users = array_filter($this->userList, function($user) use($userName){
-                return $user->getUserName() == $userName;
-            });
-
-            $users = array_values($users); //Reordering array indexes
-
-            return (count($users) > 0) ? $users[0] : null;
+        public function add(User $user)
+        {
+            $this->retrieveData();
+            $user->setId($this->getNextId());
+            array_push($this->userList, $user);
+            $this->saveData();
         }
 
-        private function RetrieveData() {
-             $this->userList = array();
+        private function getNextId()
+        {
+            $id=0;
+            foreach($this->userList as $user)
+            {
+                if($user->getId() > $id) $id=$user->getId();
+                $id++;
+            }
+            return $id+1;
+        }
 
-             if(file_exists($this->fileName)) {
-                 $jsonToDecode = file_get_contents($this->fileName);
+        private function saveData()
+        {
+            $arrayToEncode = array();
+            foreach($this->userList as $user)
+            {
+                $arrayValues = array();
+                $arrayValues["username"] = $user->getUsername();
+                $arrayValues["password"] = $user->getPassword();
+                $arrayValues["name"] = $user->getName();
+                $arrayValues["lastname"] = $user->getLastname();
+                $arrayValues["dni"] = $user->getDNI();
+                $arrayValues["phoneNumber"] = $user->getPhoneNumber();
+                $arrayValues["email"] = $user->getEmail();
+                $arrayValues["userType"] = $user->getUserType();
 
-                 $contentArray = ($jsonToDecode) ? json_decode($jsonToDecode, true) : array();
-                 
-                 foreach($contentArray as $content) {
-                     $user = new User();
-                     $user->setUserName($content["userName"]);
-                     $user->setPassword($content["password"]);
+                array_push($arrayToEncode, $arrayValues);
+            }
+            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
+            file_put_contents($this->filename, $jsonContent);
+        }
 
-                     array_push($this->userList, $user);
-                 }
-             }
-        }  
+        private function retrieveData()
+        {
+            $this->userList = array();
+
+            if(file_exists($this->filename))
+            {
+                $jsonContent = file_get_contents($this->filename);
+                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+
+                foreach($arrayToDecode as $arrayValues)
+                {
+                    $user = new User();
+                    $user->setUsername($arrayValues["username"]);
+                    $user->setPassword($arrayValues["password"]);
+                    $user->setName($arrayValues["name"]);
+                    $user->setLastname($arrayValues["lastname"]);
+                    $user->setDNI($arrayValues["dni"]);
+                    $user->setPhoneNumber($arrayValues["phoneNumber"]);
+                    $user->setEmail($arrayValues["email"]);
+                    $user->setUserType($arrayValues["userType"]);
+                    array_push($this->userList, $user);
+                }
+            }
+        } 
+
+        public function delete($id)
+        {
+            $this->retrieveData();
+            $positionToDelete = $this->getPositionById($id);
+            if(!is_null($positionToDelete))
+            {
+                unset($this->userList[$positionToDelete]);
+            }
+            $this->saveData();
+        }
+        private function getPositionById($id)
+        {
+            $position=0;
+            foreach($this->userList as $user)
+            {
+                if($user->getId()==$id) return $position;
+                $position++;
+            }
+            return null;
+        }
+
+        public function getAll()
+        {
+            $this->retrieveData();
+            return $this->userList;
+        }
+
+
     }
