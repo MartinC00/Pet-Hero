@@ -60,7 +60,7 @@
 			}
 		}
 
-        private function getNextId()
+        public function getNextId()
         {
             $id=0;
             foreach($this->keepersList as $keeper)
@@ -75,7 +75,7 @@
 
         }
 
-        private function getPositionById($id)
+        public function getPositionById($id)
         {
             $position=0;
             foreach($this->keepersList as $keeper)

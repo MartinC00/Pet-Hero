@@ -17,7 +17,7 @@
             $this->saveData();
         }
 
-        private function getNextId()
+        public function getNextId()
         {
             $id=0;
             foreach($this->userList as $user)
@@ -84,13 +84,22 @@
             }
             $this->saveData();
         }
-        private function getPositionById($id)
+        public function getPositionById($id)
         {
             $position=0;
             foreach($this->userList as $user)
             {
                 if($user->getId()==$id) return $position;
                 $position++;
+            }
+            return null;
+        }
+        public function getByUsername($username)
+        {
+            $this->retrieveData();
+            foreach($this->userList as $user)
+            {
+                if($user->getUsername()==$username) return $user;
             }
             return null;
         }

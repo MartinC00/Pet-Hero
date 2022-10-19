@@ -3,7 +3,7 @@
 <h1> Welcome !</h1>
 <h2> Complete Your Data </h2>
 
-<<?php echo $message; ?>
+<?php echo $message; ?>
 
 <form action="<?php echo FRONT_ROOT ."User/add" ?>" method="post">
 	<input type="text" name="username" placeholder="Username" required> <br>
@@ -15,8 +15,8 @@
 	<input type="email" name="email" placeholder="example@mail.com" required> <br>
 
 	<select name="userType">
-		<option value="<?php echo eUserType::Owner->name ?>"> Owner </option>
-		<option value="<?php echo eUserType::Keeper->name ?>"> Keeper </option>
+		<option value="<?php echo eUserType::Owner->name; ?>"> Owner </option>
+		<option value="<?php echo eUserType::Keeper->name; ?>"> Keeper </option>
 	</select>
 
 

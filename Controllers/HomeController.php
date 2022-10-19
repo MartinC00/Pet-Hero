@@ -20,8 +20,9 @@
             require_once(VIEWS_PATH."main.php"); // TODO redireccionar
         }
 
-        public function Login($userName, $password) {
-            $user = $this->userDAO->GetByUserName($userName);
+        public function Login($userName, $password) 
+        {
+            $user = $this->userDAO->getByUsername($userName);
 
             if(($user != null) && ($user->getPassword() === $password)) {
                 $_SESSION["loggedUser"] = $user;
@@ -36,7 +37,7 @@
             $this->Index();
         }
 
-        public function Register() {
+        public function Register($message="") {
             require_once(VIEWS_PATH."add-user.php");
         }
     }
