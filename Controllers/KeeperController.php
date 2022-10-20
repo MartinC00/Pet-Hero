@@ -27,13 +27,13 @@
 			//Validaciones...
 
 			$this->keeperDAO->add($Keeper);
-			$this->showPanelView();
+			$this->showHomeView();
 
 		}
-		public function showPanelView()
+		public function showHomeView()
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
-			//require_once(VIEWS_PATH . "main-panel-keeper") o algo asi
+			require_once(VIEWS_PATH . "keeper-home.php");
 		}
 		public function showAddView()
 		{

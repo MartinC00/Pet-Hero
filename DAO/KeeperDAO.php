@@ -65,7 +65,6 @@
             foreach($this->keepersList as $keeper)
             {
                 if($keeper->getKeeperId() > $id) $id=$keeper->getKeeperId();
-                $id++;
             }
             return $id+1;
         }

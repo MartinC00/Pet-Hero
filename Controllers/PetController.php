@@ -71,6 +71,12 @@
 
 		}
 
+		public function showAddPet()
+		{
+			require_once(VIEWS_PATH . "validate-session.php");
+			require_once(VIEWS_PATH . "add-pet.php");
+		}
+
 
 	
 	

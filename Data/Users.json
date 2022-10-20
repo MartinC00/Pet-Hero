@@ -4,10 +4,43 @@
         "username": "asd",
         "password": "123",
         "name": "asd",
-        "lastname": "cab",
+        "lastname": "asd",
         "dni": "12345677",
         "phone": "2235663251",
         "email": "alguito@gmail.com",
+        "userType": "Owner"
+    },
+    {
+        "id": 2,
+        "username": "JuanAzar",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "12335678",
+        "phone": "2235663251",
+        "email": "algo@gmail.com",
+        "userType": "Keeper"
+    },
+    {
+        "id": 3,
+        "username": "martincabrera",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "12345678",
+        "phone": "2235663251",
+        "email": "aasd@gmai.com",
+        "userType": "Owner"
+    },
+    {
+        "id": 4,
+        "username": "abc",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "22345678",
+        "phone": "2235663251",
+        "email": "cabreramartin403@gmail.com",
         "userType": "Keeper"
     }
 ]

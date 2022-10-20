@@ -23,7 +23,6 @@
             foreach($this->userList as $user)
             {
                 if($user->getId() > $id) $id=$user->getId();
-                $id++;
             }
             return $id+1;
         }

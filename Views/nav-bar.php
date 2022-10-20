@@ -7,7 +7,7 @@
         <!-- <li><a href="<?php //echo  FRONT_ROOT."CellPhone/ShowAddView "?>">ADD</a></li> -->
         <!-- <li><a href="<?php //echo  FRONT_ROOT."CellPhone/ShowListView "?>">LIST/REMOVE</a></li> -->
         <li><a href="<?php echo  FRONT_ROOT."Home/Logout "?>">LOGOUT</a></li>
-        <li><a href="<?php echo  FRONT_ROOT."Home/addPet "?>">ADD PET</a></li>
+        <li><a href="<?php echo  FRONT_ROOT."Pet/add "?>">ADD PET</a></li>
   </ul>
 </nav>
 
