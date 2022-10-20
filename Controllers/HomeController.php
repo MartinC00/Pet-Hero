@@ -12,12 +12,12 @@
         }
 
         public function Index($message = "") {
-            require_once(VIEWS_PATH."home.php");
+            require_once(VIEWS_PATH."user-login.php");
         }
 
         public function ShowAddView() {
             require_once(VIEWS_PATH."validate-session.php");
-            require_once(VIEWS_PATH."main.php"); // TODO redireccionar
+            require_once(VIEWS_PATH."main-owner-view.php"); // TODO redireccionar
         }
 
         public function Login($userName, $password) 
@@ -41,10 +41,4 @@
             require_once(VIEWS_PATH."add-user.php");
         }
 
-    //    public function SeeMyPets($message=""){
-  //          require_once(VIEWS_PATH."see-my-pets.php");
-//        }
-        public function AddPet($message=""){
-            require_once(VIEWS_PATH."add-pet.php");
-        }
     }

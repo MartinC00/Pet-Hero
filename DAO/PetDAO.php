@@ -2,7 +2,7 @@
 
 namespace DAO;
 
-use DAO\IPetDAO as IPetDAO;
+    use DAO\IPetDAO as IPetDAO;
     use Models\Pet as Pet;
 
     class UserDAO implements IPetDAO 
@@ -35,13 +35,15 @@ use DAO\IPetDAO as IPetDAO;
             foreach($this->petList as $pet)
             {
                 $arrayValues = array();
+                $arrayValues["id"] = $pet->getId();
+                $arrayValues["userId"] = $pet->getUserId();
                 $arrayValues["name"] = $pet->getName();
-                $arrayValues["ownerId"] = $pet->getOwnerId();
-                $arrayValues["size"] = $pet->getSize();
-                $arrayValues["photo"] = $pet->getPhoto();
                 $arrayValues["breed"] = $pet->getBreed();
-                $arrayValues["vaccines"] = $pet->getVaccines();
+                $arrayValues["size"] = $pet->getSize();
                 $arrayValues["description"] = $pet->getDescription();
+                $arrayValues["photo"] = $pet->getPhoto();
+                $arrayValues["vaccines"] = $pet->getVaccines();
+                $arrayValues["video"] = $pet->getVideo();
 
                 array_push($arrayToEncode, $arrayValues);
             }
@@ -61,15 +63,16 @@ use DAO\IPetDAO as IPetDAO;
                 foreach($arrayToDecode as $arrayValues)
                 {
                     $pet = new Pet();
-                    $pet->setId($arrayValues["id"]); //
+                    $pet->setId($arrayValues["id"]); 
+                    $pet->setUserId($arrayValues["userId"]); 
+                    $pet->setName($arrayValues["name"]); 
                     $pet->setBreed($arrayValues["breed"]);
+                    $pet->setSize($arrayValues["size"]);
                     $pet->setDescription($arrayValues["description"]);
                     $pet->setPhoto($arrayValues["photo"]);
-                    $pet->setSize($arrayValues["size"]);
-                    $pet->setVaccines($arrayValues["vaccines"]); //owner id?
- //                   $pet->set($arrayValues["phone"]);
-//                 $pet->setEmail($arrayValues["email"]);
-  //                  $pet->setUserType($arrayValues["userType"]);
+                    $pet->setVaccines($arrayValues["vaccines"]);
+                    $pet->setVideo($arrayValues["video"]);
+
                     array_push($this->petList, $pet);
                 }
             }
@@ -95,22 +98,33 @@ use DAO\IPetDAO as IPetDAO;
             }
             return null;
         }
-        public function getByOwnerId($ownerId)
+        
+        public function getByUserId($userId)
         {
             $this->retrieveData();
             foreach($this->petList as $pet)
             {
-                if($pet->getOwnerId()==$ownerId) return $pet;
+                if($pet->getUserId()==$userId) return $pet;
             }
             return null;
         }
 
+        public function getListById($userId)
+        {
+            $this->retrieveData();
+            $userPetsList = array();
+            foreach($this->petList as $pet)
+            {
+                if($pet->getUserId()==$userId) array_push($userPetsList, $pet);
+            }
+            return $userPetsList;
+        }
+        
         public function getAll()
         {
             $this->retrieveData();
             return $this->petList;
         }
-
 
     }
 

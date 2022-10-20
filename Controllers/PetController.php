@@ -3,7 +3,7 @@
 	namespace Controllers;
 
 	use Models\Pet;	
-	use Models\ePetType as ePetType;
+	use Models\User;	
 	use DAO\PetDAO;	
 
 	class PetController
@@ -15,77 +15,62 @@
 			$this->PetDAO = new PetDAO();
 		}
 
-		public function addPet ($name, $breed, $size, $photo, $vaccines, $description, $ownerId)
+		public function addPet ($name, $breed, $size, $description, $photo, $vaccines, $video)
 		{
+			require_once(VIEWS_PATH . "validate-session.php");
+
 			$pet = new Pet();
 
+			$pet->setUserId($_SESSION['loggedUser']->getId());
 			$pet->setName($name);
 			$pet->setBreed($breed);
-			$pet->setPhoto($photo);
 			$pet->setSize($size);
-			$pet->setVaccines($vaccines);
 			$pet->setDescription($description);
-			//$pet->setOwnerId($ownerId);
+			$pet->setPhoto($photo);
+			$pet->setVaccines($vaccines);
+			$pet->setVideo($video);
+
 			$check = $this->checkPet($pet);
 
-			if($check==1) { $this->showAddView("You already added this pet, please add another one"); }
-
+			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } //se podria agregar un enum para breed (raza)
 			else
 			{
 				$this->PetDAO->add($pet);
 				$this->showAddView();
 			}
-
-
 			
 		}
 		public function showAddView($message='')
 		{
-            /*
-			if(!isset($_SESSION["loggedUser"])) 
-			{
-				require_once(VIEWS_PATH . "add-user.php");
-			}
-			else if ($_SESSION["loggedUser"]->getUserType()== (eUserType::Keeper->name))
-			{
-				require_once(VIEWS_PATH . "add-keeper.php"); 
-			}
-			else
-			{
-				// require_once(VIEWS_PATH . "main-owner-panel") o algo asi
-			}
-*/ 
+			require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "add-pet.php");
 		}
 
-		private function checkPet($newPet) {
+		private function checkPet($newPet) 
+		{
             $petList = $this->PetDAO->getAll();
 
             foreach ($petList as $pet) 
             {
-                if ($newPet->getName() == $pet->getName() && $newPet->getOwnerId() == $pet->getOwnerId) return 1;
-                
+                if ($newPet->getName() == $pet->getName() && $newPet->getUserId()==$pet->getUserId()) return 1; //Esta verificacion implica que se tiene que repetir el nombre en la lista de mascotas y ademas que esa mascosta este asociada al mismo usuario que esta creando esta nueva. Un usuario no puede registrar dos mascotas que se llamen igual, pero distintos usuarios pueden tener mascotas que se llamen igual
             }
+
             return 0;
         }
-		public function showListView()
+		public function showUserPets()
 		{
-			//ADAPTAR SEGUN KEEPER U OWNER
-
-			$petList=$this->PetDAO->getAll();
-			require_once(VIEWS_PATH . "pets-list.php");
+			require_once(VIEWS_PATH . "validate-session.php");
+			$userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
+			require_once(VIEWS_PATH . "see-my-pets.php");
 		}
-/*
-		public function remove(//id o username)
+
+		public function remove($id)
 		{
-			$this->userDAO->delete(); //Dentro de la DAO uso la funcion delete() para no llamarla tambien remove()
-
-			//adaptar segun usuario...
-
-			$this-> // show algo
+			$this->userDAO->delete($id);
+			$this->showListView();
 
 		}
-*/
+
 
 	
 	

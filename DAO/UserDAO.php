@@ -112,5 +112,12 @@
             return $this->userList;
         }
 
+        public function modify(User $user)
+        {
+            $this->retrieveData();
+            $this->delete($user->getId());
+            array_push($this->userList, $user);
+            $this->saveData();
+        }
 
     }
