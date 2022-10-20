@@ -15,7 +15,7 @@
 			$this->UserDAO = new UserDAO();
 		}
 
-		public function add ($username, $password, $name, $lastname, $DNI, $phoneNumber, $email, $userType)
+		public function add ($username, $password, $name, $lastname, $dni, $phone, $email, $userType)
 		{
 			$user = new User();
 
@@ -23,13 +23,13 @@
 			$user->setPassword($password);
 			$user->setName($name);
 			$user->setLastName($lastname);
-			$user->setDNI($DNI);
-			$user->setPhoneNumber($phoneNumber);
+			$user->setDni($dni);
+			$user->setPhone($phone);
 			$user->setEmail($email);
             $user->setUserType($userType);
 
-			$check = $this->checkUser($user)
-			
+			$check = $this->checkUser($user);
+
 			if($check==1) { $this->showAddView("Username isn't available, please choose another one"); }
 			else if($check==2) { $this->showAddView("DNI already exists !!"); }
 			else if($check==3) { $this->showAddView("Email already exists !!"); }
@@ -49,7 +49,7 @@
 			{
 				require_once(VIEWS_PATH . "add-user.php");
 			}
-			else if ($_SESSION["loggedUser"]->getUserType()==$eUserType::KEEPER->name)
+			else if ($_SESSION["loggedUser"]->getUserType()== (eUserType::Keeper->name))
 			{
 				require_once(VIEWS_PATH . "add-keeper.php"); 
 			}
@@ -67,7 +67,7 @@
             {
                 if ($newUser->getUsername() == $user->getUsername()) return 1;
                 
-                else if($newUser->getDNI() == $user->getDNI()) return 2;
+                else if($newUser->getDni() == $user->getDni()) return 2;
                
                 else if($newUser->getEmail() == $user->getEmail()) return 3;
             }
@@ -78,18 +78,19 @@
 			//ADAPTAR SEGUN KEEPER U OWNER
 
 			$userList=$this->userDAO->getAll();
-			require_once(VIEWS_PATH . "users-list.php")
+			require_once(VIEWS_PATH . "users-list.php");
 		}
-
+/*
 		public function remove(//id o username)
 		{
-			$this->userDAO->delete() //Dentro de la DAO uso la funcion delete() para no llamarla tambien remove()
+			$this->userDAO->delete(); //Dentro de la DAO uso la funcion delete() para no llamarla tambien remove()
 
 			//adaptar segun usuario...
 
 			$this-> // show algo
 
 		}
+*/
 
 		public function modifyUserProfile()
 		{

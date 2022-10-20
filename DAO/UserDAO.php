@@ -34,12 +34,13 @@
             foreach($this->userList as $user)
             {
                 $arrayValues = array();
+                $arrayValues["id"] = $user->getId();
                 $arrayValues["username"] = $user->getUsername();
                 $arrayValues["password"] = $user->getPassword();
                 $arrayValues["name"] = $user->getName();
                 $arrayValues["lastname"] = $user->getLastname();
-                $arrayValues["dni"] = $user->getDNI();
-                $arrayValues["phoneNumber"] = $user->getPhoneNumber();
+                $arrayValues["dni"] = $user->getDni();
+                $arrayValues["phone"] = $user->getPhone();
                 $arrayValues["email"] = $user->getEmail();
                 $arrayValues["userType"] = $user->getUserType();
 
@@ -61,12 +62,13 @@
                 foreach($arrayToDecode as $arrayValues)
                 {
                     $user = new User();
+                    $user->setId($arrayValues["id"]);
                     $user->setUsername($arrayValues["username"]);
                     $user->setPassword($arrayValues["password"]);
                     $user->setName($arrayValues["name"]);
                     $user->setLastname($arrayValues["lastname"]);
-                    $user->setDNI($arrayValues["dni"]);
-                    $user->setPhoneNumber($arrayValues["phoneNumber"]);
+                    $user->setDni($arrayValues["dni"]);
+                    $user->setPhone($arrayValues["phone"]);
                     $user->setEmail($arrayValues["email"]);
                     $user->setUserType($arrayValues["userType"]);
                     array_push($this->userList, $user);

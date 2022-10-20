@@ -3,6 +3,7 @@
 	namespace Controllers;
 	use Models\Keeper;
 	use Models\User;
+	use DAO\KeeperDAO;
 
 	class KeeperController
 	{
@@ -13,12 +14,12 @@
 			$this->keeperDAO= new keeperDAO();
 		}
 
-		public function add($sizePet, $initialDate, $endDate, $price)
+		public function add($petSize, $initialDate, $endDate, $price)
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$Keeper = new Keeper();
 			$Keeper->setUserId($_SESSION['loggedUser']->getId());
-			$Keeper->setSizePet($sizePet);
+			$Keeper->setPetSize($petSize);
 			$Keeper->setInitialDate($initialDate);
 			$Keeper->setEndDate($endDate);
 			$Keeper->setPrice($price);

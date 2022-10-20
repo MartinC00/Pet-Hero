@@ -1,6 +1,7 @@
 <?php 
 
 	namespace Models;
+	use Models\eUserType;
 
 	class User {
 
@@ -9,8 +10,8 @@
 		private $password;
 		private $name;
 		private $lastname;
-		private $DNI;
-		private $phoneNumber;
+		private $dni;
+		private $phone;
 		private $email;
 		private $userType;
 
@@ -53,7 +54,7 @@
 	        return $this->userType;
 	    }
 
-	    public function setUserType(eUserType $userType)
+	    public function setUserType($userType)
 	    {
 	        $this->userType = $userType;
 
@@ -75,14 +76,14 @@
 	        return $this->lastname;
 	    }
 
-	    public function getDNI()
+	    public function getDni()
 	    {
-	        return $this->DNI;
+	        return $this->dni;
 	    }
 
-	    public function setDNI($DNI)
+	    public function setDni($dni)
 	    {
-	        $this->DNI = $DNI;
+	        $this->dni = $dni;
 
 	        return $this;
 	    }
@@ -94,15 +95,15 @@
 	        return $this;
 	    }
 
-	    public function getPhoneNumber()
+	    public function getPhone()
 	    {
-	        return $this->phoneNumber;
+	        return $this->phone;
 	    }
 
 
-	    public function setPhoneNumber($phoneNumber)
+	    public function setPhone($phone)
 	    {
-	        $this->phoneNumber = $phoneNumber;
+	        $this->phone = $phone;
 
 	        return $this;
 	    }

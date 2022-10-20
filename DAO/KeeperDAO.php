@@ -2,7 +2,7 @@
 	namespace DAO;
 
 	use Models\Keeper;
-	use Controllers\Keeper;
+	use DAO\IKeeperDAO;
 
 	class KeeperDAO implements IKeeperDAO
 	{
@@ -20,13 +20,12 @@
 		private function saveData()
 		{
 			$arrayToEncode = array();
-		
 			foreach($this->keepersList as $keeper)
 			{
 				$valuesArray=array();
 				$valuesArray["keeperId"] = $keeper->getKeeperId();
 				$valuesArray["userId"] = $keeper->getUserId();
-				$valuesArray["sizePet"] = $keeper->getSizePet();
+				$valuesArray["petSize"] = $keeper->getPetSize();
 				$valuesArray["initialDate"] = $keeper->getInitialDate();
 				$valuesArray["endDate"] = $keeper->getEndDate();
 				$valuesArray["price"] = $keeper->getPrice();
@@ -34,7 +33,7 @@
 			}
 		
 			$jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-			file_put_contents($this->filename, jsonContent);
+			file_put_contents($this->filename, $jsonContent);
 		
 		}
 		private function retrieveData()
@@ -50,7 +49,7 @@
 					$keeper = new Keeper();
 					$keeper->setKeeperId($valuesArray["keeperId"]);
 					$keeper->setUserId($valuesArray["userId"]);
-					$keeper->setSizePet($valuesArray["sizePet"]);
+					$keeper->setPetSize($valuesArray["petSize"]);
 					$keeper->setInitialDate($valuesArray["initialDate"]);
 					$keeper->setEndDate($valuesArray["endDate"]);
 					$keeper->setPrice($valuesArray["price"]);					

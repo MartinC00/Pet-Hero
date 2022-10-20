@@ -5,7 +5,7 @@
 	{
 		private $keeperId;
 		private $userId;
-		private $sizePet;
+		private $petSize;
 		private $initialDate; // desde el 15/07
 		private $endDate; // hasta el 20/10
 		private $price;
@@ -23,14 +23,14 @@
 	        return $this;
 	    }
 
-	    public function getSizePet()
+	    public function getPetSize()
 	    {
-	        return $this->sizePet;
+	        return $this->petSize;
 	    }
 
-	    public function setSizePet($sizePet)
+	    public function setPetSize($petSize)
 	    {
-	        $this->sizePet = $sizePet;
+	        $this->petSize = $petSize;
 
 	        return $this;
 	    }

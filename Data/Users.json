@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "username": "asd",
+        "password": "123",
+        "name": "asd",
+        "lastname": "cab",
+        "dni": "12345677",
+        "phone": "2235663251",
+        "email": "alguito@gmail.com",
+        "userType": "Keeper"
+    }
+]

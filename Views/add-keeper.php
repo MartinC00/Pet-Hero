@@ -1,13 +1,16 @@
-<h1> Welcome !</h1>
-<h2> Complete Your Data </h2>
+<?php use Models\ePetSize; ?>
+<h1> Keeper Information !</h1>
+<h2> Please complete </h2>
 
-<form action="<?php echo FRONT_ROOT ."User/add" ?>" method="post">
-	<input type="text" name="username" placeholder="Username" required> <br>
-	<input type="password" name="password" placeholder="Password" required> <br>
-	<input type="text" name="name" placeholder="John" required> <br>
-	<input type="text" name="lastname" placeholder="Doe" required> <br>
-	<input type="text" name="dni" placeholder="12345678" maxlength="8" minlength="7"> <br>
-	<input type="text" name="phone" placeholder="223012345" required> <br>
-	<input type="email" name="email" placeholder="example@mail.com" required> <br>
-    <input type="date">
+<form action="<?php echo FRONT_ROOT ."Keeper/add" ?>" method="post">
+	<select name="petSize">
+		<option value="<?php echo ePetSize::Small->name; ?>"> Small </option>
+		<option value="<?php echo ePetSize::Medium->name; ?>"> Medium </option>
+		<option value="<?php echo ePetSize::Big->name; ?>"> Big </option>
+	 </select> <br>
+	<input type="date" name="initialDate"  required> <br>
+	<input type="date" name="endDate"  required> <br>
+	<input type="number" name="price" placeholder="$XXXX" min="0" max="9999" required> <br>
+	
+	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
 </form>
