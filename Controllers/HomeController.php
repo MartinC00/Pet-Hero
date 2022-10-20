@@ -40,4 +40,11 @@
         public function Register($message="") {
             require_once(VIEWS_PATH."add-user.php");
         }
+
+    //    public function SeeMyPets($message=""){
+  //          require_once(VIEWS_PATH."see-my-pets.php");
+//        }
+        public function AddPet($message=""){
+            require_once(VIEWS_PATH."add-pet.php");
+        }
     }
