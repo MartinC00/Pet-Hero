@@ -1,13 +1,13 @@
 [
     {
         "id": 1,
-        "username": "asd",
-        "password": "123",
-        "name": "qwe",
-        "lastname": "zxc",
-        "dni": "11111111",
-        "phone": "22222222",
-        "email": "asd@zxc.com",
+        "username": "qwe",
+        "password": "asd",
+        "name": "Hola",
+        "lastname": "Soy",
+        "dni": "23456789",
+        "phone": "234234253",
+        "email": "algo@mail.com",
         "userType": "Owner"
     }
 ]
