@@ -16,8 +16,8 @@ require_once("validate-session.php");
                 <th style="width: 120px;">Size</th>
                 <th style="width: 400px;">Descripcion</th>
                 <th style="width: 110px;">Photo</th>                
-                <th style="width: 120px;">Vaciness</th>
-                <th style="width: 120px;">Video</th>
+<!--                <th style="width: 120px;">Vaciness</th>-->
+<!--                <th style="width: 120px;">Video</th>-->
               </tr>
             </thead>
             <tbody>
@@ -32,9 +32,9 @@ require_once("validate-session.php");
                       <td><?php echo $pet->getBreed() ?></td>
                       <td><?php echo $pet->getSize() ?></td>
                       <td><?php echo $pet->getDescription() ?></td>
-                      <td><?php echo $pet->getPhoto() ?></td>
-                      <td><?php echo $pet->getVaciness() ?></td>
-                      <td><?php echo $pet->getVideo() ?></td>
+                      <td><?php echo IMG_PATH.$pet->getPhoto() ?></td>
+<!--                      <td>--><?php //echo $pet->getVaciness() ?><!--</td>-->
+<!--                      <td>--><?php //echo $pet->getVideo() ?><!--</td>-->
                     </tr>
                   <?php
                 }

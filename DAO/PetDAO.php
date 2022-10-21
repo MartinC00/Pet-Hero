@@ -40,8 +40,8 @@ class PetDAO implements IPetDAO {
             $arrayValues["size"] = $pet->getSize();
             $arrayValues["description"] = $pet->getDescription();
             $arrayValues["photo"] = $pet->getPhoto();
-            $arrayValues["vaccines"] = $pet->getVaccines();
-            $arrayValues["video"] = $pet->getVideo();
+            //$arrayValues["vaccines"] = $pet->getVaccines();
+            //$arrayValues["video"] = $pet->getVideo();
 
             array_push($arrayToEncode, $arrayValues);
         }
@@ -68,8 +68,8 @@ class PetDAO implements IPetDAO {
                 $pet->setSize($arrayValues["size"]);
                 $pet->setDescription($arrayValues["description"]);
                 $pet->setPhoto($arrayValues["photo"]);
-                $pet->setVaccines($arrayValues["vaccines"]);
-                $pet->setVideo($arrayValues["video"]);
+                //$pet->setVaccines($arrayValues["vaccines"]);
+                //$pet->setVideo($arrayValues["video"]);
 
                 array_push($this->petList, $pet);
             }
@@ -122,6 +122,19 @@ class PetDAO implements IPetDAO {
     {
         $this->retrieveData();
         return $this->petList;
+    }
+
+    public function getById($id)
+    {
+        $this->retrieveData();
+
+        $pets = array_filter($this->petList, function($pet) use($id) {
+            return $pet->getId() == $id;
+        });
+
+        $pets = array_values($pets); //Reorderding array
+
+        return (count($pets) > 0) ? $pets[0] : null;
     }
 
 }

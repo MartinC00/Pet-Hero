@@ -1,0 +1,75 @@
+[
+    {
+        "id": 1,
+        "userId": 1,
+        "name": "asd",
+        "breed": "asd",
+        "size": "Small",
+        "description": "asd",
+        "photo": {
+            "name": "index.jpg",
+            "full_path": "index.jpg",
+            "type": "image\/jpeg",
+            "tmp_name": "C:\\xampp\\tmp\\php7919.tmp",
+            "error": 0,
+            "size": 7535
+        }
+    },
+    {
+        "id": 2,
+        "userId": 1,
+        "name": "tr",
+        "breed": "tyj",
+        "size": "Small",
+        "description": "tyj",
+        "photo": "Agregar"
+    },
+    {
+        "id": 3,
+        "userId": 1,
+        "name": "hry",
+        "breed": "rtykt",
+        "size": "Small",
+        "description": "tyj",
+        "photo": {
+            "name": "perrito.jpg",
+            "full_path": "perrito.jpg",
+            "type": "image\/jpeg",
+            "tmp_name": "C:\\xampp\\tmp\\phpC2B4.tmp",
+            "error": 0,
+            "size": 7535
+        }
+    },
+    {
+        "id": 4,
+        "userId": 1,
+        "name": "a",
+        "breed": "s",
+        "size": "Small",
+        "description": "d",
+        "photo": {
+            "name": "perrito.jpg",
+            "full_path": "perrito.jpg",
+            "type": "image\/jpeg",
+            "tmp_name": "C:\\xampp\\tmp\\phpC55B.tmp",
+            "error": 0,
+            "size": 7535
+        }
+    },
+    {
+        "id": 5,
+        "userId": 1,
+        "name": "dfg",
+        "breed": "wer",
+        "size": "Small",
+        "description": "qwe",
+        "photo": {
+            "name": "perrito.jpg",
+            "full_path": "perrito.jpg",
+            "type": "image\/jpeg",
+            "tmp_name": "C:\\xampp\\tmp\\phpC1B6.tmp",
+            "error": 0,
+            "size": 7535
+        }
+    }
+]
