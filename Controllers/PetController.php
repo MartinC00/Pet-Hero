@@ -2,21 +2,18 @@
 
 	namespace Controllers;
 
-	use Models\Pet;	
-	use Models\User;	
-	use DAO\PetDAO;	
+	use Models\Pet as Pet;
+	use Models\User as User;
+	use DAO\PetDAO as PetDAO;
 
-	class PetController
-	{
+	class PetController	{
 		private $PetDAO;
 
-		public function __construct()
-		{
+		public function __construct() {
 			$this->PetDAO = new PetDAO();
 		}
 
-		public function addPet ($name, $breed, $size, $description, $photo, $vaccines, $video)
-		{
+		public function add ($name, $breed, $size, $description, $photo, $vaccines, $video)	{
 			require_once(VIEWS_PATH . "validate-session.php");
 
 			$pet = new Pet();
@@ -40,14 +37,12 @@
 			}
 			
 		}
-		public function showAddView($message='')
-		{
+		public function showAddView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "add-pet.php");
 		}
 
-		private function checkPet($newPet) 
-		{
+		private function checkPet($newPet) {
             $petList = $this->PetDAO->getAll();
 
             foreach ($petList as $pet) 
@@ -57,17 +52,16 @@
 
             return 0;
         }
-		public function showMyPets()
-		{
+
+		public function showMyPets() {
 			require_once(VIEWS_PATH . "validate-session.php");
 			$userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
 			require_once(VIEWS_PATH . "see-my-pets.php");
 		}
 
-		public function remove($id)
-		{
-			$this->userDAO->delete($id);
-			$this->showListView();
+		public function remove($id) {
+			$this->PetDAO->delete($id);
+			$this->showMyPets();
 
 		}
 	}

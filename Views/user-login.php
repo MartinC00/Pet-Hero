@@ -1,6 +1,5 @@
 <?php 
     include_once('header.php');
-    use Models\eUserType as eUserType;
 ?>
 
 <h1>PET HERO</h1>

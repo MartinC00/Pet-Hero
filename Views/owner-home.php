@@ -4,6 +4,6 @@
     require_once("validate-session.php");
 ?>
 
+<h2> OWNER HOME </h2>
 
-<h1>work in progress</h1>
-<h2> OWNER HOME</h2>
+

@@ -15,109 +15,95 @@
 		private $email;
 		private $userType;
 
+        public function getId()
+        {
+            return $this->id;
+        }
 
-	    public function getId()
-	    {
-	        return $this->id;
-	    }
-	    public function setId($id)
-	    {
-	        $this->id = $id;
+        public function setId($id)
+        {
+            $this->id = $id;
+        }
 
-	        return $this;
-	    }
-	    public function getUsername()
-	    {
-	        return $this->username;
-	    }
+        public function getUsername()
+        {
+            return $this->username;
+        }
 
-	    public function setUsername($username)
-	    {
-	        $this->username = $username;
+        public function setUsername($username)
+        {
+            $this->username = $username;
+        }
 
-	        return $this;
-	    }
-	    public function getPassword()
-	    {
-	        return $this->password;
-	    }
+        public function getPassword()
+        {
+            return $this->password;
+        }
 
+        public function setPassword($password)
+        {
+            $this->password = $password;
+        }
 
-	    public function setPassword($password)
-	    {
-	        $this->password = $password;
+        public function getName()
+        {
+            return $this->name;
+        }
 
-	        return $this;
-	    }
-	    public function getUserType()
-	    {
-	        return $this->userType;
-	    }
+        public function setName($name)
+        {
+            $this->name = $name;
+        }
 
-	    public function setUserType($userType)
-	    {
-	        $this->userType = $userType;
+        public function getLastname()
+        {
+            return $this->lastname;
+        }
 
-	        return $this;
-	    }
-	    public function getName()
-	    {
-	        return $this->name;
-	    }
+        public function setLastname($lastname)
+        {
+            $this->lastname = $lastname;
+        }
 
-	    public function setName($name)
-	    {
-	        $this->name = $name;
+        public function getDni()
+        {
+            return $this->dni;
+        }
 
-	        return $this;
-	    }
-	    public function getLastname()
-	    {
-	        return $this->lastname;
-	    }
+        public function setDni($dni)
+        {
+            $this->dni = $dni;
+        }
 
-	    public function getDni()
-	    {
-	        return $this->dni;
-	    }
+        public function getPhone()
+        {
+            return $this->phone;
+        }
 
-	    public function setDni($dni)
-	    {
-	        $this->dni = $dni;
+        public function setPhone($phone)
+        {
+            $this->phone = $phone;
+        }
 
-	        return $this;
-	    }
+        public function getEmail()
+        {
+            return $this->email;
+        }
 
-	    public function setLastname($lastname)
-	    {
-	        $this->lastname = $lastname;
+        public function setEmail($email)
+        {
+            $this->email = $email;
+        }
 
-	        return $this;
-	    }
+        public function getUserType()
+        {
+            return $this->userType;
+        }
 
-	    public function getPhone()
-	    {
-	        return $this->phone;
-	    }
-
-
-	    public function setPhone($phone)
-	    {
-	        $this->phone = $phone;
-
-	        return $this;
-	    }
-	    public function getEmail()
-	    {
-	        return $this->email;
-	    }
+        public function setUserType($userType)
+        {
+            $this->userType = $userType;
+        }
 
 
-	    public function setEmail($email)
-	    {
-	        $this->email = $email;
-
-	        return $this;
-	    }
-    
-}
+    }

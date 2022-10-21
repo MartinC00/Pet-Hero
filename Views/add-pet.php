@@ -1,3 +1,12 @@
+<?php
+include('header.php');
+include('owner-nav-bar.php');
+require_once("validate-session.php");
+
+use Models\ePetSize;
+?>
+
+
 <h2> ADD A NEW PET !</h2>
 
 <form action="<?php echo FRONT_ROOT ."Pet/add" ?>" method="post">
@@ -8,8 +17,8 @@
 		<option value="<?php echo ePetSize::Small->name; ?>"> Small </option>
 		<option value="<?php echo ePetSize::Medium->name; ?>"> Medium </option>
 		<option value="<?php echo ePetSize::Big->name; ?>"> Big </option>
-	 </select> <br>
-	<input type="text" name="description" placeholder="description" required>  <br>
+    </select> <br>
+	<input type="text" name="description" placeholder="Description" required>  <br>
 	
 	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
 

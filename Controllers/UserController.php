@@ -77,8 +77,10 @@
         public function showMyProfile()
         {
         	require_once(VIEWS_PATH . "validate-session.php");
+            $userList = $this->UserDAO->getAll();
         	require_once(VIEWS_PATH . "user-profile.php");
         }
+
         public function showModifyUserProfile() //muestra el form de add-user pero que se manda a otro metodo
         {
         	require_once(VIEWS_PATH . "validate-session.php");
@@ -91,7 +93,7 @@
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			$user = new User();
+			//$user = new User();
 			$user = $_SESSION["loggedUser"];
 
 			$user->setUsername($username);
