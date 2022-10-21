@@ -25,7 +25,7 @@
 			$pet->setDescription($description);
 			$pet->setPhoto($photo);
 
-            $this->uploadImage($pet);
+
 
 			//$pet->setVaccines($vaccines);
 			//$pet->setVideo($video);
@@ -36,10 +36,11 @@
 			else
 			{
 				$this->PetDAO->add($pet);
-//                $petList = $this->PetDAO->getAll();
-//
-//                $id = $petList[count($petList) - 1]->getId();
-//                $this->uploadImage($id);
+//                $this->uploadImage($pet);
+                $petList = $this->PetDAO->getAll();
+
+                $id = $petList[count($petList) - 1]->getId();
+                $this->uploadImage($id);
 				$this->showAddView();
 			}
 			
@@ -72,7 +73,7 @@
 
 		}
 
-        public function uploadImage($newPet) {
+        public function uploadImage($id) {
             require_once(VIEWS_PATH . "validate-session.php");
 
             //if (isset($_POST['subir'])) {
@@ -93,13 +94,20 @@
                     else {
 //                        Si la imagen es correcta en tamaño y tipo
 //                        Se intenta subir al servidor
-                        if (move_uploaded_file($temp, IMG_PATH.$archivo)) {
+                        $filename = $_SESSION["loggedUser"]->getUsername()."-". $id. ".jpg";
+                        if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
+                            $pet = $this->PetDAO->getById($id);
+                            $pet->setPhoto($filename);
+                            $this->PetDAO->modify($pet);
+
+
+
                             //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                            chmod(IMG_PATH.$archivo, 0777);
+                            //chmod(IMG_PATH.$archivo, 0777);
                             //Mostramos el mensaje de que se ha subido co éxito
-                            echo '<div><b>Se ha subido correctamente la imagen.</b></div>';
+                            //echo '<div><b>Se ha subido correctamente la imagen.</b></div>';
                             //Mostramos la imagen subida
-                            echo '<p><img src="'.IMG_PATH.$archivo.'"></p>';
+                            //echo '<p><img src="'.IMG_PATH.$archivo.'"></p>';
                         }
                         else {
                             //Si no se ha podido subir la imagen, mostramos un mensaje de error
@@ -107,6 +115,7 @@
                         }
                     }
                 }
+
             //}
         }
 	}

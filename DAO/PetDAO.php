@@ -137,6 +137,17 @@ class PetDAO implements IPetDAO {
         return (count($pets) > 0) ? $pets[0] : null;
     }
 
+    public function modify(Pet $pet){
+        $this->retrieveData();
+
+        $id = $pet->getId();
+        $this->delete($id);
+
+        array_push($this->petList, $pet);
+
+        $this->saveData();
+    }
+
 }
 
 ?>
