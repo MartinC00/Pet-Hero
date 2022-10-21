@@ -57,7 +57,7 @@
 
             return 0;
         }
-		public function showUserPets()
+		public function showMyPets()
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
@@ -70,18 +70,6 @@
 			$this->showListView();
 
 		}
-
-		public function showAddPet()
-		{
-			require_once(VIEWS_PATH . "validate-session.php");
-			require_once(VIEWS_PATH . "add-pet.php");
-		}
-
-
-	
-	
-
-
 	}
 
  ?>

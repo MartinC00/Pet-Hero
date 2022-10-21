@@ -77,13 +77,13 @@
         public function showMyProfile()
         {
         	require_once(VIEWS_PATH . "validate-session.php");
-        	require_once(VIEWS_PATH . "show-user-profile.php");
+        	require_once(VIEWS_PATH . "user-profile.php");
         }
         public function showModifyUserProfile() //muestra el form de add-user pero que se manda a otro metodo
         {
         	require_once(VIEWS_PATH . "validate-session.php");
         	$user = $_SESSION["loggedUser"];
-        	require_once(VIEWS_PATH . "show-modify-user-profile.php");
+        	require_once(VIEWS_PATH . "modify-user-profile.php");
         }
 
 

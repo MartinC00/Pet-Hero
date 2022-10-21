@@ -1,6 +1,6 @@
 <?php
     include('header.php');
-    include('nav-bar.php');
+    include('owner-nav-bar.php');
     require_once("validate-session.php");
 ?>
 

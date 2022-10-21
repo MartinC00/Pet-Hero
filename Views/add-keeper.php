@@ -1,6 +1,7 @@
 <?php use Models\ePetSize; ?>
 <h1> Keeper Information !</h1>
 <h2> Please complete </h2>
+<?php echo $message; ?>
 
 <form action="<?php echo FRONT_ROOT ."Keeper/add" ?>" method="post">
 	<select name="petSize">

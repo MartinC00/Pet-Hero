@@ -70,7 +70,12 @@
         }
         public function delete($id)
         {
+        	$this->retrieveData();
 
+        	$positionToDelete = $this->getPositionById($id);
+        	if(!is_null($positionToDelete)) unset($this->keepersList[$positionToDelete]);
+
+        	$this->saveData();
         }
 
         public function getPositionById($id)
@@ -88,6 +93,23 @@
         {
         	$this->retrieveData();
         	return $this->keepersList;
+        }
+        public function getById($id)
+        {
+        	$this->retrieveData();
+        	foreach($this->keepersList as $keeper)
+        	{
+        		if($keeper->getKeeperId()==$id) return $keeper;
+        	}
+        	return null;
+        }
+
+        public function modify($keeper)
+        {
+        	$this->retrieveData();
+        	$this->delete($keeper->getUserId());
+        	array_push($this->keepersList, $keeper);
+        	$this->saveData();
         }
 	}
 

@@ -1,0 +1,25 @@
+
+<h2> MOSTRAMOS EL PERFIL Y AGREGAMOS BOTON "CHANGE MY PROFILE" QUE REDIRIJA A User/ShowModifyKeeperProfile (controladora de Keeper, metodo ModifyKeeperProfile) </h2>
+
+
+
+
+          <table style="text-align:center;">
+            <thead>
+              <tr>
+                <th style="width: 100px;">Pet Size</th>
+                <th style="width: 170px;">Initial Date</th>
+                <th style="width: 120px;">End Date</th>
+                <th style="width: 400px;">Your Price</th>
+              </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                      <td><?php echo $keeper->getPetSize() ?></td>
+                      <td><?php echo $keeper->getInitialDate() ?></td>
+                      <td><?php echo $keeper->getEndDate() ?></td>
+                      <td><?php echo $keeper->getPrice() ?></td>
+                    </tr>                        
+            </tbody>
+          </table>
+          <button type="buton" action ></button> <--------------------------------------- MODIFICAR

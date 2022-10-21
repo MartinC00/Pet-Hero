@@ -1,10 +1,5 @@
 
-<h2> MOSTRAMOS EL PERFIL Y AGREGAMOS BOTON "CHANGE MY PROFILE" QUE REDIRIJA A User/showModifyUserProfile (controladora de User, metodo showModifyUserProfile) </h2>
-
-
-<?php 
-  include_once('nav-bar.php');
-?>
+<h2> MOSTRAMOS EL PERFIL Y AGREGAMOS BOTON "CHANGE MY PROFILE" QUE REDIRIJA A User/ShowModifyUserProfile (controladora de User, metodo ModifyUserProfile) </h2>
 
           <table style="text-align:center;">
             <thead>

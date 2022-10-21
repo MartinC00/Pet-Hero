@@ -24,7 +24,6 @@ namespace DAO;
             foreach($this->petList as $pet)
             {
                 if($pet->getId() > $id) $id=$pet->getId();
-                $id++;
             }
             return $id+1;
         }
