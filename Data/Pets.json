@@ -1,29 +1,3 @@
 [
-    {
-        "id": 1,
-        "userId": 1,
-        "name": "asd",
-        "breed": "perrito",
-        "size": "Small",
-        "description": "asdasd",
-        "photo": "nose-1.jpg"
-    },
-    {
-        "id": 2,
-        "userId": 1,
-        "name": "mascota1",
-        "breed": "raza1",
-        "size": "Medium",
-        "description": "asdq",
-        "photo": "nose-2.jpg"
-    },
-    {
-        "id": 3,
-        "userId": 5,
-        "name": "mascotita",
-        "breed": "raza2",
-        "size": "Medium",
-        "description": "perro",
-        "photo": "agus-3.jpg"
-    }
+
 ]

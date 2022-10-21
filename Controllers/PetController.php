@@ -3,7 +3,6 @@
 	namespace Controllers;
 
 	use Models\Pet as Pet;
-	use Models\User as User;
 	use DAO\PetDAO as PetDAO;
 
 	class PetController	{
@@ -13,7 +12,7 @@
 			$this->PetDAO = new PetDAO();
 		}
 
-		public function add ($name, $breed, $size, $description, $photo)	{
+		public function add ($name, $breed, $size, $description, $photo, $vaccines) {
 			require_once(VIEWS_PATH . "validate-session.php");
 
 			$pet = new Pet();
@@ -24,27 +23,24 @@
 			$pet->setSize($size);
 			$pet->setDescription($description);
 			$pet->setPhoto($photo);
-
-
-
-			//$pet->setVaccines($vaccines);
+			$pet->setVaccines($vaccines);
 			//$pet->setVideo($video);
 
 			$check = $this->checkPet($pet);
 
 			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } //se podria agregar un enum para breed (raza)
-			else
-			{
+			else {
 				$this->PetDAO->add($pet);
-//                $this->uploadImage($pet);
                 $petList = $this->PetDAO->getAll();
 
                 $id = $petList[count($petList) - 1]->getId();
-                $this->uploadImage($id);
+                $this->uploadPhoto($id);
+                $this->uploadVaccines($id);
 				$this->showAddView();
 			}
 			
 		}
+
 		public function showAddView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "add-pet.php");
@@ -73,50 +69,58 @@
 
 		}
 
-        public function uploadImage($id) {
+        public function uploadPhoto($id) {
             require_once(VIEWS_PATH . "validate-session.php");
 
-            //if (isset($_POST['subir'])) {
-                //Recogemos el archivo enviado por el formulario
-                $archivo = $_FILES['photo']['name'];
-                //Si el archivo contiene algo y es diferente de vacio
-                if (isset($archivo) && $archivo != "") {
-                    //Obtenemos algunos datos necesarios sobre el archivo
-                    $tipo = $_FILES['photo']['type'];
-                    $tamano = $_FILES['photo']['size'];
-                    $temp = $_FILES['photo']['tmp_name'];
+            $archivo = $_FILES['photo']['name']; //Levantamos el archivo enviado por el formulario
 
-                    //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
-                    if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
-                        echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
-                        - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+            if (isset($archivo) && $archivo != "") { //Si el archivo contiene algo y es diferente de vacio
+                $tipo = $_FILES['photo']['type'];
+                $tamano = $_FILES['photo']['size']; //Obtenemos algunos datos necesarios sobre el archivo
+                $temp = $_FILES['photo']['tmp_name'];
+
+                //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
+                if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+                    echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+                    - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+                } else { // Si la imagen es correcta en tamaño y tipo Se intenta subir al servidor
+                    $filename = $_SESSION["loggedUser"]->getUsername()."-". $id. ".jpg";
+                    if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
+                        $pet = $this->PetDAO->getById($id);
+                        $pet->setPhoto($filename);
+                        $this->PetDAO->modify($pet);
                     }
-                    else {
-//                        Si la imagen es correcta en tamaño y tipo
-//                        Se intenta subir al servidor
-                        $filename = $_SESSION["loggedUser"]->getUsername()."-". $id. ".jpg";
-                        if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
-                            $pet = $this->PetDAO->getById($id);
-                            $pet->setPhoto($filename);
-                            $this->PetDAO->modify($pet);
-
-
-
-                            //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                            //chmod(IMG_PATH.$archivo, 0777);
-                            //Mostramos el mensaje de que se ha subido co éxito
-                            //echo '<div><b>Se ha subido correctamente la imagen.</b></div>';
-                            //Mostramos la imagen subida
-                            //echo '<p><img src="'.IMG_PATH.$archivo.'"></p>';
-                        }
-                        else {
-                            //Si no se ha podido subir la imagen, mostramos un mensaje de error
-                            echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
-                        }
-                    }
+                    else //Si no se ha podido subir la imagen, mostramos un mensaje de error
+                        echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
                 }
+            }
+        }
 
-            //}
+        public function uploadVaccines($id) {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $archivo = $_FILES['vaccines']['name']; //Levantamos el archivo enviado por el formulario
+
+            if (isset($archivo) && $archivo != "") { //Si el archivo contiene algo y es diferente de vacio
+                $tipo = $_FILES['vaccines']['type'];
+                $tamano = $_FILES['vaccines']['size']; //Obtenemos algunos datos necesarios sobre el archivo
+                $temp = $_FILES['vaccines']['tmp_name'];
+
+                //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
+                if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+                    echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+                    - Se permiten archivos .gif, .jpg, .png. y de 200 kb como máximo.</b></div>';
+                } else { // Si la imagen es correcta en tamaño y tipo Se intenta subir al servidor
+                    $filename = $_SESSION["loggedUser"]->getUsername()."-v". $id . ".jpg";
+                    if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
+                        $pet = $this->PetDAO->getById($id);
+                        $pet->setVaccines($filename);
+                        $this->PetDAO->modify($pet);
+                    }
+                    else //Si no se ha podido subir la imagen, mostramos un mensaje de error
+                        echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
+                }
+            }
         }
 	}
 

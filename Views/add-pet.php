@@ -1,11 +1,10 @@
 <?php
-include('header.php');
-include('owner-nav-bar.php');
-require_once("validate-session.php");
+    include('header.php');
+    include('owner-nav-bar.php');
+    require_once("validate-session.php");
 
-use Models\ePetSize;
+    use Models\ePetSize;
 ?>
-
 
 <h2> ADD A NEW PET !</h2>
 
@@ -19,9 +18,8 @@ use Models\ePetSize;
 		<option value="<?php echo ePetSize::Big->name; ?>"> Big </option>
     </select> <br>
 	<input type="text" name="description" placeholder="Description" required>  <br>
-    <input type="file" name="photo" id="photo">
-	
-	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
+    Foto <input type="file" name="photo" id="photo"> <br>
+    Vacunas <input type="file" name="vaccines" id="vaccines">
 
- <?php // FALTAN ESTAS 3: $photo (foto del perro), $vaccines(foto carnet vacunas), $video (del puto perro) ?>
+	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
 </form>

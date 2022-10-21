@@ -40,7 +40,7 @@ class PetDAO implements IPetDAO {
             $arrayValues["size"] = $pet->getSize();
             $arrayValues["description"] = $pet->getDescription();
             $arrayValues["photo"] = $pet->getPhoto();
-            //$arrayValues["vaccines"] = $pet->getVaccines();
+            $arrayValues["vaccines"] = $pet->getVaccines();
             //$arrayValues["video"] = $pet->getVideo();
 
             array_push($arrayToEncode, $arrayValues);
@@ -68,7 +68,7 @@ class PetDAO implements IPetDAO {
                 $pet->setSize($arrayValues["size"]);
                 $pet->setDescription($arrayValues["description"]);
                 $pet->setPhoto($arrayValues["photo"]);
-                //$pet->setVaccines($arrayValues["vaccines"]);
+                $pet->setVaccines($arrayValues["vaccines"]);
                 //$pet->setVideo($arrayValues["video"]);
 
                 array_push($this->petList, $pet);

@@ -1,7 +1,7 @@
 <?php
-include('header.php');
-include('owner-nav-bar.php');
-require_once("validate-session.php");
+    include('header.php');
+    include('owner-nav-bar.php');
+    require_once("validate-session.php");
 ?>
 
 <h1> list of pets!</h1>
@@ -16,28 +16,21 @@ require_once("validate-session.php");
                 <th style="width: 120px;">Size</th>
                 <th style="width: 400px;">Descripcion</th>
                 <th style="width: 110px;">Photo</th>                
-<!--                <th style="width: 120px;">Vaciness</th>-->
+                <th style="width: 120px;">Vaccines</th>
 <!--                <th style="width: 120px;">Video</th>-->
               </tr>
             </thead>
             <tbody>
-              <?php /// OJO CON ESTO: HAY QUE SOLUCIONAR EL TEMA DE FOTO Y VIDEO EN FORMULARIO DE CARGA
-              	    /// FALTA AGREGAR UN BOTON REMOVE QUE MANDE EL ID DE LA PET
-
-                foreach($userPetsList as $pet)
-                {
-                  ?>
+              <?php foreach($userPetsList as $pet) { ?>
                     <tr>
-                      <td><?php echo $pet->getName() ?></td>
-                      <td><?php echo $pet->getBreed() ?></td>
-                      <td><?php echo $pet->getSize() ?></td>
-                      <td><?php echo $pet->getDescription() ?></td>
-                      <td> <img src="<?php echo IMG_PATH.$pet->getPhoto() ?>" height="70" width="70" ></td>
-<!--                      <td>--><?php //echo $pet->getVaciness() ?><!--</td>-->
+                      <td><?php echo $pet->getName(); ?></td>
+                      <td><?php echo $pet->getBreed(); ?></td>
+                      <td><?php echo $pet->getSize(); ?></td>
+                      <td><?php echo $pet->getDescription(); ?></td>
+                      <td><img src="<?php echo IMG_PATH.$pet->getPhoto(); ?>" height="100" width="100" ></td>
+                      <td><img src="<?php echo IMG_PATH.$pet->getVaccines(); ?>" height="100" width="100" ></td>
 <!--                      <td>--><?php //echo $pet->getVideo() ?><!--</td>-->
                     </tr>
-                  <?php
-                }
-              ?>                           
+                <?php } ?>
             </tbody>
           </table>
