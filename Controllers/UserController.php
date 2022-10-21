@@ -73,27 +73,11 @@
             }
             return 0;
         }
-
-        public function showMyProfile()
-        {
-        	require_once(VIEWS_PATH . "validate-session.php");
-            $userList = $this->UserDAO->getAll();
-        	require_once(VIEWS_PATH . "user-profile.php");
-        }
-
-        public function showModifyUserProfile() //muestra el form de add-user pero que se manda a otro metodo
-        {
-        	require_once(VIEWS_PATH . "validate-session.php");
-        	$user = $_SESSION["loggedUser"];
-        	require_once(VIEWS_PATH . "modify-user-profile.php");
-        }
-
-
-        public function modifyProfile($username, $password, $name, $lastname, $dni, $phone, $email)
+    
+		public function modifyProfile($username, $password, $name, $lastname, $dni, $phone, $email)
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			//$user = new User();
 			$user = $_SESSION["loggedUser"];
 
 			$user->setUsername($username);
@@ -104,11 +88,32 @@
 			$user->setPhone($phone);
 			$user->setEmail($email);
 			
-			$this->UserDAO->modify($user);
-			
-			$_SESSION["loggedUser"]=$user;
-			$this->showHomeView();
+			$check = $this->checkUser($user);
+
+			if($check==1) { $this->showModifyUserProfile("Username isn't available, please choose another one"); }
+			else if($check==2) { $this->showModifyUserProfile("DNI already exists !!"); }
+			else if($check==3) { $this->showModifyUserProfile("Email already exists !!"); }
+			else
+			{
+				$this->UserDAO->modify($user);
+				$_SESSION["loggedUser"]=$user;
+				$this->showHomeView();
+			}			
 		}
+
+        public function showMyProfile()
+        {
+        	require_once(VIEWS_PATH . "validate-session.php");
+        	$user = $_SESSION["loggedUser"];
+        	require_once(VIEWS_PATH . "user-profile.php");
+        }
+
+        public function showModifyUserProfile($message="")
+        {
+        	require_once(VIEWS_PATH . "validate-session.php");
+        	$user = $_SESSION["loggedUser"];
+        	require_once(VIEWS_PATH . "modify-user-profile.php");
+        }
 
 		public function showHomeView()
 		{

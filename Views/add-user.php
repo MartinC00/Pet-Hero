@@ -12,7 +12,7 @@
 	<input type="text" name="name" placeholder="John" required> <br>
 	<input type="text" name="lastname" placeholder="Doe" required> <br>
 	<input type="text" name="dni" placeholder="12345678" maxlength="8" minlength="7" required>  <br>
-	<input type="text" name="phone" placeholder="223012345" required> <br>
+	<input type="number" name="phone" placeholder="223012345" required> <br>
 	<input type="email" name="email" placeholder="example@mail.com" required> <br>
 
 	<select name="userType">

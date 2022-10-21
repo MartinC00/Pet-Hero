@@ -1,13 +1,57 @@
 [
     {
         "id": 1,
-        "username": "qwe",
-        "password": "asd",
-        "name": "Hola",
-        "lastname": "Soy",
-        "dni": "23456789",
+        "username": "nose",
+        "password": "123",
+        "name": "vamo   ",
+        "lastname": "de nuevo   ",
+        "dni": "12322677",
         "phone": "234234253",
-        "email": "algo@mail.com",
+        "email": "asdsaf@gmail.com",
+        "userType": "Owner"
+    },
+    {
+        "id": 2,
+        "username": "abc",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "12345677",
+        "phone": "2235663251",
+        "email": "alguito@gmail.com",
+        "userType": "Keeper"
+    },
+    {
+        "id": 3,
+        "username": "qwe",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "12115678",
+        "phone": "asd",
+        "email": "aasd@gmai.com",
+        "userType": "Keeper"
+    },
+    {
+        "id": 4,
+        "username": "asd",
+        "password": "123",
+        "name": "asd",
+        "lastname": "asd",
+        "dni": "22345618",
+        "phone": "2235663251",
+        "email": "asdasd@gmail.com",
+        "userType": "Keeper"
+    },
+    {
+        "id": 5,
+        "username": "agus",
+        "password": "123",
+        "name": "agus",
+        "lastname": "agus",
+        "dni": "12335678",
+        "phone": "2235663251",
+        "email": "algo@gmail.com",
         "userType": "Owner"
     }
 ]

@@ -32,7 +32,7 @@ require_once("validate-session.php");
                       <td><?php echo $pet->getBreed() ?></td>
                       <td><?php echo $pet->getSize() ?></td>
                       <td><?php echo $pet->getDescription() ?></td>
-                      <td><?php echo IMG_PATH.$pet->getPhoto() ?></td>
+                      <td> <img src="<?php echo IMG_PATH.$pet->getPhoto() ?>" height="70" width="70" ></td>
 <!--                      <td>--><?php //echo $pet->getVaciness() ?><!--</td>-->
 <!--                      <td>--><?php //echo $pet->getVideo() ?><!--</td>-->
                     </tr>

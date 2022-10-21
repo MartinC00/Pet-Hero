@@ -14,6 +14,7 @@
 		private $phone;
 		private $email;
 		private $userType;
+        
 
         public function getId()
         {
@@ -105,5 +106,4 @@
             $this->userType = $userType;
         }
 
-
-    }
+}

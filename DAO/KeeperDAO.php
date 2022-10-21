@@ -25,6 +25,7 @@
 				$valuesArray=array();
 				$valuesArray["keeperId"] = $keeper->getKeeperId();
 				$valuesArray["userId"] = $keeper->getUserId();
+				$valuesArray["address"] = $keeper->getAddress();
 				$valuesArray["petSize"] = $keeper->getPetSize();
 				$valuesArray["initialDate"] = $keeper->getInitialDate();
 				$valuesArray["endDate"] = $keeper->getEndDate();
@@ -49,6 +50,7 @@
 					$keeper = new Keeper();
 					$keeper->setKeeperId($valuesArray["keeperId"]);
 					$keeper->setUserId($valuesArray["userId"]);
+					$keeper->setAddress($valuesArray["address"]);
 					$keeper->setPetSize($valuesArray["petSize"]);
 					$keeper->setInitialDate($valuesArray["initialDate"]);
 					$keeper->setEndDate($valuesArray["endDate"]);
@@ -83,7 +85,7 @@
             $position=0;
             foreach($this->keepersList as $keeper)
             {
-                if($keeper->getId()==$id) return $position;
+                if($keeper->getKeeperId()==$id) return $position;
                 $position++;
             }
             return null;
@@ -99,7 +101,7 @@
         	$this->retrieveData();
         	foreach($this->keepersList as $keeper)
         	{
-        		if($keeper->getKeeperId()==$id) return $keeper;
+        		if($keeper->getUserId()==$id) return $keeper;
         	}
         	return null;
         }
@@ -107,7 +109,7 @@
         public function modify($keeper)
         {
         	$this->retrieveData();
-        	$this->delete($keeper->getUserId());
+        	$this->delete($keeper->getKeeperId());
         	array_push($this->keepersList, $keeper);
         	$this->saveData();
         }

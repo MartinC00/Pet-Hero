@@ -5,6 +5,7 @@
 	{
 		private $keeperId;
 		private $userId;
+		private $address;
 		private $petSize;
 		private $initialDate; // desde el 15/07
 		private $endDate; // hasta el 20/10
@@ -81,4 +82,24 @@
 
 	        return $this;
 	    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     *
+     * @return self
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
 }

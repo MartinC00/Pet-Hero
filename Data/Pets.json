@@ -3,25 +3,27 @@
         "id": 1,
         "userId": 1,
         "name": "asd",
-        "breed": "asd",
+        "breed": "perrito",
         "size": "Small",
-        "description": "asd",
-        "photo": {
-            "name": "index.jpg",
-            "full_path": "index.jpg",
-            "type": "image\/jpeg",
-            "tmp_name": "C:\\xampp\\tmp\\php7919.tmp",
-            "error": 0,
-            "size": 7535
-        }
+        "description": "asdasd",
+        "photo": "nose-1.jpg"
     },
     {
         "id": 2,
         "userId": 1,
-        "name": "123",
-        "breed": "qwe",
-        "size": "Small",
-        "description": "asd",
-        "photo": "asd-2.jpg"
+        "name": "mascota1",
+        "breed": "raza1",
+        "size": "Medium",
+        "description": "asdq",
+        "photo": "nose-2.jpg"
+    },
+    {
+        "id": 3,
+        "userId": 5,
+        "name": "mascotita",
+        "breed": "raza2",
+        "size": "Medium",
+        "description": "perro",
+        "photo": "agus-3.jpg"
     }
 ]
