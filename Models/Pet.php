@@ -12,7 +12,7 @@
         private $description;
         private $photo; //del perro
         private $vaccines; // carnet de vacunacion (foto)
-        //private $video;
+        private $video;
 
 
         public function getId()

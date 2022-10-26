@@ -19,7 +19,8 @@
     </select> <br>
 	<input type="text" name="description" placeholder="Description" required>  <br>
     Foto <input type="file" name="photo" id="photo"> <br>
-    Vacunas <input type="file" name="vaccines" id="vaccines">
+    Vacunas <input type="file" name="vaccines" id="vaccines"> <br>
+    Video <input type="file" name="video" id="video">
 
 	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
 </form>

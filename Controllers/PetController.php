@@ -12,7 +12,7 @@
 			$this->PetDAO = new PetDAO();
 		}
 
-		public function add ($name, $breed, $size, $description, $photo, $vaccines) {
+		public function add ($name, $breed, $size, $description, $photo, $vaccines, $video) {
 			require_once(VIEWS_PATH . "validate-session.php");
 
 			$pet = new Pet();
@@ -24,7 +24,7 @@
 			$pet->setDescription($description);
 			$pet->setPhoto($photo);
 			$pet->setVaccines($vaccines);
-			//$pet->setVideo($video);
+			$pet->setVideo($video);
 
 			$check = $this->checkPet($pet);
 
@@ -36,6 +36,7 @@
                 $id = $petList[count($petList) - 1]->getId();
                 $this->uploadPhoto($id);
                 $this->uploadVaccines($id);
+                $this->uploadVideo($id);
 				$this->showAddView();
 			}
 			
@@ -122,6 +123,32 @@
                 }
             }
         }
-	}
 
+        public function uploadVideo($id) {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $archivo = $_FILES['video']['name'];
+
+            if (isset($archivo) && $archivo != "") { //Si el archivo contiene algo y es diferente de vacio
+                $tipo = $_FILES['video']['type'];
+                $tamano = $_FILES['video']['size']; //Obtenemos algunos datos necesarios sobre el archivo
+                $temp = $_FILES['video']['tmp_name'];
+
+                //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
+                if (!((strpos($tipo, "mp4")) && ($tamano < 200000000))) {
+                    echo '<div><b>Error. La extensión o el tamaño de los archivos no es correcta.<br/>
+                    - Se permiten archivos .gif, .jpg, .png. y de 20 mb como máximo.</b></div>';
+                } else { // Si el video es correcta en tamaño y tipo Se intenta subir al servidor
+                    $filename = $_SESSION["loggedUser"]->getUsername()."-video". $id . ".mp4";
+                    if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
+                        $pet = $this->PetDAO->getById($id);
+                        $pet->setVideo($filename);
+                        $this->PetDAO->modify($pet);
+                    }
+                    else //Si no se ha podido subir el video, mostramos un mensaje de error
+                        echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
+                }
+            }
+        }
+	}
  ?>
