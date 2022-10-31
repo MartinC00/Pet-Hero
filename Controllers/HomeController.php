@@ -2,15 +2,16 @@
     namespace Controllers;
 
     use DAO\UserDAO as UserDAO;
+    use Controllers\UserController;
     use Models\User as User;
     use Models\eUserType;
 
     class HomeController 
     {
-        private $userDAO;
+        private $userController;
 
         public function __construct() {
-            $this->userDAO = new UserDAO();
+            $this->userController = new UserController();
         }
 
         public function Index($message = "") {
@@ -33,7 +34,7 @@
 
         public function Login($userName, $password) 
         {
-            $user = $this->userDAO->getByUsername($userName);
+            $user = $this->userController->UserDAO->getByUsername($userName);
 
             if(($user != null) && ($user->getPassword() === $password)) 
             {

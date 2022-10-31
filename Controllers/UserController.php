@@ -8,7 +8,7 @@
 
 	class UserController
 	{
-		private $UserDAO;
+		public $UserDAO;
 
 		public function __construct()
 		{

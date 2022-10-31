@@ -4,17 +4,15 @@
 	use Models\Keeper;
 	use Models\User;
 	use DAO\KeeperDAO;
-	use DAO\UserDAO;
+
 
 	class KeeperController
 	{
 		private $keeperDAO;
-		private $userDAO;
 
 		public function __construct()
 		{
 			$this->keeperDAO= new KeeperDAO();
-			$this->userDAO= new UserDAO();
 		}
 
 		public function add($address, $petSize, $initialDate, $endDate, $price)
