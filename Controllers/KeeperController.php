@@ -15,7 +15,7 @@
 			$this->keeperDAO= new KeeperDAO();
 		}
 
-		public function add($address, $petSize, $initialDate, $endDate, $price)
+		public function add($address, $petSize, $initialDate, $endDate, $days, $price)
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$Keeper = new Keeper();
@@ -24,6 +24,7 @@
 			$Keeper->setPetSize($petSize);
 			$Keeper->setInitialDate($initialDate);
 			$Keeper->setEndDate($endDate);
+			$Keeper->setDays($days);
 			$Keeper->setPrice($price);
 
 			$check = $this->datesCheck($initialDate, $endDate);
@@ -77,15 +78,15 @@
 			return $keeper;
 		}
 
-		public function modifyProfile($address, $petSize, $initialDate, $endDate, $price)
+		public function modifyProfile($address, $petSize, $initialDate, $endDate,$days, $price)
 		{			
 			$keeper= $this->getKeeperLogged();
 
 			$keeper->setAddress($address);
 			$keeper->setPetSize($petSize);
-
 			$keeper->setInitialDate($initialDate);
 			$keeper->setEndDate($endDate);
+			$keeper->setDays($days);
 			$keeper->setPrice($price);
 
 			$check = $this->datesCheck($initialDate, $endDate);

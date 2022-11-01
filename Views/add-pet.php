@@ -9,7 +9,16 @@
 <h2> ADD A NEW PET !</h2>
 
 <form action="<?php echo FRONT_ROOT ."Pet/add" ?>" method="post" enctype="multipart/form-data">
-
+	<select name="petTypeId" required>
+                    <?php
+                      foreach($petTypeList as $petType)
+                      {
+                        ?>
+                           <option value="<?php echo $petType->getId() ?>"><?php echo $petType->getName() ?></option>
+                        <?php
+                      }
+                    ?>                                
+                  </select>
 	<input type="text" name="name" placeholder="Name" required> <br>
 	<input type="text" name="breed" placeholder="Breed" required> <br>
 	<select name="size">

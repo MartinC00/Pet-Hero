@@ -9,6 +9,7 @@
 		private $petSize;
 		private $initialDate; // desde el 15/07
 		private $endDate; // hasta el 20/10
+		private $days;
 		private $price;
 
 
@@ -83,23 +84,30 @@
 	        return $this;
 	    }
 
-    /**
-     * @return mixed
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
+	    public function getAddress()
+	    {
+	        return $this->address;
+	    }
 
-    /**
-     * @param mixed $address
-     *
-     * @return self
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
 
-        return $this;
-    }
-}
+	    public function setAddress($address)
+	    {
+	        $this->address = $address;
+
+	        return $this;
+	    }
+
+
+	    public function getDays()
+	    {
+	        return $this->days;
+	    }
+
+	    public function setDays($days)
+	    {
+	        $this->days = $days;
+
+	        return $this;
+	    }
+	}
+?>

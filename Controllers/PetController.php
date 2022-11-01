@@ -3,28 +3,39 @@
 	namespace Controllers;
 
 	use Models\Pet as Pet;
+    use Models\PetType;
+    use Controllers\PetTypeController;
 	use DAO\PetDAO as PetDAO;
 
 	class PetController	{
 		private $PetDAO;
+        private $petTypeController;
 
 		public function __construct() {
 			$this->PetDAO = new PetDAO();
+            $this->petTypeController = new PetTypeController();
 		}
 
-		public function add ($name, $breed, $size, $description, $photo, $vaccines, $video) {
+		public function add ($petTypeId, $name, $breed, $size, $description, $photo, $vaccines, $video) 
+        {
 			require_once(VIEWS_PATH . "validate-session.php");
 
+            $petType= new PetType();
+            $petType->setId($petTypeId);
+
 			$pet = new Pet();
+            $pet->setPetType($petType);
 
 			$pet->setUserId($_SESSION['loggedUser']->getId());
-			$pet->setName($name);
+			
+            $pet->setName($name);
 			$pet->setBreed($breed);
 			$pet->setSize($size);
 			$pet->setDescription($description);
 			$pet->setPhoto($photo);
 			$pet->setVaccines($vaccines);
 			$pet->setVideo($video);
+            $pet->setIsActive(true);
 
 			$check = $this->checkPet($pet);
 
@@ -44,6 +55,7 @@
 
 		public function showAddView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
+            $petTypeList = $this->petTypeController->petTypeDAO->getAll();
             require_once(VIEWS_PATH . "add-pet.php");
 		}
 
@@ -58,15 +70,23 @@
             return 0;
         }
 
-		public function showMyPets() {
+		public function showPetsList() 
+        {
 			require_once(VIEWS_PATH . "validate-session.php");
-			$userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
-			require_once(VIEWS_PATH . "see-my-pets.php");
+            $userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
+            
+            foreach($userPetsList as $pet)
+            {
+                $petType=$this->petTypeController->petTypeDAO->getById($pet->getPetType()->getId());
+                $pet->setPetType($petType);
+            }
+
+			require_once(VIEWS_PATH . "pets-list.php");
 		}
 
 		public function remove($id) {
 			$this->PetDAO->delete($id);
-			$this->showMyPets();
+			$this->showPetsList();
 
 		}
 

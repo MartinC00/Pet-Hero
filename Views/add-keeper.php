@@ -1,4 +1,5 @@
-<?php use Models\ePetSize; ?>
+<?php use Models\ePetSize; use Models\eDays; ?>
+
 <h1> Keeper Information !</h1>
 <h2> Please complete </h2>
 <?php echo $message; ?>
@@ -12,6 +13,15 @@
 	 </select> <br>
 	<input type="date" name="initialDate"  required> <br>
 	<input type="date" name="endDate"  required> <br>
+	<select multiple name="days[]" >
+		<option value="<?php echo eDays::Monday->name; ?>"> Monday </option>
+		<option value="<?php echo eDays::Tuesday->name; ?>"> Tuesday </option>
+		<option value="<?php echo eDays::Wednesday->name; ?>"> Wednesday </option>
+		<option value="<?php echo eDays::Thursday->name; ?>"> Thursday </option>
+		<option value="<?php echo eDays::Friday->name; ?>"> Friday </option>
+		<option value="<?php echo eDays::Saturday->name; ?>"> Saturday </option>
+		<option value="<?php echo eDays::Sunday->name; ?>"> Sunday </option>
+	 </select> <br>
 	<input type="number" name="price" placeholder="$XXXX" min="0" max="9999" required> <br>
 	
 	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>

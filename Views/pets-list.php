@@ -21,6 +21,7 @@
     <tbody>
         <?php foreach($userPetsList as $pet) { ?>
             <tr>
+                <td><?php echo $pet->getPetType()->getName(); ?></td>
                 <td><?php echo $pet->getName(); ?></td>
                 <td><?php echo $pet->getBreed(); ?></td>
                 <td><?php echo $pet->getSize(); ?></td>

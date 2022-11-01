@@ -14,6 +14,7 @@
         private $vaccines; // carnet de vacunacion (foto)
         private $video;
         private $petType;
+        private $isActive; 
         
 
         public function getId()
@@ -132,6 +133,18 @@
         public function setPetType(PetType $petType)
         {
             $this->petType = $petType;
+
+            return $this;
+        }
+
+        public function getIsActive()
+        {
+            return $this->isActive;
+        }
+
+        public function setIsActive(bool $isActive)
+        {
+            $this->isActive = $isActive;
 
             return $this;
         }
