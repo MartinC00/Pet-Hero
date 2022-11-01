@@ -17,6 +17,8 @@
 
 		public function add($address, $petSize, $initialDate, $endDate, $days, $price)
 		{
+
+			//$sql= "INSERT INTO keepers (adress,petSize,initialDate,endDate,days,price) VALUES (:adress,:petSize,:initialDate,:endDate,:days,:price)"
 			require_once(VIEWS_PATH . "validate-session.php");
 			$Keeper = new Keeper();
 			$Keeper->setAddress($address);
@@ -38,6 +40,9 @@
 			}
 
 		}
+
+
+
 		public function showAddView($message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");

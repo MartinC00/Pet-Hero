@@ -4,7 +4,7 @@
 
 	use Models\User;	
 	use Models\eUserType as eUserType;
-	use DAO\UserDAO;	
+	use DAO\UserDAO as UserDAO;	
 
 	class UserController
 	{
@@ -41,6 +41,7 @@
 			}
 		}
 			
+
 		
 		public function showAddView($message='')
 		{
