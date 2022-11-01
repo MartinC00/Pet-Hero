@@ -32,8 +32,8 @@
 			else if ($check == 2) { $this->showAddView("Initial Date mustn't be previous to current date"); }
 			else
 			{			
-				$this->keeperDAO->add($Keeper);
-				$this->showHomeView();
+				$response=$this->keeperDAO->add($Keeper);
+				$this->showHomeView($response);
 			}
 
 		}
@@ -54,7 +54,7 @@
 			else return 0;
 
 		}
-		public function showHomeView()
+		public function showHomeView($response='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "keeper-home.php");

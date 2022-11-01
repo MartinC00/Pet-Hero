@@ -35,9 +35,9 @@
 			else if($check==3) { $this->showAddView("Email already exists !!"); }
 			else
 			{
-				$this->UserDAO->add($user);
+				$response=$this->UserDAO->add($user);
 				$_SESSION["loggedUser"] = $user;
-				$this->showAddView();
+				$this->showAddView($response);
 			}
 		}
 			

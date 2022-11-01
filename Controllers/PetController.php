@@ -30,14 +30,14 @@
 
 			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } //se podria agregar un enum para breed (raza)
 			else {
-				$this->PetDAO->add($pet);
+				$response=$this->PetDAO->add($pet);
                 $petList = $this->PetDAO->getAll();
 
                 $id = $petList[count($petList) - 1]->getId();
                 $this->uploadPhoto($id);
                 $this->uploadVaccines($id);
                 $this->uploadVideo($id);
-				$this->showAddView();
+				$this->showAddView($response);
 			}
 			
 		}

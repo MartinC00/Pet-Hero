@@ -1,5 +1,5 @@
 <?php 
-
+    use Models\PetType;
 	namespace Models;
 
 	class Pet 
@@ -13,7 +13,8 @@
         private $photo; //del perro
         private $vaccines; // carnet de vacunacion (foto)
         private $video;
-
+        private $petType;
+        
 
         public function getId()
         {
@@ -122,6 +123,17 @@
 
             return $this;
         }
-    
+
+        public function getPetType()
+        {
+            return $this->petType;
+        }
+
+        public function setPetType(PetType $petType)
+        {
+            $this->petType = $petType;
+
+            return $this;
+        }
     }
  ?>
