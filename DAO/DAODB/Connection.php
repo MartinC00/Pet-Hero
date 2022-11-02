@@ -7,7 +7,7 @@
 
     class Connection
     {
-        //test branch
+        //test 2
         private $pdo = null;
         private $pdoStatement = null;
         private static $instance = null;
