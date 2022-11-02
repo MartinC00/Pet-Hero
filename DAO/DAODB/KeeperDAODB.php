@@ -11,9 +11,9 @@
 			$parameters['address_number']=$keeper->getAddress_number();
 			$parameters['petSize']=$keeper->getPetSize();
 			$parameters['initialDate']=$keeper->getInitialDate();
-			$parameters['endDate']=$user->getEndDate();
-			$parameters['days']=$user->getDays();
-			$parameters['price']=$user->getPrice();
+			$parameters['endDate']=$keeper->getEndDate();
+			$parameters['days']=$keeper->getDays();
+			$parameters['price']=$keeper->getPrice();
 			//$parameters['userType']=$user->getUserType();
 
 			try{
