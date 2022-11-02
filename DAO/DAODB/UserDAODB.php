@@ -18,7 +18,7 @@
 
 			try{
 				$this->connection = Connection::getInstance();
-				return $this->connection->executeNonQuert($sql,$parameters);
+				return $this->connection->ExecuteNonQuert($sql,$parameters);
 			}catch(\PDOException $ex){
 				throw $ex;
 			}
@@ -27,7 +27,7 @@
 		public function addUser($user){
 			$Duser = new UserDAO;
 			$fileController = new fileController();
-			if($fileController ->upload(){
+			if($fileController ->upload()){
 				try{
 					$user->create($user);
 					return true;

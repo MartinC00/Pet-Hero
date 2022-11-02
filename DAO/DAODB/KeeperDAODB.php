@@ -17,19 +17,19 @@
 			$parameters['price']=$keeper->getPrice();
 
 			try{
-				$this->connection = Connection::getInstance();
-				return $this->connection->executeNonQuert($sql,$parameters);
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($sql,$parameters);
 			}catch(\PDOException $ex){
 				throw $ex;
 			}
 		}
 
-		public function addUser($keeper){
+		public function addKeeper($keeper){
 			$Dkeeper = new KeeperDAO;
-			$fileController = new fileController();
-			if($fileController ->upload(){
+			$fileController = new FileController();
+			if($fileController ->upload()){
 				try{
-					$user->create($keeper);
+					$keeper->create($keeper);
 					return true;
 				}catch(\PDOException $ex){
 					throw $ex;
