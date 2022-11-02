@@ -2,19 +2,19 @@
 	namespace DAO;
 	use Models\Keeper;
 	
-	class KeeperDAO
+	class UserDAO
 	{
 		public function create($keeper){
-			$sql= "INSERT INTO keepers (adress_street,anddress_number,petSize,initialDate,endDate,days,price) VALUES (:adress_street,:anddress_number,:petSize,:initialDate,:endDate,:days,:price)";
+			$sql= "INSERT INTO keepers (userId,address_street,address_number,petSize,initialDate,endDate,days,price) VALUES (:userId,:address_street,:address_number,:petSize,:initialDate,:endDate,:days,:price)";
 
-			$parameters['address_street']=$keeper->getAddress_street();
-			$parameters['address_number']=$keeper->getAddress_number();
+			$parameters['userId']=$keeper->getUserId();
+			$parameters['address_street']=$keeper->getAddressStreet();
+			$parameters['address_number']=$keeper->getAddressNumber();
 			$parameters['petSize']=$keeper->getPetSize();
 			$parameters['initialDate']=$keeper->getInitialDate();
 			$parameters['endDate']=$keeper->getEndDate();
 			$parameters['days']=$keeper->getDays();
 			$parameters['price']=$keeper->getPrice();
-			//$parameters['userType']=$user->getUserType();
 
 			try{
 				$this->connection = Connection::getInstance();
@@ -24,7 +24,7 @@
 			}
 		}
 
-		public function addKeeper($keeper){
+		public function addUser($keeper){
 			$Dkeeper = new KeeperDAO;
 			$fileController = new fileController();
 			if($fileController ->upload(){
