@@ -20,5 +20,16 @@
         "phone": "2235663251",
         "email": "algo@gmail.com",
         "userType": "Owner"
+    },
+    {
+        "id": 3,
+        "username": "keeper",
+        "password": "123",
+        "name": "john",
+        "lastname": "doe",
+        "dni": "12345678",
+        "phone": "2235663251",
+        "email": "aasd@gmai.com",
+        "userType": "Keeper"
     }
 ]

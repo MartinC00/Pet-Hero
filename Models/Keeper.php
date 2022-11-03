@@ -5,10 +5,11 @@
 	{
 		private $keeperId;
 		private $userId;
-		private $address;
+		private $addressStreet;
+		private $addressNumber;
 		private $petSize;
-		private $initialDate; // desde el 15/07
-		private $endDate; // hasta el 20/10
+		private $initialDate;
+		private $endDate;
 		private $days;
 		private $price;
 
@@ -36,6 +37,7 @@
 
 	        return $this;
 	    }
+
 
 	    public function getInitialDate()
 	    {
@@ -84,20 +86,6 @@
 	        return $this;
 	    }
 
-	    public function getAddress()
-	    {
-	        return $this->address;
-	    }
-
-
-	    public function setAddress($address)
-	    {
-	        $this->address = $address;
-
-	        return $this;
-	    }
-
-
 	    public function getDays()
 	    {
 	        return $this->days;
@@ -106,6 +94,30 @@
 	    public function setDays($days)
 	    {
 	        $this->days = $days;
+
+	        return $this;
+	    }
+	
+	    public function getAddressStreet()
+	    {
+	        return $this->addressStreet;
+	    }
+
+	    public function setAddressStreet($addressStreet)
+	    {
+	        $this->addressStreet = $addressStreet;
+
+	        return $this;
+	    }
+
+	    public function getAddressNumber()
+	    {
+	        return $this->addressNumber;
+	    }
+
+	    public function setAddressNumber($addressNumber)
+	    {
+	        $this->addressNumber = $addressNumber;
 
 	        return $this;
 	    }

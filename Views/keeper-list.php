@@ -13,10 +13,12 @@
                 <th style="width: 170px;">Lastname</th>
                 <th style="width: 110px;">Phone number</th>
                 <th style="width: 110px;">Email</th>
-                <th style="width: 400px;">Adress</th>
+                <th style="width: 400px;">Street</th>
+                <th style="width: 400px;">Street Number</th>
                 <th style="width: 110px;">Pet Size</th>
                 <th style="width: 110px;">Initial Date</th>
                 <th style="width: 110px;">End Date</th>
+                <th style="width: 110px;">Days</th>
                 <th style="width: 110px;">Price</th>
 
                                 
@@ -37,10 +39,12 @@
                       <td><?php echo $user->getLastname() ?></td>
                       <td><?php echo $user->getPhone() ?></td>
                       <td><?php echo $user->getEmail() ?></td>
-                      <td><?php echo $keeper->getAddress() ?></td>
+                      <td><?php echo $keeper->getAddressStreet() ?></td>
+                      <td><?php echo $keeper->getAddressNumber() ?></td>
                       <td><?php echo $keeper->getPetSize() ?></td>
                       <td><?php echo $keeper->getInitialDate() ?></td>
                       <td><?php echo $keeper->getEndDate() ?></td>
+                      <td><?php foreach($keeper->getDays() as $day) echo $day ?></td>
                       <td><?php echo $keeper->getPrice() ?></td>
                     </tr>
                   <?php

@@ -18,6 +18,7 @@
 		public function add ($username, $password, $name, $lastname, $dni, $phone, $email, $userType)
 		{
 			$user = new User();
+			$_SESSION["loggedUser"]=null;
 
 			$user->setUsername($username);
 			$user->setPassword($password);
