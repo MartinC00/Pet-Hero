@@ -41,8 +41,6 @@
 				$this->showAddView($response);
 			}
 		}
-			
-
 		
 		public function showAddView($message='')
 		{

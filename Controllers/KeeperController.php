@@ -3,16 +3,20 @@
 	namespace Controllers;
 	use Models\Keeper;
 	use Models\User;
+	use Controllers\UserController;
 	use DAO\KeeperDAO;
+	use DAO\UserDAO;
 
 
 	class KeeperController
 	{
 		private $keeperDAO;
+		private $userController;
 
 		public function __construct()
 		{
 			$this->keeperDAO= new KeeperDAO();
+			$this->userController= new UserController();
 		}
 
 		public function add($addressStreet, $addressNumber, $petSize, $initialDate, $endDate, $days, $price)
@@ -66,10 +70,37 @@
 		public function showListView()
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
+			$message=''; $message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getAll();
 			require_once(VIEWS_PATH . "keeper-list.php");
-
 		}
+		public function showFilterListView($initialDate, $endDate) //listado filtrado por fechas que ingreso el usuario
+		{
+			require_once(VIEWS_PATH . "validate-session.php");
+			
+			$check = $this->datesCheck($initialDate, $endDate);
+
+			if($check == 1) { $message1="Initial Date must be previous to End Date"; $this->showListView(); }
+			else if ($check == 2) { $message1="Initial Date mustn't be previous to current date"; $this->showListView();}
+			else
+			{			
+				$keeperList=$this->keeperDAO->getAll();
+				$keeperListFiltered = array();
+
+				foreach ($keeperList as $keeper)
+				{
+					if($keeper->getInitialDate() <= $initialDate && $endDate <= $keeper->getEndDate())
+					{
+						array_push($keeperListFiltered, $keeper);
+					}
+				}
+
+				$keeperList=$keeperListFiltered;
+				if(empty($keeperList)) $message="Oh, seems like there's not keepers availables in that range of dates... Try another dates";
+			}
+			require_once(VIEWS_PATH . "keeper-list.php");
+		}
+
 
 		public function getKeeperLogged()
 		{
