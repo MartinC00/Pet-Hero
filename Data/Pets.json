@@ -2,12 +2,69 @@
     {
         "id": 1,
         "userId": 1,
-        "name": "asd",
-        "breed": "123",
+        "petType": 1,
+        "name": "perrito",
+        "breed": "raza1",
         "size": "Small",
-        "description": "sdf",
-        "photo": "nose-1.jpg",
-        "vaccines": "nose-v1.jpg",
-        "video": "nose-video1.mp4"
+        "description": "descripcion del perrito en cuestion",
+        "photo": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "vaccines": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "video": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "isActive": true
+    },
+    {
+        "id": 2,
+        "userId": 1,
+        "petType": 2,
+        "name": "gatito",
+        "breed": "razaGato",
+        "size": "Small",
+        "description": "",
+        "photo": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "vaccines": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "video": {
+            "name": "",
+            "full_path": "",
+            "type": "",
+            "tmp_name": "",
+            "error": 4,
+            "size": 0
+        },
+        "isActive": true
     }
 ]

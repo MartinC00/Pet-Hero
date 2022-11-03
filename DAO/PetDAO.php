@@ -2,8 +2,9 @@
 
 namespace DAO;
 
-use DAO\IPetDAO as IPetDAO;
-use Models\Pet as Pet;
+use DAO\IPetDAO;
+use Models\Pet;
+use Models\PetType;
 
 class PetDAO implements IPetDAO {
     private $petList = array();
@@ -15,6 +16,7 @@ class PetDAO implements IPetDAO {
         $pet->setId($this->getNextId());
         array_push($this->petList, $pet);
         $this->saveData();
+        return "Se ha agregado una nueva mascota!";
     }
 
     public function getNextId()
@@ -35,6 +37,7 @@ class PetDAO implements IPetDAO {
             $arrayValues = array();
             $arrayValues["id"] = $pet->getId();
             $arrayValues["userId"] = $pet->getUserId();
+            $arrayValues["petType"] = $pet->getPetType()->getId();
             $arrayValues["name"] = $pet->getName();
             $arrayValues["breed"] = $pet->getBreed();
             $arrayValues["size"] = $pet->getSize();
@@ -61,9 +64,13 @@ class PetDAO implements IPetDAO {
 
             foreach($arrayToDecode as $arrayValues)
             {
+                $petType = new PetType();
+                $petType->setId($arrayValues["petType"]);
+
                 $pet = new Pet();
                 $pet->setId($arrayValues["id"]);
                 $pet->setUserId($arrayValues["userId"]);
+                $pet->setPetType($petType);
                 $pet->setName($arrayValues["name"]);
                 $pet->setBreed($arrayValues["breed"]);
                 $pet->setSize($arrayValues["size"]);

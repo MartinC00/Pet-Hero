@@ -7,13 +7,13 @@
 	class PetTypeDAO
 	{
         private $petTypeList = array();
-        private $fileName = ROOT."Data/petTypes.json";
+        private $fileName = ROOT."Data/PetType.json";
 
         public function add(PetType $petType)
         {
             $this->retrieveData();
-            $beerType->setId($this->GetNextId());
-            array_push($this->beerTypeList, $beerType);
+            $petType->setId($this->GetNextId());
+            array_push($this->petTypeList, $petType);
             $this->SaveData();
         }
 
@@ -76,17 +76,16 @@
       			foreach($arrayToDecode as $valuesArray)
       			{
       				$petType = new petType();
-      				$petType->setId(valuesArray["id"]);
-      				$petType->setName(valuesArray["name"]);
+      				$petType->setId($valuesArray["id"]);
+      				$petType->setName($valuesArray["name"]);
 
-      				array_push($this->petType, $petType);
+      				array_push($this->petTypeList, $petType);
       			}
       		}
       	}
         private function saveData()
         {
         	$arrayToEncode = array();
-        
         	foreach($this->petTypeList as $petType)
         	{
         		$valuesArray=array();

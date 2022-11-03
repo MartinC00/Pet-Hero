@@ -15,14 +15,13 @@
 			$this->keeperDAO= new KeeperDAO();
 		}
 
-		public function add($address, $petSize, $initialDate, $endDate, $days, $price)
+		public function add($addressStreet, $addressNumber, $petSize, $initialDate, $endDate, $days, $price)
 		{
-
-			//$sql= "INSERT INTO keepers (adress,petSize,initialDate,endDate,days,price) VALUES (:adress,:petSize,:initialDate,:endDate,:days,:price)"
 			require_once(VIEWS_PATH . "validate-session.php");
 			$Keeper = new Keeper();
-			$Keeper->setAddress($address);
 			$Keeper->setUserId($_SESSION['loggedUser']->getId());
+			$Keeper->setAddressStreet($addressStreet);
+			$Keeper->setAddressNumber($addressNumber);
 			$Keeper->setPetSize($petSize);
 			$Keeper->setInitialDate($initialDate);
 			$Keeper->setEndDate($endDate);
@@ -38,7 +37,6 @@
 				$response=$this->keeperDAO->add($Keeper);
 				$this->showHomeView($response);
 			}
-
 		}
 
 
@@ -49,9 +47,8 @@
 			require_once(VIEWS_PATH . "add-keeper.php");
 		}
 		public function datesCheck($initialDate, $endDate)
-		{
+		{	
 			$currentDate = strtotime(date("d-m-Y",time()));
-
 			$initialDateUnix = strtotime($initialDate);
 			$endDateUnix = strtotime($endDate);
 
@@ -83,11 +80,12 @@
 			return $keeper;
 		}
 
-		public function modifyProfile($address, $petSize, $initialDate, $endDate,$days, $price)
+		public function modifyProfile($addressStreet,$addressNumber, $petSize, $initialDate, $endDate,$days, $price)
 		{			
 			$keeper= $this->getKeeperLogged();
 
-			$keeper->setAddress($address);
+			$keeper->setAddressStreet($addressStreet);
+			$keeper->setAddressNumber($addressNumber);
 			$keeper->setPetSize($petSize);
 			$keeper->setInitialDate($initialDate);
 			$keeper->setEndDate($endDate);

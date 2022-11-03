@@ -1,20 +1,17 @@
 [
     {
         "keeperId": 1,
-        "userId": 2,
-        "address": "modificado",
-        "petSize": "Big",
-        "initialDate": "2022-10-21",
-        "endDate": "2022-10-31",
-        "price": "8"
-    },
-    {
-        "keeperId": 2,
-        "userId": 4,
-        "address": "keeper2",
-        "petSize": "Medium",
-        "initialDate": "2022-10-21",
-        "endDate": "2022-10-29",
-        "price": "4"
+        "userId": 3,
+        "addressStreet": "calleNroDos",
+        "addressNumber": "222",
+        "petSize": "Small",
+        "initialDate": "2022-11-03",
+        "endDate": "2022-11-17",
+        "days": [
+            "Tuesday",
+            "Thursday",
+            "Saturday"
+        ],
+        "price": "112"
     }
 ]

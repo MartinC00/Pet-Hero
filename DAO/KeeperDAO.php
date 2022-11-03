@@ -25,7 +25,8 @@
 				$valuesArray=array();
 				$valuesArray["keeperId"] = $keeper->getKeeperId();
 				$valuesArray["userId"] = $keeper->getUserId();
-				$valuesArray["address"] = $keeper->getAddress();
+				$valuesArray["addressStreet"] = $keeper->getAddressStreet();
+				$valuesArray["addressNumber"] = $keeper->getAddressNumber();
 				$valuesArray["petSize"] = $keeper->getPetSize();
 				$valuesArray["initialDate"] = $keeper->getInitialDate();
 				$valuesArray["endDate"] = $keeper->getEndDate();
@@ -51,11 +52,12 @@
 					$keeper = new Keeper();
 					$keeper->setKeeperId($valuesArray["keeperId"]);
 					$keeper->setUserId($valuesArray["userId"]);
-					$keeper->setAddress($valuesArray["address"]);
+					$keeper->setAddressStreet($valuesArray["addressStreet"]);
+					$keeper->setAddressNumber($valuesArray["addressNumber"]);
 					$keeper->setPetSize($valuesArray["petSize"]);
 					$keeper->setInitialDate($valuesArray["initialDate"]);
 					$keeper->setEndDate($valuesArray["endDate"]);
-					$keeper->setDayse($valuesArray["days"]);
+					$keeper->setDays($valuesArray["days"]);
 					$keeper->setPrice($valuesArray["price"]);					
 								
 					array_push($this->keepersList, $keeper);
