@@ -31,5 +31,16 @@
         "phone": "2235663251",
         "email": "aasd@gmai.com",
         "userType": "Keeper"
+    },
+    {
+        "id": 4,
+        "username": "keeper1",
+        "password": "123",
+        "name": "john",
+        "lastname": "doe",
+        "dni": "12115678",
+        "phone": "2235663251",
+        "email": "cabreramartin403@gmail.com",
+        "userType": "Keeper"
     }
 ]
