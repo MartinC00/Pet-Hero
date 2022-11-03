@@ -9,6 +9,7 @@
 <table style="text-align:center;">
     <thead>
         <tr>
+        <th style="width: 100px;">PetType</th>
         <th style="width: 100px;">Name</th>
         <th style="width: 170px;">Breed</th>
         <th style="width: 120px;">Size</th>

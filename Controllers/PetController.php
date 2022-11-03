@@ -5,13 +5,16 @@
 	use Models\Pet as Pet;
     use Models\PetType;
     use Controllers\PetTypeController;
+    use DAO\PetTypeDAO;
 	use DAO\PetDAO as PetDAO;
 
-	class PetController	{
+	class PetController	
+    {
 		private $PetDAO;
         private $petTypeController;
 
-		public function __construct() {
+		public function __construct() 
+        {
 			$this->PetDAO = new PetDAO();
             $this->petTypeController = new PetTypeController();
 		}
@@ -19,41 +22,47 @@
 		public function add ($petTypeId, $name, $breed, $size, $description, $photo, $vaccines, $video) 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
+            $petType = $this->petTypeController->petTypeDAO->getById($petTypeId);
+            
+            if(!is_null($petType))
+            {                
+    			$pet = new Pet();
+                $pet->setPetType($petType);
 
-            $petType= new PetType();
-            $petType->setId($petTypeId);
+    			$pet->setUserId($_SESSION['loggedUser']->getId());
+    			
+                $pet->setName($name);
+    			$pet->setBreed($breed);
+    			$pet->setSize($size);
+    			$pet->setDescription($description);
+    			$pet->setPhoto($photo);
+    			$pet->setVaccines($vaccines);
+    			$pet->setVideo($video);
+                $pet->setIsActive(true);
 
-			$pet = new Pet();
-            $pet->setPetType($petType);
+    			$check = $this->checkPet($pet);
 
-			$pet->setUserId($_SESSION['loggedUser']->getId());
-			
-            $pet->setName($name);
-			$pet->setBreed($breed);
-			$pet->setSize($size);
-			$pet->setDescription($description);
-			$pet->setPhoto($photo);
-			$pet->setVaccines($vaccines);
-			$pet->setVideo($video);
-            $pet->setIsActive(true);
+    			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } 
+    			else 
+                {
+    				$message=$this->PetDAO->add($pet);
+                    $petList = $this->PetDAO->getAll();
 
-			$check = $this->checkPet($pet);
-
-			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } //se podria agregar un enum para breed (raza)
-			else {
-				$response=$this->PetDAO->add($pet);
-                $petList = $this->PetDAO->getAll();
-
-                $id = $petList[count($petList) - 1]->getId();
-                $this->uploadPhoto($id);
-                $this->uploadVaccines($id);
-                $this->uploadVideo($id);
-				$this->showAddView($response);
+                    $id = $petList[count($petList) - 1]->getId();
+                    $this->uploadPhoto($id);
+                    $this->uploadVaccines($id);
+                    $this->uploadVideo($id);
+    				$this->showAddView($message);
+                }
 			}
-			
+            else
+            {
+                $this->showAddView("Please set correctly the pet type and stop manipulating html code :) ");
+            }
 		}
 
-		public function showAddView($message = "") {
+		public function showAddView($message = "") 
+        {
 			require_once(VIEWS_PATH . "validate-session.php");
             $petTypeList = $this->petTypeController->petTypeDAO->getAll();
             require_once(VIEWS_PATH . "add-pet.php");

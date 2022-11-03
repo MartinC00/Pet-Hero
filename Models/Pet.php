@@ -1,6 +1,6 @@
 <?php 
-    use Models\PetType;
 	namespace Models;
+    use Models\PetType;
 
 	class Pet 
     {

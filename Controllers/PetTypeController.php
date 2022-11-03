@@ -1,9 +1,19 @@
 <?php
     namespace Controllers;
+    use Models\PetType;
+    use DAO\PetTypeDAO;
 
     class PetTypeController
     {
-        private $petTypeDAO;
+        public $petTypeDAO;
+
+        public function add($name)
+        {
+            $petType = new PetType();
+            $petType->setName($name);
+            $this->petTypeDAO->add($petType);
+            $this->showAddView();
+        }
 
         public function __construct()
         {
@@ -21,15 +31,7 @@
             require_once(VIEWS_PATH."pet-type-list.php");
         }
 
-        public function add($name)
-        {
-            $petType = new PetType();
-            $petType->setName($name);
-
-            $this->petTypeDAO->add($petType);
-
-            $this->showAddView();
-        }
+        
 
         public function remove($id)
         {

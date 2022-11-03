@@ -7,7 +7,6 @@
 
     class Connection
     {
-        //test 2
         private $pdo = null;
         private $pdoStatement = null;
         private static $instance = null;
