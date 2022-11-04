@@ -1,15 +1,21 @@
 <?php 
 	namespace Controllers;
+	
 	use Models\Reserve;
+	use Models\Pet;
 	//use DAO\ReserveDAO; not exits yet
+	use Controllers\PetController;
+	use DAO\PetDAO;
 
 	class ReserveController
 	{
-		private $reserveDAO;
+		//private $reserveDAO;
+		private $petController;
 
 		public function __construct()
 		{
-			$this->reserveDAO= new ReserveDAO();
+			//$this->reserveDAO= new ReserveDAO();
+			$this->petController= new PetController();
 		}
 		public function add($idKeeper, $idPets, $dates)
 		{
@@ -36,19 +42,20 @@
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$message=$this->reserveDAO->delete($reserveId);
-			$this->showReserveList($message)
+			$this->showReserveList($message);
 
 		}
-		public function showAddReserve($message='')
+		public function showAddView($keeperId, $message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "add-reserve.php");
-
 		}
+		
 		public function showReserveList($message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$reserveList=$this->reserveDAO->getAll();
+			//filtrado para owner y para keeper, mostrarles sus reservas
 			require_once(VIEWS_PATH . "reserve-list.php");
 
 		}

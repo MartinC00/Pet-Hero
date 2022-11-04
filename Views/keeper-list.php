@@ -40,7 +40,7 @@
 
               <?php if(isset($message)) echo $message; ?>
 
-              <form action="<?php echo FRONT_ROOT . "Reserve/Add" ?>">
+              <form action="<?php echo FRONT_ROOT . "Reserve/showAddView" ?>" method="post">
               <?php foreach($keeperList as $keeper)
                 {
                     $user = $this->userController->UserDAO->getById($keeper->getUserId());

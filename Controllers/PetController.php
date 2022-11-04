@@ -27,6 +27,8 @@
             if(!is_null($petType))
             {                
     			$pet = new Pet();
+                $petType = new PetType();
+                $petType->setId($petTypeId);
                 $pet->setPetType($petType);
 
     			$pet->setUserId($_SESSION['loggedUser']->getId());
@@ -82,7 +84,7 @@
 		public function showPetsList() 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
-            $userPetsList = $this->PetDAO->getListById($_SESSION["loggedUser"]->getId());
+            $userPetsList = $this->PetDAO->getListByUserId($_SESSION["loggedUser"]->getId());
             
             foreach($userPetsList as $pet)
             {

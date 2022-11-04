@@ -10,7 +10,7 @@
 	define("IMG_PATH", FRONT_ROOT.VIEWS_PATH . "img/");
 
 	define("DB_HOST", "localhost");
-	define("DB_NAME", "University");
+	define("DB_NAME", "pethero");
 	define("DB_USER", "root");
 	define("DB_PASS", "");
  ?>

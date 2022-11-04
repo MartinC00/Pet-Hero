@@ -1,162 +1,125 @@
-<?php
+<?php 
+	namespace DAO;
+	use Models\Pet;
+	use Models\PetType;
+	use Controllers\PetTypeController;
+	use DAO\PetTypeDAO;
+	use DAO\QueryType;
+	
+	class PetDAO
+	{
+		private $connection;
+		private $tableName="Pets";
+		private $petTypeController;
 
-namespace DAO;
+		public function add($pet)
+		{
+			
+			$query = "CALL Pets_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			$parameters['idUser']=$pet->getUserId();
+            $parameters['idPetType']=$pet->getPetType()->getId(); //FOREIGN KEY
+			$parameters['name']=$pet->getName();
+			$parameters['breed']=$pet->getBreed();
+			$parameters['size']=$pet->getSize();
+			$parameters['description']=$pet->getDescription();
+			$parameters['photo']=$pet->getPhoto();
+			$parameters['vaccines']=$pet->getVaccines();
+			$parameters['video']=$pet->getVideo();
+            $parameters['isActive']=$pet->getIsActive();
+            
+			try
+			{
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
 
-use DAO\IPetDAO;
-use Models\Pet;
-use Models\PetType;
+		public function getAll()
+		{
+			$petsList = array();
 
-class PetDAO implements IPetDAO {
-    private $petList = array();
-    private $filename = ROOT."Data/Pets.json";
+            $query = "CALL Pets_getAll()";
 
-    public function add(Pet $pet)
-    {
-        $this->retrieveData();
-        $pet->setId($this->getNextId());
-        array_push($this->petList, $pet);
-        $this->saveData();
-        return "Se ha agregado una nueva mascota!";
-    }
+            try{        	
+	            $this->connection = Connection::GetInstance();
+	            $result = $this->connection->Execute($query, array(), QueryType::StoredProcedure);
 
-    public function getNextId()
-    {
-        $id=0;
-        foreach($this->petList as $pet)
-        {
-            if($pet->getId() > $id) $id=$pet->getId();
-        }
-        return $id+1;
-    }
+	            foreach($result as $row)
+	            {
+	                $petType=$this->petTypeController->petTypeDAO->getById($row["idPetType"]); 
 
-    private function saveData()
-    {
-        $arrayToEncode = array();
-        foreach($this->petList as $pet)
-        {
-            $arrayValues = array();
-            $arrayValues["id"] = $pet->getId();
-            $arrayValues["userId"] = $pet->getUserId();
-            $arrayValues["petType"] = $pet->getPetType()->getId();
-            $arrayValues["name"] = $pet->getName();
-            $arrayValues["breed"] = $pet->getBreed();
-            $arrayValues["size"] = $pet->getSize();
-            $arrayValues["description"] = $pet->getDescription();
-            $arrayValues["photo"] = $pet->getPhoto();
-            $arrayValues["vaccines"] = $pet->getVaccines();
-            $arrayValues["video"] = $pet->getVideo();
-            $arrayValues["isActive"] = $pet->getIsActive();
+	                $pet = new Pet();
+		            $pet->setPetType($petType);
 
-            array_push($arrayToEncode, $arrayValues);
-        }
-        $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        file_put_contents($this->filename, $jsonContent);
-    }
+		            $pet->setId($row["id"]);
+		            $pet->setUserId($row["idUser"]);
+		            $pet->setName($row["name"]);
+		            $pet->setBreed($row["breed"]);
+		            $pet->setSize($row["size"]);
+		            $pet->setDescription($row["description"]);
+		            $pet->setPhoto($row["photo"]);
+		            $pet->setVaccines($row["vaccines"]);
+		            $pet->setVideo($row["video"]);
+		            $pet->setIsActive($row["isActive"]);
 
-    private function retrieveData()
-    {
-        $this->petList = array();
+	                array_push($petsList, $pet);
+	            }
 
-        if(file_exists($this->filename))
-        {
-            $jsonContent = file_get_contents($this->filename);
-            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-            foreach($arrayToDecode as $arrayValues)
-            {
-                $petType = new PetType();
-                $petType->setId($arrayValues["petType"]);
-
-                $pet = new Pet();
-                $pet->setId($arrayValues["id"]);
-                $pet->setUserId($arrayValues["userId"]);
-                $pet->setPetType($petType);
-                $pet->setName($arrayValues["name"]);
-                $pet->setBreed($arrayValues["breed"]);
-                $pet->setSize($arrayValues["size"]);
-                $pet->setDescription($arrayValues["description"]);
-                $pet->setPhoto($arrayValues["photo"]);
-                $pet->setVaccines($arrayValues["vaccines"]);
-                $pet->setVideo($arrayValues["video"]);
-                $pet->setIsActive($arrayValues["isActive"]);
-
-                array_push($this->petList, $pet);
+	            return $petsList;
             }
-        }
-    }
+            catch(\PDOException $ex){
+				echo $ex->getMessage();
+			}
+		}
+		
+		public function getListByUserId($userId) //CAMBIAR NOMBRE EN LA CONTROLLER Y VISTAS ASOCIADAS
+		{
+			$query = "CALL Pets_getListByUserId(?)";
+			$parameters["user_id"] =  $userId;
+			try{
+            	$this->connection = Connection::GetInstance();
+            	$result = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            	return $result;
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
 
-    public function delete($id)
-    {
-        $this->retrieveData();
-        $positionToDelete = $this->getPositionById($id);
-        if(!is_null($positionToDelete))
-        {
-            unset($this->petList[$positionToDelete]);
-        }
-        $this->saveData();
-    }
-    public function getPositionById($id)
-    {
-        $position=0;
-        foreach($this->petList as $pet)
-        {
-            if($pet->getId()==$id) return $position;
-            $position++;
-        }
-        return null;
-    }
+		}
+		public function getById($id)
+		{
+			$query = "CALL Pets_getById(?)";
+			$parameters["pet_id"]=$id;
+			try{
+            	$this->connection = Connection::GetInstance();
+            	$result = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            	return $result;
+            }
+            catch (\PDOException $ex){
+            	echo $ex->getMessage();	
+            }
 
-    public function getByUserId($userId)
-    {
-        $this->retrieveData();
-        foreach($this->petList as $pet)
-        {
-            if($pet->getUserId()==$userId) return $pet;
-        }
-        return null;
-    }
+		}
 
-    public function getListById($userId)
-    {
-        $this->retrieveData();
-        $userPetsList = array();
-        foreach($this->petList as $pet)
-        {
-            if($pet->getUserId()==$userId) array_push($userPetsList, $pet);
-        }
-        return $userPetsList;
-    }
+		
 
-    public function getAll()
-    {
-        $this->retrieveData();
-        return $this->petList;
-    }
+		//pendientes: delete (change boolean isActive), modify
 
-    public function getById($id)
-    {
-        $this->retrieveData();
 
-        $pets = array_filter($this->petList, function($pet) use($id) {
-            return $pet->getId() == $id;
-        });
 
-        $pets = array_values($pets); //Reorderding array
 
-        return (count($pets) > 0) ? $pets[0] : null;
-    }
 
-    public function modify(Pet $pet){
-        $this->retrieveData();
 
-        $id = $pet->getId();
-        $this->delete($id);
 
-        array_push($this->petList, $pet);
 
-        $this->saveData();
-    }
 
-}
 
-?>
+
+	}
+ ?>
