@@ -5,6 +5,7 @@
 	class Pet 
     {
         private $id;
+        private $petType;
         private $userId;
         private $name;
         private $breed; // raza
@@ -13,7 +14,6 @@
         private $photo; //del perro
         private $vaccines; // carnet de vacunacion (foto)
         private $video;
-        private $petType;
         private $isActive; 
         
 

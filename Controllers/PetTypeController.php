@@ -31,8 +31,6 @@
             require_once(VIEWS_PATH."pet-type-list.php");
         }
 
-        
-
         public function remove($id)
         {
             $this->petTypeDAO->delete($id);
