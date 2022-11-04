@@ -19,47 +19,51 @@
             $this->petTypeController = new PetTypeController();
 		}
 
-		public function add ($petTypeId, $name, $breed, $size, $description, $photo, $vaccines, $video) 
+		public function add ($petTypeId, $name, $breed, $size, $description=null, $photo=null, $vaccines=null, $video=null) 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
-            $petType = $this->petTypeController->petTypeDAO->getById($petTypeId);
-            
-            if(!is_null($petType))
-            {                
-    			$pet = new Pet();
-                $petType = new PetType();
-                $petType->setId($petTypeId);
-                $pet->setPetType($petType);
+            try{
 
-    			$pet->setUserId($_SESSION['loggedUser']->getId());
-    			
-                $pet->setName($name);
-    			$pet->setBreed($breed);
-    			$pet->setSize($size);
-    			$pet->setDescription($description);
-    			$pet->setPhoto($photo);
-    			$pet->setVaccines($vaccines);
-    			$pet->setVideo($video);
-                $pet->setIsActive(true);
+                $petType = $this->petTypeController->petTypeDAO->getById($petTypeId);
 
-    			$check = $this->checkPet($pet);
+                if($petType)
+                {                
+        			$pet = new Pet();
+                    $petType = new PetType();
+                    $petType->setId($petTypeId);
+                    $pet->setPetType($petType);
 
-    			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } 
-    			else 
-                {
-    				$message=$this->PetDAO->add($pet);
-                    $petList = $this->PetDAO->getAll();
+        			$pet->setUserId($_SESSION['loggedUser']->getId());
+        			
+                    $pet->setName($name);
+        			$pet->setBreed($breed);
+        			$pet->setSize($size);
+        			$pet->setDescription($description);
+        			$pet->setPhoto(null);
+        			$pet->setVaccines(null);
+        			$pet->setVideo(null);
+                    $pet->setIsActive(true);
 
-                    $id = $petList[count($petList) - 1]->getId();
-                    $this->uploadPhoto($id);
-                    $this->uploadVaccines($id);
-                    $this->uploadVideo($id);
-    				$this->showAddView($message);
-                }
-			}
-            else
-            {
-                $this->showAddView("Please set correctly the pet type and stop manipulating html code :) ");
+        			$check = $this->checkPet($pet);
+
+        			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } 
+        			else 
+                    {
+        				$message=$this->PetDAO->add($pet);
+
+                        //$petList = $this->PetDAO->getAll();
+                        //$id = $petList[count($petList) - 1]->getId();
+                        //$this->uploadPhoto($id);
+                        //$this->uploadVaccines($id);
+                        //$this->uploadVideo($id);
+        				$this->showAddView("Nueva mascota registrada !");
+                    }
+    			}
+                else $this->showAddView("Please set correctly the pet type and stop manipulating html code :) ");
+                
+            }
+            catch(\PDOException $ex){
+                echo $ex->getMessage();
             }
 		}
 
@@ -72,12 +76,10 @@
 
 		private function checkPet($newPet) {
             $petList = $this->PetDAO->getAll();
-
             foreach ($petList as $pet) 
             {
                 if ($newPet->getName() == $pet->getName() && $newPet->getUserId()==$pet->getUserId()) return 1; //Esta verificacion implica que se tiene que repetir el nombre en la lista de mascotas y ademas que esa mascosta este asociada al mismo usuario que esta creando esta nueva. Un usuario no puede registrar dos mascotas que se llamen igual, pero distintos usuarios pueden tener mascotas que se llamen igual
             }
-
             return 0;
         }
 
@@ -85,14 +87,7 @@
         {
 			require_once(VIEWS_PATH . "validate-session.php");
             $userPetsList = $this->PetDAO->getListByUserId($_SESSION["loggedUser"]->getId());
-            
-            foreach($userPetsList as $pet)
-            {
-                $petType=$this->petTypeController->petTypeDAO->getById($pet->getPetType()->getId());
-                $pet->setPetType($petType);
-            }
-
-			require_once(VIEWS_PATH . "pets-list.php");
+            require_once(VIEWS_PATH . "pets-list.php");
 		}
 
 		public function remove($id) {

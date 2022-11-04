@@ -50,7 +50,7 @@
             }
         }
         
-        public function ExecuteNonQuery($query, $parameters = array(), $returnLastId = false, $queryType = QueryType::Query)
+        public function ExecuteNonQuery($query, $parameters = array(), $queryType = QueryType::Query, $returnLastId = false)
 	    {            
             try
             {
@@ -88,15 +88,16 @@
         private function BindParameters($parameters = array(), $queryType = QueryType::Query)
         {
             $i = 0;
-
             foreach($parameters as $parameterName => $value)
             {                
                 $i++;
 
-                if($queryType == QueryType::Query)
+                if($queryType == QueryType::Query){
                     $this->pdoStatement->bindParam(":".$parameterName, $parameters[$parameterName]);
-                else
+                }
+                else{
                     $this->pdoStatement->bindParam($i, $parameters[$parameterName]);
+                }
             }
         }
     }
