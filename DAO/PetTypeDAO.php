@@ -27,12 +27,12 @@
 		public function getAll()
 		{
 			$petTypesList = array();
-            //$query = 'CALL PetTypes_getAll';
-            $query = "SELECT * FROM " . $this->tableName;
+            $query = 'CALL PetTypes_getAll';
+            //$query = "SELECT * FROM " . $this->tableName;
 
             try{
             	$this->connection = Connection::GetInstance();
-            	$result = $this->connection->Execute($query);
+            	$result = $this->connection->Execute($query, array(), QueryType::StoredProcedure);
 
 	            foreach($result as $row)
 	            {
@@ -42,7 +42,6 @@
 
 	                array_push($petTypesList, $petType);
 	            }
-            
             	return $petTypesList;
             }
             catch (\PDOException $ex){
@@ -58,7 +57,12 @@
 			try{
             	$this->connection = Connection::GetInstance();
             	$result = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
-            	return $result;
+            	
+            	$petType=new PetType();
+            	$petType->setId($result[0]["id"]);
+            	$petType->setName($result[0]["name"]);
+            	
+            	return $petType;
             }
             catch (\PDOException $ex){
             	echo $ex->getMessage();	

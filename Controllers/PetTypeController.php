@@ -7,6 +7,11 @@
     {
         public $petTypeDAO;
 
+        public function __construct()
+        {
+            $this->petTypeDAO = new PetTypeDAO();
+        }
+        
         public function add($name)
         {
             $petType = new PetType();
@@ -15,10 +20,6 @@
             $this->showAddView();
         }
 
-        public function __construct()
-        {
-            $this->petTypeDAO = new PetTypeDAO();
-        }
 
         public function showAddView()
         {
