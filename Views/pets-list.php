@@ -27,7 +27,15 @@
                 <td><?php echo $pet->getBreed(); ?></td>
                 <td><?php echo $pet->getSize(); ?></td>
                 <td><?php echo $pet->getDescription(); ?></td>
-                <td><img src="<?php echo IMG_PATH.$pet->getPhoto(); ?>" height="100" width="100" ></td>
+                <td>
+                    <?php
+                    include_once "db_empresa.php";
+                    $con = mysqli_connect($db_host,$db_user,$db_pass,$db_database);
+                    $query="SELECT photo FROM pets ";
+                    $res = mysqli_connect($con,$query);
+                    ?>
+                    <img src="<?php echo IMG_PATH.$pet->getPhoto(); ?>" height="100" width="100" >
+                </td>
                 <td><img src="<?php echo IMG_PATH.$pet->getVaccines(); ?>" height="100" width="100" ></td>
                 <td><video width="320" controls><source src="<?php echo IMG_PATH.$pet->getVideo(); ?>" type="video/mp4">
                         Your browser does not support the video tag.</video>

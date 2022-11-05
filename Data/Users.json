@@ -42,5 +42,16 @@
         "phone": "2235663251",
         "email": "cabreramartin403@gmail.com",
         "userType": "Keeper"
+    },
+    {
+        "id": 5,
+        "username": "sofia",
+        "password": "belber",
+        "name": "sofi",
+        "lastname": "belber",
+        "dni": "44859321",
+        "phone": "2235196492",
+        "email": "sofibelber@gmail.com",
+        "userType": "Owner"
     }
 ]
