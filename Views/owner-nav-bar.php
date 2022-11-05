@@ -5,6 +5,9 @@
     <a href="<?php echo FRONT_ROOT."Pet/showPetsList "?>">SEE MY PETS</a>
     <a href="<?php echo FRONT_ROOT."User/showMyProfile "?>">SEE MY PROFILE</a>
     <a class="active" href="<?php echo FRONT_ROOT."User/showHomeView "?>">HOME</a>
-    <span style="vertical-align: sub; margin-left: 5px">PET HERO</span>
+    <a class="logo" style="float: left; padding: 0; height: 0"
+       href="<?php echo FRONT_ROOT."Keeper/showHomeView"?>">
+        <img src="/Pet-Hero/Views/layout/logo.png" alt="Logo">
+    </a>
 </nav> <br>
 

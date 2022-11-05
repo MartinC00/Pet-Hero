@@ -4,7 +4,7 @@
     require_once("validate-session.php");
 ?>
 
-<h1> list of pets!</h1>
+<h1> List of your pets!</h1>
 
 <table style="text-align:center;">
     <thead>
