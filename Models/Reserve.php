@@ -10,17 +10,17 @@
 		private $initialDate;
 		private $endDate; 
 		private $totalPrice; //count array fechas * keeper.price (per day)
-		private $petTypeId;
+		
 
 	    public function getIdUserOwner()
 	    {
-	        return $this->idOwner;
+	        return $this->idUserOwner;
 	    }
-
+		 
 
 	    public function setIdUserOwner($idOwner)
 	    {
-	        $this->idOwner = $idOwner;
+	        $this->idUserOwner = $idOwner;
 
 	        return $this;
 	    }
@@ -61,18 +61,6 @@
 	    public function setTotalPrice($totalPrice)
 	    {
 	        $this->totalPrice = $totalPrice;
-
-	        return $this;
-	    }
-
-	    public function getPetTypeId()
-	    {
-	        return $this->petTypeId;
-	    }
-
-	    public function setPetTypeId($petTypeId)
-	    {
-	        $this->petTypeId = $petTypeId;
 
 	        return $this;
 	    }
