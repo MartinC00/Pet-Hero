@@ -38,7 +38,11 @@
 			{
 				$response=$this->UserDAO->add($user);
 				$_SESSION["loggedUser"] = $user;
-				$this->showAddView($response);
+				if($response)
+				{
+					$message = "Registered user successfully";
+				}
+				$this->showAddView($message);
 			}
 		}
 		
