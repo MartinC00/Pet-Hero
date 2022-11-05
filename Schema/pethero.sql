@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2022 a las 23:07:43
+-- Tiempo de generación: 05-11-2022 a las 23:53:36
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -79,6 +79,10 @@ end $$
 DELIMITER ;
 
 -- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `keepers`
+--
 create table if not exists Users(
 id int auto_increment,
 username varchar(30) not null unique,
@@ -90,11 +94,8 @@ phone varchar(30) not null,
 email varchar(30) not null unique,
 userTypeId int not null,
 constraint primary key (id));
---
--- Estructura de tabla para la tabla `keepers`
---
 
-create table if not exists `keepers` (
+CREATE TABLE if not exists `keepers` (
   `keeperId` int(4) NOT NULL,
   `userId` int(4) NOT NULL,
   `addressStreet` varchar(45) NOT NULL,
@@ -112,7 +113,7 @@ create table if not exists `keepers` (
 -- Estructura de tabla para la tabla `pets`
 --
 
-create table if not exists `pets` (
+CREATE TABLE if not exists `pets` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idPetType` int(11) NOT NULL,
@@ -120,9 +121,9 @@ create table if not exists `pets` (
   `breed` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `size` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `description` varchar(80) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `photo` blob NOT NULL,
-  `vaccines` blob NOT NULL,
-  `video` longblob NOT NULL,
+  `photoId` int(5) NOT NULL,
+  `vaccinesPhotoId` int(5) NOT NULL,
+  `videoId` int(11) NOT NULL,
   `isActive` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -130,10 +131,10 @@ create table if not exists `pets` (
 -- Volcado de datos para la tabla `pets`
 --
 
-INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `description`, `photo`, `vaccines`, `video`, `isActive`) VALUES
-(7, 1, 1, 'pitufo', 'boxer', 'Big', 'ta juerte', '', '', '', 1),
-(8, 1, 2, 'ceniza', 'gris', 'Medium', 'beio gato', '', '', '', 1),
-(9, 2, 1, 'perrinio', 'bulldog', 'Medium', 'de malo la cara', '', '', '', 1);
+INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `description`, `photoId`, `vaccinesPhotoId`, `videoId`, `isActive`) VALUES
+(7, 1, 1, 'pitufo', 'boxer', 'Big', 'ta juerte', 0, 0, 0, 1),
+(8, 1, 2, 'ceniza', 'gris', 'Medium', 'beio gato', 0, 0, 0, 1),
+(9, 2, 1, 'perrinio', 'bulldog', 'Medium', 'de malo la cara', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -141,7 +142,7 @@ INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `descr
 -- Estructura de tabla para la tabla `pettypes`
 --
 
-create table if not exists `pettypes` (
+CREATE TABLE if not exists `pettypes` (
   `id` int(11) NOT NULL,
   `name` varchar(10) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -154,9 +155,7 @@ INSERT INTO `pettypes` (`id`, `name`) VALUES
 (1, 'Dog'),
 (2, 'Cat');
 
---
--- Índices para tablas volcadas
---
+-- --------------------------------------------------------
 -- Estructura de tabla para la tabla `videos`
 --
 CREATE TABLE if not exists`images` (
@@ -165,8 +164,11 @@ CREATE TABLE if not exists`images` (
   `name` varchar(100) NOT NULL,
   `photo` mediumblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+-- Estructura de tabla para la tabla `videos`
+--
 
-create table if not exists `videos` (
+CREATE TABLE if not exists `videos` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -243,59 +245,6 @@ ALTER TABLE `pettypes`
 --
 ALTER TABLE `videos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `pets`
---
-ALTER TABLE `pets`
-  ADD CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`idPetType`) REFERENCES `pettypes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
---
--- Indices de la tabla `keepers`
---
-ALTER TABLE `keepers`
-  ADD PRIMARY KEY (`keeperId`),
-  ADD KEY `userIDIndex` (`userId`);
-
---
--- Indices de la tabla `pets`
---
-ALTER TABLE `pets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idPetType` (`idPetType`);
-
---
--- Indices de la tabla `pettypes`
---
-ALTER TABLE `pettypes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id` (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `keepers`
---
-ALTER TABLE `keepers`
-  MODIFY `keeperId` int(4) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `pets`
---
-ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `pettypes`
---
-ALTER TABLE `pettypes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
