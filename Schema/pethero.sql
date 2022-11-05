@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2022 a las 23:07:43
+-- Tiempo de generación: 05-11-2022 a las 23:53:36
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 8.1.10
 
@@ -58,6 +58,19 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `images`
+--
+
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `photo` mediumblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `keepers`
 --
 
@@ -87,9 +100,9 @@ CREATE TABLE `pets` (
   `breed` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `size` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `description` varchar(80) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `photo` blob NOT NULL,
-  `vaccines` blob NOT NULL,
-  `video` longblob NOT NULL,
+  `photoId` int(5) NOT NULL,
+  `vaccinesPhotoId` int(5) NOT NULL,
+  `videoId` int(11) NOT NULL,
   `isActive` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -97,10 +110,10 @@ CREATE TABLE `pets` (
 -- Volcado de datos para la tabla `pets`
 --
 
-INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `description`, `photo`, `vaccines`, `video`, `isActive`) VALUES
-(7, 1, 1, 'pitufo', 'boxer', 'Big', 'ta juerte', '', '', '', 1),
-(8, 1, 2, 'ceniza', 'gris', 'Medium', 'beio gato', '', '', '', 1),
-(9, 2, 1, 'perrinio', 'bulldog', 'Medium', 'de malo la cara', '', '', '', 1);
+INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `description`, `photoId`, `vaccinesPhotoId`, `videoId`, `isActive`) VALUES
+(7, 1, 1, 'pitufo', 'boxer', 'Big', 'ta juerte', 0, 0, 0, 1),
+(8, 1, 2, 'ceniza', 'gris', 'Medium', 'beio gato', 0, 0, 0, 1),
+(9, 2, 1, 'perrinio', 'bulldog', 'Medium', 'de malo la cara', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -121,9 +134,25 @@ INSERT INTO `pettypes` (`id`, `name`) VALUES
 (1, 'Dog'),
 (2, 'Cat');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `videos`
+--
+
+CREATE TABLE `videos` (
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `keepers`
@@ -137,7 +166,10 @@ ALTER TABLE `keepers`
 --
 ALTER TABLE `pets`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idPetType` (`idPetType`);
+  ADD KEY `idPetType` (`idPetType`),
+  ADD KEY `photoId` (`photoId`),
+  ADD KEY `vaccinesPhotoId` (`vaccinesPhotoId`),
+  ADD KEY `videoId` (`videoId`);
 
 --
 -- Indices de la tabla `pettypes`
@@ -147,8 +179,20 @@ ALTER TABLE `pettypes`
   ADD KEY `id` (`id`);
 
 --
+-- Indices de la tabla `videos`
+--
+ALTER TABLE `videos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `images`
+--
+ALTER TABLE `images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `keepers`
@@ -167,6 +211,12 @@ ALTER TABLE `pets`
 --
 ALTER TABLE `pettypes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `videos`
+--
+ALTER TABLE `videos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
