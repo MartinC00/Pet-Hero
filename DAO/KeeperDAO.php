@@ -75,8 +75,8 @@
         {
             $query = "CALL keepers_modify(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            $parameters['keeperId']=$keeper->getKeeperId();
-            $parameters['userId']=$keeper->getUserId();
+            $parameters['keeperId_']=$keeper->getKeeperId();
+            $parameters['userId_']=$keeper->getUserId();
 			$parameters['addressStreet']=$keeper->getAddressStreet();
 			$parameters['addressNumber']=$keeper->getAddressNumber();
 			$parameters['petSize']=$keeper->getPetSize();
