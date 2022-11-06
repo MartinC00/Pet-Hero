@@ -16,7 +16,7 @@
 			$parameters['name']=$pet->getUserId();
             
 			try{
-				$this->Connection = Connection::getInstance();
+				$this->connection = Connection::getInstance();
 				return $this->Connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
 			}
 			catch (\PDOException $ex){

@@ -1,103 +1,70 @@
-<?php
-    namespace DAO;
+<?php 
+	namespace DAO;
+	use Models\User;
+	
+	class UserDAO implements IUserDAO 
+	{
+		private $connection;
+		private $tableName = "Users";
 
-    use DAO\IUserDAO as IUserDAO;
-    use Models\User as User;
+		public function add($user)
+		{		
+			$query = "CALL Users_add(?, ?, ?, ?, ?, ?, ?,?)";
 
-    class UserDAO implements IUserDAO 
-    {
-        private $userList = array();
-        private $filename = ROOT."Data/Users.json";
+            $parameters['username']=$user->getUsername();
+			$parameters['password']=$user->getPassword();
+			$parameters['name']=$user->getName();
+			$parameters['lastname']=$user->getLastname();
+			$parameters['dni']=$user->getDni();
+			$parameters['phone']=$user->getPhone();
+			$parameters['email']=$user->getEmail();
+			$parameters['userType']=$user->getUserType();
+            
+			try
+			{
+				$this->connection = Connection::getInstance();
+				return $this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
 
-        public function add(User $user)
-        {
-            $this->retrieveData();
-            $user->setId($this->getNextId());
-            array_push($this->userList, $user);
-            $this->saveData();
-        }
+		public function getAll()
+		{
+			$userList = array();
+            $query = "SELECT * FROM ".$this->tableName;
 
-        public function getNextId()
-        {
-            $id=0;
-            foreach($this->userList as $user)
-            {
-                if($user->getId() > $id) $id=$user->getId();
+            try{        	
+	            $this->connection = Connection::GetInstance();
+	            $result = $this->connection->Execute($query);
+	            foreach($result as $row)
+	            {
+	                $user = new User();
+		            $user->setId($row["id"]);
+		            $user->setUsername($row["username"]);
+		            $user->setPassword($row["password"]);
+		            $user->setPassword($row["name"]);
+		            $user->setPassword($row["lastname"]);
+		            $user->setPassword($row["dni"]);
+		            $user->setPassword($row["phone"]);
+		            $user->setPassword($row["email"]);
+		            $user->setPassword($row["userType"]);
+		           
+	                array_push($userList, $user);
+	            }
+
+	            return $userList;
             }
-            return $id+1;
-        }
+            catch(\PDOException $ex){
+				echo $ex->getMessage();
+			}
+		}
 
-        private function saveData()
+		public function getByUsername($username)
         {
-            $arrayToEncode = array();
-            foreach($this->userList as $user)
-            {
-                $arrayValues = array();
-                $arrayValues["id"] = $user->getId();
-                $arrayValues["username"] = $user->getUsername();
-                $arrayValues["password"] = $user->getPassword();
-                $arrayValues["name"] = $user->getName();
-                $arrayValues["lastname"] = $user->getLastname();
-                $arrayValues["dni"] = $user->getDni();
-                $arrayValues["phone"] = $user->getPhone();
-                $arrayValues["email"] = $user->getEmail();
-                $arrayValues["userType"] = $user->getUserType();
-
-                array_push($arrayToEncode, $arrayValues);
-            }
-            $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-            file_put_contents($this->filename, $jsonContent);
-        }
-
-        private function retrieveData()
-        {
-            $this->userList = array();
-
-            if(file_exists($this->filename))
-            {
-                $jsonContent = file_get_contents($this->filename);
-                $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayToDecode as $arrayValues)
-                {
-                    $user = new User();
-                    $user->setId($arrayValues["id"]);
-                    $user->setUsername($arrayValues["username"]);
-                    $user->setPassword($arrayValues["password"]);
-                    $user->setName($arrayValues["name"]);
-                    $user->setLastname($arrayValues["lastname"]);
-                    $user->setDni($arrayValues["dni"]);
-                    $user->setPhone($arrayValues["phone"]);
-                    $user->setEmail($arrayValues["email"]);
-                    $user->setUserType($arrayValues["userType"]);
-                    array_push($this->userList, $user);
-                }
-            }
-        } 
-
-        public function delete($id)
-        {
-            $this->retrieveData();
-            $positionToDelete = $this->getPositionById($id);
-            if(!is_null($positionToDelete))
-            {
-                unset($this->userList[$positionToDelete]);
-            }
-            $this->saveData();
-        }
-        public function getPositionById($id)
-        {
-            $position=0;
-            foreach($this->userList as $user)
-            {
-                if($user->getId()==$id) return $position;
-                $position++;
-            }
-            return null;
-        }
-        public function getByUsername($username)
-        {
-            $this->retrieveData();
+            $userList=$this->getAll();
             foreach($this->userList as $user)
             {
                 if($user->getUsername()==$username) return $user;
@@ -107,25 +74,40 @@
 
         public function getById($id)
         {
-            $this->retrieveData();
+            $userList=$this->getAll();
             foreach($this->userList as $user)
             {
-                if($user->getId()==$id) return $user;           }
+                if($user->getId()==$id) return $user;     
+            }
             return null;
-        }
-
-        public function getAll()
-        {
-            $this->retrieveData();
-            return $this->userList;
         }
 
         public function modify(User $user)
         {
-            $this->retrieveData();
-            $this->delete($user->getId());
-            array_push($this->userList, $user);
-            $this->saveData();
+            $query = "CALL Users_modify(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $parameters['id']=$user->getId();
+            $parameters['username']=$user->getUsername();
+			$parameters['password']=$user->getPassword();
+			$parameters['name']=$user->getName();
+			$parameters['lastname']=$user->getLastname();
+			$parameters['dni']=$user->getDni();
+			$parameters['phone']=$user->getPhone();
+			$parameters['email']=$user->getEmail();
+			$parameters['userType']=$user->getUserType();
+
+			try
+			{
+				$this->connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
         }
 
-    }
+
+	}
+
+ ?>

@@ -19,7 +19,7 @@
             $this->petTypeController = new PetTypeController();
 		}
 
-		public function add ($petTypeId, $name, $breed, $size, $description=null, $photo=null, $vaccines=null, $video=null) 
+		public function add ($petTypeId, $name, $breed, $size, $description, $photo=null, $vaccines=null, $video=null) 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
             try{
