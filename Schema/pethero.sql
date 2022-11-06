@@ -75,8 +75,20 @@ begin
     where id=id_;
 end $$
 
+drop procedure if exists keepers_add$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `keepers_add` (userId_ int(4),addressStreet_ varchar(45),addressNumber_ varchar(5),petSize_ varchar(45),initialDate_ date,endDate_ date,days_ int(11),price_ float)   begin
+  insert into keepers (userId,addressStreet,addressNumber,petSize,initialDate,endDate,days,price) 
+    VALUES (userId_,address_street_,address_number_,petSize_,initialDate_,endDate_,days_,price_);
+end$$
 
-DELIMITER ;
+drop procedure if exists keepers_modify$$
+create procedure keepers_modify (keeperId_ int, userId_ int(4),addressStreet_ varchar(45),addressNumber_ varchar(5),petSize_ varchar(45),initialDate_ date,endDate_ date,days_ int(11),price_ float)   begin
+  update keepers set
+   userId=userId_, addressStreet=addressStreet_ ,addressNumber=addressNumber_ ,petSize=petSize_ ,initialDate=initialDate_ ,endDate=endDate_,days=days_,price=price_) 
+   where keeperId=keeperId_ ;
+end$$
+
+delimiter ;
 
 -- --------------------------------------------------------
 create table if not exists Users(
@@ -125,7 +137,7 @@ CREATE TABLE `keepers` (
 -- Estructura de tabla para la tabla `pets`
 --
 
-CREATE TABLE `pets` (
+CREATE TABLE if not exists`pets` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idPetType` int(11) NOT NULL,
@@ -154,7 +166,7 @@ INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `descr
 -- Estructura de tabla para la tabla `pettypes`
 --
 
-CREATE TABLE `pettypes` (
+CREATE TABLE if not exists`pettypes` (
   `id` int(11) NOT NULL,
   `name` varchar(10) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -179,7 +191,7 @@ CREATE TABLE if not exists`images` (
 -- Estructura de tabla para la tabla `videos`
 --
 
-CREATE TABLE `videos` (
+CREATE TABLE if not exists`videos` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
