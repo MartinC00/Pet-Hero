@@ -2,12 +2,92 @@
 	namespace DAO;
 	use Models\User;
 	
-	class UserDAO
+	class UserDAO implements IUserDAO 
 	{
-		public function create($user){
-			$sql= "INSERT INTO users (surname,password,name,lastname,dni,phone,email,userType) VALUES (:surname,:password,:name,:lastname,:dni,:phone,:email,:userType)";
+		private $Connection;
+		private $tableName = "Users";
 
-			$parameters['surname']=$user->getName();
+		public function add($user)
+		{		
+			$query = "CALL Users_add(?, ?, ?, ?, ?, ?, ?,?)";
+
+            $parameters['username']=$user->getUsername();
+			$parameters['password']=$user->getPassword();
+			$parameters['name']=$user->getName();
+			$parameters['lastname']=$user->getLastname();
+			$parameters['dni']=$user->getDni();
+			$parameters['phone']=$user->getPhone();
+			$parameters['email']=$user->getEmail();
+			$parameters['userType']=$user->getUserType();
+            
+			try
+			{
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
+
+		public function getAll()
+		{
+			$userList = array();
+            $query = "SELECT * FROM ".$this->tableName;
+
+            try{        	
+	            $this->connection = Connection::GetInstance();
+	            $result = $this->connection->Execute($query);
+	            foreach($result as $row)
+	            {
+	                $user = new User();
+		            $user->setId($row["id"]);
+		            $user->setUsername($row["username"]);
+		            $user->setPassword($row["password"]);
+		            $user->setPassword($row["name"]);
+		            $user->setPassword($row["lastname"]);
+		            $user->setPassword($row["dni"]);
+		            $user->setPassword($row["phone"]);
+		            $user->setPassword($row["email"]);
+		            $user->setPassword($row["userType"]);
+		           
+	                array_push($userList, $user);
+	            }
+
+	            return $userList;
+            }
+            catch(\PDOException $ex){
+				echo $ex->getMessage();
+			}
+		}
+
+		public function getByUsername($username)
+        {
+            $userList=$this->getAll();
+            foreach($this->userList as $user)
+            {
+                if($user->getUsername()==$username) return $user;
+            }
+            return null;
+        }
+
+        public function getById($id)
+        {
+            $userList=$this->getAll();
+            foreach($this->userList as $user)
+            {
+                if($user->getId()==$id) return $user;     
+            }
+            return null;
+        }
+
+        public function modify(User $user)
+        {
+            $query = "CALL Users_modify(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $parameters['id']=$user->getId();
+            $parameters['username']=$user->getUsername();
 			$parameters['password']=$user->getPassword();
 			$parameters['name']=$user->getName();
 			$parameters['lastname']=$user->getLastname();
@@ -16,28 +96,18 @@
 			$parameters['email']=$user->getEmail();
 			$parameters['userType']=$user->getUserType();
 
-			try{
-				$this->connection = Connection::getInstance();
-				return $this->connection->ExecuteNonQuert($sql,$parameters);
-			}catch(\PDOException $ex){
-				throw $ex;
+			try
+			{
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
-		}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+        }
 
-		public function addUser($user){
-			$Duser = new UserDAO;
-			$fileController = new fileController();
-			if($fileController ->upload()){
-				try{
-					$user->create($user);
-					return true;
-				}catch(\PDOException $ex){
-					throw $ex;
-				}
-			}else{
-				return false;
-			}
-		}
+
 	}
 
  ?>
