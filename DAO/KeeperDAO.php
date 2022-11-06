@@ -1,122 +1,104 @@
 <?php 
 	namespace DAO;
-
 	use Models\Keeper;
-	use DAO\IKeeperDAO;
+	use DAO\QueryType;
 
-	class KeeperDAO implements IKeeperDAO
+	class UserDAO
 	{
-		private $keepersList = array();
-		private $filename = ROOT . "Data/Keepers.json";
+		private $connection;
+		private $tableName = "keepers";
 
-		public function add(Keeper $keeper)
+		public function add($keeper)
 		{
-			$this->retrieveData();
-			$keeper->setKeeperId($this->getNextId());
-			array_push($this->keepersList, $keeper);
-			$this->saveData();
-		}
+			$query = "CALL keepers_add(?, ?, ?, ?, ?, ?, ?, ?)";
 
-		private function saveData()
-		{
-			$arrayToEncode = array();
-			foreach($this->keepersList as $keeper)
-			{
-				$valuesArray=array();
-				$valuesArray["keeperId"] = $keeper->getKeeperId();
-				$valuesArray["userId"] = $keeper->getUserId();
-				$valuesArray["addressStreet"] = $keeper->getAddressStreet();
-				$valuesArray["addressNumber"] = $keeper->getAddressNumber();
-				$valuesArray["petSize"] = $keeper->getPetSize();
-				$valuesArray["initialDate"] = $keeper->getInitialDate();
-				$valuesArray["endDate"] = $keeper->getEndDate();
-				$valuesArray["days"] = $keeper->getDays();
-				$valuesArray["price"] = $keeper->getPrice();
-				array_push($arrayToEncode, $valuesArray);
-			}
-		
-			$jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-			file_put_contents($this->filename, $jsonContent);
-		
-		}
-		private function retrieveData()
-		{
-			$this->keepersList=array();
-			if(file_exists($this->filename))
-			{
-				$jsonContent = file_get_contents($this->filename);
-				$arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-		
-				foreach($arrayToDecode as $valuesArray)
-				{
-					$keeper = new Keeper();
-					$keeper->setKeeperId($valuesArray["keeperId"]);
-					$keeper->setUserId($valuesArray["userId"]);
-					$keeper->setAddressStreet($valuesArray["addressStreet"]);
-					$keeper->setAddressNumber($valuesArray["addressNumber"]);
-					$keeper->setPetSize($valuesArray["petSize"]);
-					$keeper->setInitialDate($valuesArray["initialDate"]);
-					$keeper->setEndDate($valuesArray["endDate"]);
-					$keeper->setDays($valuesArray["days"]);
-					$keeper->setPrice($valuesArray["price"]);					
-								
-					array_push($this->keepersList, $keeper);
-				}
+			$parameters['userId']=$keeper->getUserId();
+			$parameters['addressStreet']=$keeper->getAddressStreet();
+			$parameters['addressNumber']=$keeper->getAddressNumber();
+			$parameters['petSize']=$keeper->getPetSize();
+			$parameters['initialDate']=$keeper->getInitialDate();
+			$parameters['endDate']=$keeper->getEndDate();
+			$parameters['days']=$keeper->getDays();
+			$parameters['price']=$keeper->getPrice();
+
+			try{
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true);
+			}catch(\PDOException $ex){
+				throw $ex;
 			}
 		}
 
-        public function getNextId()
-        {
-            $id=0;
-            foreach($this->keepersList as $keeper)
-            {
-                if($keeper->getKeeperId() > $id) $id=$keeper->getKeeperId();
+		public function getAll()
+		{
+			$keeperList = array();
+            $query = "SELECT * FROM ".$this->tableName;
+
+            try{        	
+	            $this->connection = Connection::GetInstance();
+	            $result = $this->connection->Execute($query);
+	            foreach($result as $row)
+	            {
+	                $keeper = new Keeper();
+		            $keeper->setKeeperId($row["keeperId"]);
+		            $keeper->setUserId($row["userId"]);
+		            $keeper->setAddressStreet($row["addressStreet"]);
+		            $keeper->setAddressNumber($row["addressNumber"]);
+		            $keeper->setPetSize($row["petSize"]);
+		            $keeper->setInitialDate($row["initialDate"]);
+		            $keeper->setEndDate($row["endDate"]);
+		            $keeper->setDays($row["days"]);
+		            $keeper->setPrice($row["price"]);
+		            
+
+	                array_push($keeperList, $keeper);
+	            }
+
+	            return $keeperList;
             }
-            return $id+1;
-        }
-        public function delete($id)
+            catch(\PDOException $ex){
+				echo $ex->getMessage();
+			}
+		}
+		
+		public function getById($id)
         {
-        	$this->retrieveData();
-
-        	$positionToDelete = $this->getPositionById($id);
-        	if(!is_null($positionToDelete)) unset($this->keepersList[$positionToDelete]);
-
-        	$this->saveData();
-        }
-
-        public function getPositionById($id)
-        {
-            $position=0;
-            foreach($this->keepersList as $keeper)
+            $keeperList=$this->getAll();
+            foreach($this->keeperList as $keeper)
             {
-                if($keeper->getKeeperId()==$id) return $position;
-                $position++;
+                if($keeper->getKeeperId()==$id) return $keeper;     
             }
             return null;
         }
 
-        public function getAll()
+        public function modify(Keeper $keeper)
         {
-        	$this->retrieveData();
-        	return $this->keepersList;
-        }
-        public function getById($id)
-        {
-        	$this->retrieveData();
-        	foreach($this->keepersList as $keeper)
-        	{
-        		if($keeper->getUserId()==$id) return $keeper;
-        	}
-        	return null;
-        }
+            $query = "CALL keepers_modify(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        public function modify($keeper)
-        {
-        	$this->retrieveData();
-        	$this->delete($keeper->getKeeperId());
-        	array_push($this->keepersList, $keeper);
-        	$this->saveData();
+            $parameters['keeperId_']=$keeper->getKeeperId();
+            $parameters['userId_']=$keeper->getUserId();
+			$parameters['addressStreet']=$keeper->getAddressStreet();
+			$parameters['addressNumber']=$keeper->getAddressNumber();
+			$parameters['petSize']=$keeper->getPetSize();
+			$parameters['initialDate']=$keeper->getInitialDate();
+			$parameters['endDate']=$keeper->getEndDate();
+			$parameters['days']=$keeper->getDays();
+			$parameters['price']=$keeper->getPrice();
+
+			try
+			{
+				$this->connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
         }
+			
+		
+		
 	}
+
 
  ?>

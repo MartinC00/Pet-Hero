@@ -18,19 +18,19 @@
 
 		public function add($pet)
 		{		
-			$query = "CALL Pets_add(?, ?, ?, ?, ?, ?, ?)";
+			$query = "CALL Pets_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 			//$query = "INSERT INTO ".$this->tableName."(idUser, idPetType, name, breed, size, description, isActive) values (:idUser_, :idPetType_, :name_, :breed_, :size_, :description_, :isActive_)";
-			$parameters['idUser']=$pet->getUserId();
-            $parameters['idPetType']=$pet->getPetType()->getId(); //FOREIGN KEY
-			$parameters['name']=$pet->getName();
-			$parameters['breed']=$pet->getBreed();
-			$parameters['size']=$pet->getSize();
-			$parameters['description']=$pet->getDescription();
-			//$parameters['photo']=$pet->getPhoto();
-			//$parameters['vaccines']=$pet->getVaccines();
-			//$parameters['video']=$pet->getVideo();
-            $parameters['isActive']=$pet->getIsActive();
+			$parameters['idUser_']=$pet->getUserId();
+            $parameters['idPetType_']=$pet->getPetType()->getId(); //FOREIGN KEY
+			$parameters['name_']=$pet->getName();
+			$parameters['breed_']=$pet->getBreed();
+			$parameters['size_']=$pet->getSize();
+			$parameters['description_']=$pet->getDescription();
+			$parameters['photoId_']=$pet->getPhoto();
+			$parameters['vaccinesId_']=$pet->getVaccines();
+			$parameters['videoId_']=$pet->getVideo();
+            $parameters['isActive_']=$pet->getIsActive();
             
 			try
 			{

@@ -6,9 +6,7 @@
     interface IUserDAO 
     {
         function add(User $user);
-        function getNextId();
-        function delete($id);
-        function getPositionById($id);
         function getAll();
+        function modify(User $user);
     }
 ?>

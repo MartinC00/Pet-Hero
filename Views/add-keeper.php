@@ -1,8 +1,10 @@
 <?php use Models\ePetSize; use Models\eDays; ?>
 
+<h2> <?php echo $message . " now..."; ?> </h2>
+
 <h1> Keeper Information !</h1>
 <h2> Please complete </h2>
-<h2> <?php echo $message; ?> </h2>
+
 
 <form action="<?php echo FRONT_ROOT ."Keeper/add" ?>" method="post">
 	Street <input type="text" name="addressStreet"  required maxlength="20"> <br>

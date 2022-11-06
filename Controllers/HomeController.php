@@ -2,16 +2,20 @@
     namespace Controllers;
 
     use DAO\UserDAO as UserDAO;
+    //use DAO\UserTypeDAO as UserTypeDAO;
     use Controllers\UserController;
+    //use Controllers\UserTypeController;
     use Models\User as User;
-    use Models\eUserType;
+    use Models\UserType;
 
     class HomeController 
     {
         private $userController;
+        //private $userTypeController;
 
         public function __construct() {
             $this->userController = new UserController();
+            //$this->userTypeController = new UserTypeController();
         }
 
         public function Index($message = "") {
@@ -22,7 +26,7 @@
         {
             require_once(VIEWS_PATH."validate-session.php");
 
-            if($_SESSION["loggedUser"]->getUserType() == (eUserType::Keeper->name))
+            if($_SESSION["loggedUser"]->getUserType()->getId() === 2) //keeper = id: 2
             {
                require_once(VIEWS_PATH."keeper-home.php"); 
             }
@@ -49,12 +53,7 @@
 
         public function Logout() {
             session_destroy();
-
             $this->Index();
-        }
-
-        public function Register($message="") {
-            require_once(VIEWS_PATH."add-user.php");
         }
 
     }

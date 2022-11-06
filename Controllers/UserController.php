@@ -3,52 +3,64 @@
 	namespace Controllers;
 
 	use Models\User;	
-	use Models\eUserType as eUserType;
+	use Models\UserType as UserType;
+	use Controllers\UserTypeController as UserTypeController;
+	use DAO\UserTypeDAO as UserTypeDAO;	
 	use DAO\UserDAO as UserDAO;	
 
 	class UserController
 	{
 		public $UserDAO;
+		public $userTypeController;
 
 		public function __construct()
 		{
 			$this->UserDAO = new UserDAO();
+			$this->userTypeController = new UserTypeController();
 		}
 
-		public function add ($username, $password, $name, $lastname, $dni, $phone, $email, $userType)
+		public function add ($username, $password, $name, $lastname, $dni, $phone, $email, $userTypeId)
 		{
-			$user = new User();
-			$_SESSION["loggedUser"]=null;
+			$userType = new UserType();
+			$userType = $this->userTypeController->userTypeDAO->getById($userTypeId);
 
-			$user->setUsername($username);
-			$user->setPassword($password);
-			$user->setName($name);
-			$user->setLastName($lastname);
-			$user->setDni($dni);
-			$user->setPhone($phone);
-			$user->setEmail($email);
-            $user->setUserType($userType);
+			if($userType)
+			{				
+				$user = new User();
+				$_SESSION["loggedUser"]=null;
 
-			$check = $this->checkUser($user);
+				$user->setUsername($username);
+				$user->setPassword($password);
+				$user->setName($name);
+				$user->setLastName($lastname);
+				$user->setDni($dni);
+				$user->setPhone($phone);
+				$user->setEmail($email);
+	            $user->setUserType($userType);
 
-			if($check==1) { $this->showAddView("Username isn't available, please choose another one"); }
-			else if($check==2) { $this->showAddView("DNI already exists !!"); }
-			else if($check==3) { $this->showAddView("Email already exists !!"); }
-			else
-			{
-				$response=$this->UserDAO->add($user);
-				$_SESSION["loggedUser"] = $user;
-				$this->showAddView($response);
+				$check = $this->checkUser($user);
+
+				if($check==1) { $this->showAddView("Username isn't available, please choose another one"); }
+				else if($check==2) { $this->showAddView("DNI already exists !!"); }
+				else if($check==3) { $this->showAddView("Email already exists !!"); }
+				else
+				{
+					$response=$this->UserDAO->add($user);
+					$_SESSION["loggedUser"] = $user;
+					$this->showAddView();
+				}
 			}
+			else showAddView("Incorrect user type, please select right");
 		}
 		
 		public function showAddView($message='')
 		{
 			if(!isset($_SESSION["loggedUser"])) 
 			{
+				$userTypeList = $this->userTypeController->userTypeDAO->getAll();
 				require_once(VIEWS_PATH . "add-user.php");
 			}
-			else if ($_SESSION["loggedUser"]->getUserType() == (eUserType::Keeper->name))
+			else if ($_SESSION["loggedUser"]->getUserType()->getId() == 2)
 			{
 				require_once(VIEWS_PATH . "add-keeper.php"); 
 			}
