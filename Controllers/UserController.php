@@ -45,7 +45,8 @@
 				else if($check==3) { $this->showAddView("Email already exists !!"); }
 				else
 				{
-					$response=$this->UserDAO->add($user);
+					$this->UserDAO->add($user);
+					$user=$this->UserDAO->getByUsername($user->getUsername());
 					$_SESSION["loggedUser"] = $user;
 					$this->showAddView();
 				}
@@ -85,6 +86,21 @@
             }
             return 0;
         }
+
+        private function checkUserModify($newUser) 
+		{
+            $userList = $this->UserDAO->getAll();
+
+            foreach ($userList as $user) 
+            {
+                if ($newUser->getUsername() == $user->getUsername() && $user->getId()!=$newUser->getId()) return 1;
+                
+                else if($newUser->getDni() == $user->getDni() && $user->getId()!=$newUser->getId()) return 2;
+               
+                else if($newUser->getEmail() == $user->getEmail() && $user->getId()!=$newUser->getId()) return 3;
+            }
+            return 0;
+        }
     
 		public function modifyProfile($username, $password, $name, $lastname, $dni, $phone, $email)
 		{
@@ -100,7 +116,7 @@
 			$user->setPhone($phone);
 			$user->setEmail($email);
 			
-			$check = $this->checkUser($user);
+			$check = $this->checkUserModify($user);
 
 			if($check==1) { $this->showModifyUserProfile("Username isn't available, please choose another one"); }
 			else if($check==2) { $this->showModifyUserProfile("DNI already exists !!"); }
@@ -129,7 +145,7 @@
 
 		public function showHomeView()
 		{
-			if($_SESSION["loggedUser"]->getUserType() == (eUserType::Owner->name)) require_once(VIEWS_PATH . "owner-home.php");
+			if($_SESSION["loggedUser"]->getUserType()->getId() === 1) require_once(VIEWS_PATH . "owner-home.php");
 			else require_once(VIEWS_PATH . "keeper-home.php");
 		}
 

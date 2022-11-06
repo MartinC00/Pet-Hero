@@ -59,9 +59,13 @@
                 $this->BindParameters($parameters, $queryType);
 
                 $this->pdoStatement->execute();
-                if($returnLastId){
+
+                if($returnLastId)
+                {
                     return $this->pdo->lastInsertId();
-                }else{
+                }
+                else
+                {
                     return $this->pdoStatement->rowCount();
                 }
 

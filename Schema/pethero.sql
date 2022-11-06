@@ -87,21 +87,21 @@ drop procedure if exists Users_modify$$
 create procedure Users_modify(id_ int, username_ varchar(30),password_ varchar(30), name_ varchar(20), lastname_ varchar(20),dni_ varchar(10), phone_ varchar(15),email_ varchar(50), userTypeId_ int)
 begin
   update Users set 
-    username=username_ , password=password_ , name_=name_ , lastname=lastname_, dni=dni_, phone=phone_ , email=email_ , userTypeId=userTypeId_
+    username=username_ , password=password_ , name=name_ , lastname=lastname_, dni=dni_, phone=phone_ , email=email_ , userTypeId=userTypeId_
     where id=id_;
 end $$
 
 # KEEPERS
 
 drop procedure if exists keepers_add$$
-create procedure keepers_add (userId_ int,addressStreet_ varchar(45),addressNumber_ varchar(5),petSize_ varchar(10),initialDate_ date,endDate_ date,days_ int(10),price_ int(5))   begin
+create procedure keepers_add (userId_ int,addressStreet_ varchar(45),addressNumber_ varchar(5),petSize_ varchar(10),initialDate_ date,endDate_ date,days_ varchar(60),price_ int(5))   begin
   insert into keepers (userId,addressStreet,addressNumber,petSize,initialDate,endDate,days,price) 
-    VALUES (userId_,address_street_,address_number_,petSize_,initialDate_,endDate_,days_,price_);
+    VALUES (userId_,addressStreet_,addressNumber_,petSize_,initialDate_,endDate_,days_,price_);
 end$$
 
 
 drop procedure if exists keepers_modify$$
-create procedure keepers_modify(keeperId_ int, userId_ int, addressStreet_ varchar(45), addressNumber_ varchar(5), petSize_ varchar(10),initialDate_ date, endDate_ date, days_ varchar(10),price_ int(5))
+create procedure keepers_modify(keeperId_ int, userId_ int, addressStreet_ varchar(45), addressNumber_ varchar(5), petSize_ varchar(10),initialDate_ date, endDate_ date, days_ varchar(60),price_ int(5))
 begin
   update keepers set 
       userId=userId_, addressStreet=addressStreet_ , addressNumber=addressNumber_ , petSize=petSize_, initialDate=initialDate_, endDate=endDate_ , days=days_ , price=price_
@@ -143,7 +143,7 @@ CREATE TABLE `keepers` (
   `petSize` varchar(10) NOT NULL,
   `initialDate` date NOT NULL,
   `endDate` date NOT NULL,
-  `days` varchar(10) NOT NULL,
+  `days` varchar(60) NOT NULL,
   `price` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -194,9 +194,7 @@ CREATE TABLE `videos` (
 
 insert into UserTypes (id, nameType) values (1,'Owner'),(2,'Keeper');
 
-INSERT INTO `pettypes` (`id`, `name`) VALUES
-(1, 'Dog'),
-(2, 'Cat');
+insert into `pettypes` (`id`, `name`) VALUES (1, 'Dog'), (2, 'Cat');
 
 -- --------------------------------------------------------
 
