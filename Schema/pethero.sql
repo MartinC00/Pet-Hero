@@ -27,50 +27,50 @@ DELIMITER $$
 --
 drop procedure if exists Pets_add$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_add` (`idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(20), `description_` VARCHAR(80), `isActive_` boolean)   begin
-	insert into Pets (idUser, idPetType, name, breed, size, description, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, isActive_);
+  insert into Pets (idUser, idPetType, name, breed, size, description, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, isActive_);
 end$$
 
 drop procedure if exists Pets_getAll$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getAll` ()   begin
-	select * from Pets;
+  select * from Pets;
 end$$
 
 drop procedure if exists Pets_getById$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getById` (`pet_id` INT)   begin
-	select * from Pets where id=pet_id;
+  select * from Pets where id=pet_id;
 end$$
 
 drop procedure if exists Pets_getListByUserId$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getListByUserId` (`user_id` INT)   begin
-	select * from Pets where idUser=user_id;
+  select * from Pets where idUser=user_id;
 end$$
 
 drop procedure if exists PetTypes_add$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_add` (`name` VARCHAR(10))   begin
-	insert into PetTypes(name) values (name);
+  insert into PetTypes(name) values (name);
 end$$
 
 drop procedure if exists PetTypes_getAll$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_getAll` ()   begin
-	select * from PetTypes;
+  select * from PetTypes;
 end$$
 
 drop procedure if exists PetTypes_getById$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_getById` (`idPetType` INT)   begin
-	select * from PetTypes where id=idPetType;
+  select * from PetTypes where id=idPetType;
 end$$
 
 drop procedure if exists Users_add$$
 create procedure Users_add(username_ varchar(30), password_ varchar(30), names varchar(20), lastname_ varchar(20),dni_ varchar(8), phone_ varchar(30), email_ varchar(30), userTypeId_ int) 
 begin
-	INSERT INTO Users (username, password, name, lastname, dni, phone, email, userType) 
+  INSERT INTO Users (username, password, name, lastname, dni, phone, email, userType) 
     VALUES (username_, password_, names, lastname_, dni_, phone_ , email_ , userType_);
 end $$
 
 drop procedure if exists Users_modify$$
 create procedure Users_modify(id_ int, username_ varchar(30),password_ varchar(30), name_ varchar(20), lastname_ varchar(20),dni_ varchar(8),phone_ varchar(30),email_ varchar(30), userTypeId_ int)
 begin
-	update Users set 
+  update Users set 
     username=username_ , password=password_ , name_=name_ , lastname=lastname_, dni=dni_, phone=phone_ , email=email_ , userType=userType_
     where id=id_;
 end $$
@@ -79,10 +79,6 @@ end $$
 DELIMITER ;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `keepers`
---
 create table if not exists Users(
 id int auto_increment,
 username varchar(30) not null unique,
@@ -94,8 +90,24 @@ phone varchar(30) not null,
 email varchar(30) not null unique,
 userTypeId int not null,
 constraint primary key (id));
+--
+-- Estructura de tabla para la tabla `images`
+--
 
-CREATE TABLE if not exists `keepers` (
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `photo` mediumblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `keepers`
+--
+
+CREATE TABLE `keepers` (
   `keeperId` int(4) NOT NULL,
   `userId` int(4) NOT NULL,
   `addressStreet` varchar(45) NOT NULL,
@@ -113,7 +125,7 @@ CREATE TABLE if not exists `keepers` (
 -- Estructura de tabla para la tabla `pets`
 --
 
-CREATE TABLE if not exists `pets` (
+CREATE TABLE `pets` (
   `id` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
   `idPetType` int(11) NOT NULL,
@@ -142,7 +154,7 @@ INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `descr
 -- Estructura de tabla para la tabla `pettypes`
 --
 
-CREATE TABLE if not exists `pettypes` (
+CREATE TABLE `pettypes` (
   `id` int(11) NOT NULL,
   `name` varchar(10) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -156,8 +168,7 @@ INSERT INTO `pettypes` (`id`, `name`) VALUES
 (2, 'Cat');
 
 -- --------------------------------------------------------
--- Estructura de tabla para la tabla `videos`
---
+
 CREATE TABLE if not exists`images` (
   `id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
@@ -168,7 +179,7 @@ CREATE TABLE if not exists`images` (
 -- Estructura de tabla para la tabla `videos`
 --
 
-CREATE TABLE if not exists `videos` (
+CREATE TABLE `videos` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
