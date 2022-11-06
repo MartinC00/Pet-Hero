@@ -29,7 +29,7 @@
                 <td><?php echo $pet->getDescription(); ?></td>
                 <td>
                     <?php
-                    include_once "db_empresa.php";
+                    include_once "?"; //include va? @martin
                     $con = mysqli_connect($db_host,$db_user,$db_pass,$db_database);
                     $query="SELECT photo FROM pets ";
                     $res = mysqli_connect($con,$query);

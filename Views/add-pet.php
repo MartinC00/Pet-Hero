@@ -59,6 +59,21 @@
         </thead>
         <tbody>
             <td><input type="file" name="photo" id="photo"></td>
+                <?php
+                if(isset($_REQUEST['save'])){
+                    $fileType=$FILES['photo']['type'];
+                    $fileName=$_FILES['photo']['name'];
+                    $fileSize=$_FILES['photo']['size'];
+                    $uploadedImage=fopen($_FILES['photo']['tmp_name'],'r');
+                    $binaryImage=fread($uploadedImage,$fileSize);
+                    include_once "?.php"; //va el include????? @martin
+                    $con = mysqli_connect($db_host,$db_user,$db_pass,$db_database);
+                    $binaryImage=mysqli_escape_string($con,$binaryImage);
+                    $query = "INSERT INTO images (name,image,type) VALUES ('".$fileName."','".$binaryImage."','".$fileType."')";
+                
+                }
+                ?>
+
             <td><input type="file" name="vaccines" id="vaccines"></td>
             <td><input type="file" name="video" id="video"></td>
         </tbody>
