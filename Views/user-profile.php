@@ -27,7 +27,7 @@
                 <td><?php echo $user->getDNI() ?></td>
                 <td><?php echo $user->getPhone() ?></td>
                 <td><?php echo $user->getEmail() ?></td>
-                <td><?php echo $user->getUserType() ?></td>
+                <td><?php echo $user->getUserType()->getNameType() ?></td>
                 <td><button type="submit"> Change my profile </button></td>
             </tr>
         </tbody>

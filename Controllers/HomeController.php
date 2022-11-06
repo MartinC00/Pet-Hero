@@ -25,7 +25,7 @@
         public function showHomeView() 
         {
             require_once(VIEWS_PATH."validate-session.php");
-
+            
             if($_SESSION["loggedUser"]->getUserType()->getId() === 2) //keeper = id: 2
             {
                require_once(VIEWS_PATH."keeper-home.php"); 

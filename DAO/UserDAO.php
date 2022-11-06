@@ -31,7 +31,7 @@
 			try
 			{
 				$this->connection = Connection::getInstance();
-				return $this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
 			catch(\PDOException $ex)
 			{
@@ -110,7 +110,7 @@
 			try
 			{
 				$this->connection = Connection::getInstance();
-				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
 			catch(\PDOException $ex)
 			{

@@ -8,7 +8,7 @@
 
 <form action="<?php echo FRONT_ROOT ."Keeper/add" ?>" method="post">
 	Street <input type="text" name="addressStreet"  required maxlength="20"> <br>
-	Street Number <input type="number" name="addressNumber" minlength="1" maxlength="10000"  required> <br>
+	Street Number <input type="number" name="addressNumber" minlength="1" required> <br>
 	Pet Size <select name="petSize">
 		<option value="<?php echo ePetSize::Small->name; ?>"> Small </option>
 		<option value="<?php echo ePetSize::Medium->name; ?>"> Medium </option>
