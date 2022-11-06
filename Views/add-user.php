@@ -1,4 +1,4 @@
-<?php use Models\eUserType; ?>
+<?php use Models\UserType; ?>
 
 <h1> Welcome !</h1>
 <h2> Complete Your Data </h2>
@@ -28,9 +28,10 @@
                 <td><input type="text" name="dni" id="dni" maxlength="8" minlength="7" required></td>
                 <td><input type="number" name="phone" id="phone" required></td>
                 <td><input type="email" name="email" id="email" required></td>
-                <td><select name="userType" id="usertype">
-                        <option value="<?php echo eUserType::Owner->name; ?>"> Owner </option>
-                        <option value="<?php echo eUserType::Keeper->name; ?>"> Keeper </option>
+                <td><select name="userTypeId" required>
+                        <?php foreach($userTypeList as $userType) { ?>
+                            <option value="<?php echo $userType->getId() ?>"><?php echo $userType->getNameType() ?></option>
+                        <?php } ?>
                     </select>
                 </td>
             </tr>

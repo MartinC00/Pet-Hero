@@ -1,24 +1,32 @@
 <?php 
 	namespace DAO;
 	use Models\User;
+	use Models\UserType;
+	use DAO\UserTypeDAO;
 	
 	class UserDAO implements IUserDAO 
 	{
 		private $connection;
 		private $tableName = "Users";
+		private $userTypeDAO;
+
+		public function __construct()
+		{
+			$this->userTypeDAO = new UserTypeDAO;
+		}
 
 		public function add($user)
 		{		
 			$query = "CALL Users_add(?, ?, ?, ?, ?, ?, ?,?)";
 
-            $parameters['username']=$user->getUsername();
-			$parameters['password']=$user->getPassword();
-			$parameters['name']=$user->getName();
-			$parameters['lastname']=$user->getLastname();
-			$parameters['dni']=$user->getDni();
-			$parameters['phone']=$user->getPhone();
-			$parameters['email']=$user->getEmail();
-			$parameters['userType']=$user->getUserType();
+            $parameters['username_']=$user->getUsername();
+			$parameters['password_']=$user->getPassword();
+			$parameters['name_']=$user->getName();
+			$parameters['lastname_']=$user->getLastname();
+			$parameters['dni_']=$user->getDni();
+			$parameters['phone_']=$user->getPhone();
+			$parameters['email_']=$user->getEmail();
+			$parameters['userTypeId_']=$user->getUserType()->getId();
             
 			try
 			{
@@ -41,16 +49,19 @@
 	            $result = $this->connection->Execute($query);
 	            foreach($result as $row)
 	            {
+	            	$userType = new UserType();
+	            	$userType = $this->userTypeDAO->getById($row["userTypeId"]);
+
 	                $user = new User();
 		            $user->setId($row["id"]);
 		            $user->setUsername($row["username"]);
 		            $user->setPassword($row["password"]);
-		            $user->setPassword($row["name"]);
-		            $user->setPassword($row["lastname"]);
-		            $user->setPassword($row["dni"]);
-		            $user->setPassword($row["phone"]);
-		            $user->setPassword($row["email"]);
-		            $user->setPassword($row["userType"]);
+		            $user->setName($row["name"]);
+		            $user->setLastname($row["lastname"]);
+		            $user->setDni($row["dni"]);
+		            $user->setPhone($row["phone"]);
+		            $user->setEmail($row["email"]);
+		            $user->setUserType($userType);
 		           
 	                array_push($userList, $user);
 	            }
@@ -65,7 +76,7 @@
 		public function getByUsername($username)
         {
             $userList=$this->getAll();
-            foreach($this->userList as $user)
+            foreach($userList as $user)
             {
                 if($user->getUsername()==$username) return $user;
             }
@@ -86,15 +97,15 @@
         {
             $query = "CALL Users_modify(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            $parameters['id']=$user->getId();
-            $parameters['username']=$user->getUsername();
-			$parameters['password']=$user->getPassword();
-			$parameters['name']=$user->getName();
-			$parameters['lastname']=$user->getLastname();
-			$parameters['dni']=$user->getDni();
-			$parameters['phone']=$user->getPhone();
-			$parameters['email']=$user->getEmail();
-			$parameters['userType']=$user->getUserType();
+            $parameters['id_']=$user->getId();
+            $parameters['username_']=$user->getUsername();
+			$parameters['password_']=$user->getPassword();
+			$parameters['name_']=$user->getName();
+			$parameters['lastname_']=$user->getLastname();
+			$parameters['dni_']=$user->getDni();
+			$parameters['phone_']=$user->getPhone();
+			$parameters['email_']=$user->getEmail();
+			$parameters['userTypeId_']=$user->getUserType()->getId();
 
 			try
 			{

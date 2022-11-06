@@ -11,6 +11,6 @@
 </form>
 
 <h2>Not a member yet?</h2>
-<a href="<?php echo FRONT_ROOT."Home/Register" ?>">Register</a>
+<a href="<?php echo FRONT_ROOT."User/showAddView" ?>">Register</a>
 
 <?php echo $message; ?>

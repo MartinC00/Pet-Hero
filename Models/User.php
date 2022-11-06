@@ -1,7 +1,7 @@
 <?php 
 
 	namespace Models;
-	use Models\eUserType;
+	use Models\UserType;
 
 	class User {
 
@@ -101,7 +101,7 @@
             return $this->userType;
         }
 
-        public function setUserType($userType)
+        public function setUserType(UserType $userType)
         {
             $this->userType = $userType;
         }
