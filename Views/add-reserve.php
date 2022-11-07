@@ -1,17 +1,43 @@
+<?php
+require_once("validate-session.php");
+include('header.php');
+include('owner-nav-bar.php');
+?>
 
-<?php use Models\eUserType; ?>
-
-<h2> Create a New Reserve!</h2>
+<h2> Please check the reservation info</h2>
 
 <form action="<?php echo FRONT_ROOT ."Reserve/add" ?>" method="post">
 
-	<input type="text" name="idUserOwner" placeholder="Username" required> <br>
-	<input type="password" name="idKeeper" placeholder="Password" required> <br>
-		
-	<input type="text" name="lastname" placeholder="Doe" required> <br>
-	<input type="text" name="dni" placeholder="12345678" maxlength="8" minlength="7" required>  <br>
-	<input type="number" name="phone" placeholder="223012345" required> <br>
-	<input type="email" name="email" placeholder="example@mail.com" required> <br>
+    <table style="text-align: center">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($petList as $pet) { ?>
+            <tr>
+                <td><?php echo $pet->getName()?></td>
+                <td><?php echo $pet->getPetType()->getName()?></td>
+            </tr>
+        <?php } ?>
+        </tbody>
+    </table>
 
-	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
+    <label for="startDate">From</label>
+    <input type="date" name="startDate" id="startDate" value="<?php echo $startDate ?>" readonly>
+    <label for="endDate">To</label>
+    <input type="date" name="endDate" id="endDate" value="<?php echo $endDate ?>" readonly>
+
+    <input type="hidden" name="idKeeper" value="<?php echo $idKeeper?>" readonly>
+        <?php foreach($petList as $pet) 
+            { ?>
+                <input type="hidden" name="idPets[]" value="<?php echo $pet->getId() ?>">            
+        <?php } ?>
+    
+    <input type="text" name="price" value="<?php echo $totalPrice; ?>" readonly>
+
+    <button type="submit">Confirm Reservation</button>
+
 </form>

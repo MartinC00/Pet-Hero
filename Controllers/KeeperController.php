@@ -10,7 +10,7 @@
 
 	class KeeperController
 	{
-		private $keeperDAO;
+		public $keeperDAO;
 		private $userController;
 
 		public function __construct()
@@ -106,7 +106,7 @@
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			$keeper= $this->keeperDAO->getById($_SESSION["loggedUser"]->getId());
+			$keeper= $this->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
 
 			return $keeper;
 		}

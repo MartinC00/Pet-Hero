@@ -1,5 +1,6 @@
 <?php 
 	namespace DAO;
+
 	use Models\User;
 	use Models\UserType;
 	use DAO\UserTypeDAO;
@@ -31,7 +32,7 @@
 			try
 			{
 				$this->connection = Connection::getInstance();
-				return $this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
 			catch(\PDOException $ex)
 			{
@@ -86,7 +87,7 @@
         public function getById($id)
         {
             $userList=$this->getAll();
-            foreach($this->userList as $user)
+            foreach($userList as $user)
             {
                 if($user->getId()==$id) return $user;     
             }
@@ -110,7 +111,7 @@
 			try
 			{
 				$this->connection = Connection::getInstance();
-				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
 			catch(\PDOException $ex)
 			{

@@ -3,7 +3,7 @@
 	use Models\Keeper;
 	use DAO\QueryType;
 
-	class UserDAO
+	class KeeperDAO
 	{
 		private $connection;
 		private $tableName = "keepers";
@@ -12,18 +12,18 @@
 		{
 			$query = "CALL keepers_add(?, ?, ?, ?, ?, ?, ?, ?)";
 
-			$parameters['userId']=$keeper->getUserId();
-			$parameters['addressStreet']=$keeper->getAddressStreet();
-			$parameters['addressNumber']=$keeper->getAddressNumber();
-			$parameters['petSize']=$keeper->getPetSize();
-			$parameters['initialDate']=$keeper->getInitialDate();
-			$parameters['endDate']=$keeper->getEndDate();
-			$parameters['days']=$keeper->getDays();
-			$parameters['price']=$keeper->getPrice();
+			$parameters['userId_']=$keeper->getUserId();
+			$parameters['addressStreet_']=$keeper->getAddressStreet();
+			$parameters['addressNumber_']=$keeper->getAddressNumber();
+			$parameters['petSize_']=$keeper->getPetSize();
+			$parameters['initialDate_']=$keeper->getInitialDate();
+			$parameters['endDate_']=$keeper->getEndDate();
+			$parameters['days_']= implode(",", $keeper->getDays());
+			$parameters['price_']=$keeper->getPrice();
 
 			try{
 				$this->Connection = Connection::getInstance();
-				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true);
+				$this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true);
 			}catch(\PDOException $ex){
 				throw $ex;
 			}
@@ -47,9 +47,8 @@
 		            $keeper->setPetSize($row["petSize"]);
 		            $keeper->setInitialDate($row["initialDate"]);
 		            $keeper->setEndDate($row["endDate"]);
-		            $keeper->setDays($row["days"]);
+		            $keeper->setDays(explode("," , $row["days"]));
 		            $keeper->setPrice($row["price"]);
-		            
 
 	                array_push($keeperList, $keeper);
 	            }
@@ -64,11 +63,21 @@
 		public function getById($id)
         {
             $keeperList=$this->getAll();
-            foreach($this->keeperList as $keeper)
+            foreach($keeperList as $keeper)
             {
-                if($keeper->getKeeperId()==$id) return $keeper;     
+                if($keeper->getKeeperId()==$id) return $keeper;
             }
             return null;
+        }
+
+        public function getByUserId($userId)
+        {
+        	$keepersList=$this->getAll();
+        	foreach($keepersList as $keeper)
+        	{
+        		if($keeper->getUserId()==$userId) return $keeper;
+        	}
+        	return null;
         }
 
         public function modify(Keeper $keeper)
@@ -77,18 +86,18 @@
 
             $parameters['keeperId_']=$keeper->getKeeperId();
             $parameters['userId_']=$keeper->getUserId();
-			$parameters['addressStreet']=$keeper->getAddressStreet();
-			$parameters['addressNumber']=$keeper->getAddressNumber();
-			$parameters['petSize']=$keeper->getPetSize();
-			$parameters['initialDate']=$keeper->getInitialDate();
-			$parameters['endDate']=$keeper->getEndDate();
-			$parameters['days']=$keeper->getDays();
-			$parameters['price']=$keeper->getPrice();
+			$parameters['addressStreet_']=$keeper->getAddressStreet();
+			$parameters['addressNumber_']=$keeper->getAddressNumber();
+			$parameters['petSize_']=$keeper->getPetSize();
+			$parameters['initialDate_']=$keeper->getInitialDate();
+			$parameters['endDate_']=$keeper->getEndDate();
+			$parameters['days_']= implode(",", $keeper->getDays());
+			$parameters['price_']=$keeper->getPrice();
 
 			try
 			{
 				$this->connection = Connection::getInstance();
-				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
 			}
 			catch(\PDOException $ex)
 			{

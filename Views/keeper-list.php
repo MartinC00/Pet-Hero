@@ -40,7 +40,7 @@
 
               <?php if(isset($message)) echo $message; ?>
 
-              <form action="<?php echo FRONT_ROOT . "Reserve/showAddView" ?>" method="post">
+              <form action="<?php echo FRONT_ROOT . "Reserve/showPreReserve" ?>" method="post">
               <?php foreach($keeperList as $keeper)
                 {
                     $user = $this->userController->UserDAO->getById($keeper->getUserId());
@@ -57,7 +57,7 @@
                       <td><?php echo $keeper->getEndDate() ?></td>
                       <td><?php foreach($keeper->getDays() as $day) echo $day ?></td>
                       <td><?php echo $keeper->getPrice() ?></td>
-                      <td><button type="submit" name="keeperId" value="<?php echo $keeper->getKeeperId() ?>">Hire keeper </button></td>
+                      <td><button type="submit" name="keeperId" value="<?php echo $keeper->getKeeperId()?>"> Hire keeper </button></td>
                     </tr>
                   <?php
                 }

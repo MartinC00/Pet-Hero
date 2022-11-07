@@ -1,6 +1,6 @@
 <?php
     include('header.php');
-    if($_SESSION['loggedUser']->getUserType() == "Owner") include('owner-nav-bar.php');
+    if($_SESSION['loggedUser']->getUserType()->getId() == 1) include('owner-nav-bar.php');
     else include('keeper-nav-bar.php');
     require_once("validate-session.php");
 ?>
@@ -27,7 +27,7 @@
                 <td><?php echo $user->getDNI() ?></td>
                 <td><?php echo $user->getPhone() ?></td>
                 <td><?php echo $user->getEmail() ?></td>
-                <td><?php echo $user->getUserType() ?></td>
+                <td><?php echo $user->getUserType()->getNameType() ?></td>
                 <td><button type="submit"> Change my profile </button></td>
             </tr>
         </tbody>

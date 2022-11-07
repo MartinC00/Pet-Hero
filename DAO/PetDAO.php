@@ -110,7 +110,7 @@
 			}*/
 
 		}
-		public function getById($id)
+		public function getByIdQuery($id) //revisar, no funca
 		{
 			$query = "CALL Pets_getById(?)";
 			$parameters["pet_id"]=$id;
@@ -124,6 +124,16 @@
             }
 
 		}
+
+        public function getById($id)
+        {
+            $petList=$this->getAll();
+            foreach($petList as $pet)
+            {
+                if($pet->getId()==$id) return $pet;
+            }
+            return null;
+        }
 
 		
 
