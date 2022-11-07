@@ -10,7 +10,7 @@
 
 	class KeeperController
 	{
-		private $keeperDAO;
+		public $keeperDAO;
 		private $userController;
 
 		public function __construct()
