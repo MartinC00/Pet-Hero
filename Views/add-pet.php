@@ -59,6 +59,7 @@
         </thead>
         <tbody>
             <td><input type="file" name="photo" id="photo"></td>
+
             <td><input type="file" name="vaccines" id="vaccines"></td>
             <td><input type="file" name="video" id="video"></td>
         </tbody>
