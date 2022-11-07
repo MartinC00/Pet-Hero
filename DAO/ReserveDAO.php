@@ -9,7 +9,9 @@
         private $connection;
         private $tableName = "Reserves";
 
-        public function add() {
+        public function add()
+        {
+            
 
         }
     }

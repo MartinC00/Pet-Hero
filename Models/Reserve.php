@@ -4,6 +4,7 @@
 
 	class Reserve
 	{
+		private $id;
 		private $idUserOwner;
 		private $idKeeper; //o bien el idUserKeeper
 		private $idPets; //array, ojo, CHECK petType (que no se mezclen perros y gatos, pero si muchos perros o muchos gatos)
@@ -12,19 +13,18 @@
 		private $totalPrice; //count array fechas * keeper.price (per day)
 		
 
+
 	    public function getIdUserOwner()
 	    {
 	        return $this->idUserOwner;
 	    }
 		 
-
 	    public function setIdUserOwner($idOwner)
 	    {
 	        $this->idUserOwner = $idOwner;
 
 	        return $this;
 	    }
-
 
 	    public function getIdKeeper()
 	    {
@@ -88,5 +88,25 @@
 
 	        return $this;
 	    }
-	}
+	
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+}
  ?>

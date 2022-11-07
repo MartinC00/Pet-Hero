@@ -110,7 +110,7 @@
 			}*/
 
 		}
-		public function getByIdDB($id)
+		public function getByIdQuery($id) //revisar, no funca
 		{
 			$query = "CALL Pets_getById(?)";
 			$parameters["pet_id"]=$id;
