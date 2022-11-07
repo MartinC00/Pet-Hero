@@ -1,5 +1,6 @@
 <?php 
 	namespace DAO;
+
 	use Models\User;
 	use Models\UserType;
 	use DAO\UserTypeDAO;
@@ -86,7 +87,7 @@
         public function getById($id)
         {
             $userList=$this->getAll();
-            foreach($this->userList as $user)
+            foreach($userList as $user)
             {
                 if($user->getId()==$id) return $user;     
             }

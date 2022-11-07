@@ -10,12 +10,12 @@
 
 	class PetController	
     {
-		private $PetDAO;
+		public $petDAO;
         private $petTypeController;
 
 		public function __construct() 
         {
-			$this->PetDAO = new PetDAO();
+			$this->petDAO = new PetDAO();
             $this->petTypeController = new PetTypeController();
 		}
 
@@ -49,7 +49,7 @@
         			if($check==1) { $this->showAddView("You can't have 2 pets with the same name, please choose another one"); } 
         			else 
                     {
-        				$message=$this->PetDAO->add($pet);
+        				$this->petDAO->add($pet);
 
                         //$petList = $this->PetDAO->getAll();
                         //$id = $petList[count($petList) - 1]->getId();
@@ -75,7 +75,7 @@
 		}
 
 		private function checkPet($newPet) {
-            $petList = $this->PetDAO->getAll();
+            $petList = $this->petDAO->getAll();
             foreach ($petList as $pet) 
             {
                 if ($newPet->getName() == $pet->getName() && $newPet->getUserId()==$pet->getUserId()) return 1; //Esta verificacion implica que se tiene que repetir el nombre en la lista de mascotas y ademas que esa mascosta este asociada al mismo usuario que esta creando esta nueva. Un usuario no puede registrar dos mascotas que se llamen igual, pero distintos usuarios pueden tener mascotas que se llamen igual
@@ -86,12 +86,12 @@
 		public function showPetsList() 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
-            $userPetsList = $this->PetDAO->getListByUserId($_SESSION["loggedUser"]->getId());
+            $userPetsList = $this->petDAO->getListByUserId($_SESSION["loggedUser"]->getId());
             require_once(VIEWS_PATH . "pets-list.php");
 		}
 
 		public function remove($id) {
-			$this->PetDAO->delete($id);
+			$this->petDAO->delete($id);
 			$this->showPetsList();
 
 		}
@@ -113,9 +113,9 @@
                 } else { // Si la imagen es correcta en tamaño y tipo Se intenta subir al servidor
                     $filename = $_SESSION["loggedUser"]->getUsername()."-". $id. ".jpg";
                     if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
-                        $pet = $this->PetDAO->getById($id);
+                        $pet = $this->petDAO->getById($id);
                         $pet->setPhoto($filename);
-                        $this->PetDAO->modify($pet);
+                        $this->petDAO->modify($pet);
                     }
                     else //Si no se ha podido subir la imagen, mostramos un mensaje de error
                         echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
@@ -140,9 +140,9 @@
                 } else { // Si la imagen es correcta en tamaño y tipo Se intenta subir al servidor
                     $filename = $_SESSION["loggedUser"]->getUsername()."-v". $id . ".jpg";
                     if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
-                        $pet = $this->PetDAO->getById($id);
+                        $pet = $this->petDAO->getById($id);
                         $pet->setVaccines($filename);
-                        $this->PetDAO->modify($pet);
+                        $this->petDAO->modify($pet);
                     }
                     else //Si no se ha podido subir la imagen, mostramos un mensaje de error
                         echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
@@ -167,9 +167,9 @@
                 } else { // Si el video es correcta en tamaño y tipo Se intenta subir al servidor
                     $filename = $_SESSION["loggedUser"]->getUsername()."-video". $id . ".mp4";
                     if (move_uploaded_file($temp, $_SERVER["DOCUMENT_ROOT"].IMG_PATH.$filename)) {
-                        $pet = $this->PetDAO->getById($id);
+                        $pet = $this->petDAO->getById($id);
                         $pet->setVideo($filename);
-                        $this->PetDAO->modify($pet);
+                        $this->petDAO->modify($pet);
                     }
                     else //Si no se ha podido subir el video, mostramos un mensaje de error
                         echo '<div><b>Ocurrió algún error al subir el fichero. No pudo guardarse.</b></div>';
