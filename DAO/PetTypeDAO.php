@@ -67,18 +67,17 @@
             catch (\PDOException $ex){
             	echo $ex->getMessage();	
             }
-
 		}
 
-		/*public function getById($petTypeId)
+		public function getByName($name)
 		{
 			$petTypesList=$this->getAll();
 			foreach($petTypesList as $petType)
 			{
-				if($petType->getId()==$petTypeId) return $petType;
+				if($petType->getName()==$name) return $petType;
 			}
 			return null;
-		}*/
+		}
 	}
 
 

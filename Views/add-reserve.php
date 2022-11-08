@@ -28,9 +28,14 @@ include('owner-nav-bar.php');
     <label for="startDate">From</label>
     <input type="date" name="startDate" id="startDate" value="<?php echo $startDate ?>" readonly>
     <label for="endDate">To</label>
-    <input type="date" name="endDate" id="startDate" value="<?php echo $endDate ?>" readonly>
+    <input type="date" name="endDate" id="endDate" value="<?php echo $endDate ?>" readonly>
 
     <input type="hidden" name="idKeeper" value="<?php echo $idKeeper?>" readonly>
+        <?php foreach($petList as $pet) 
+            { ?>
+                <input type="hidden" name="idPets[]" value="<?php echo $pet->getId() ?>">            
+        <?php } ?>
+    
     <input type="text" name="price" value="<?php echo $totalPrice; ?>" readonly>
 
     <button type="submit">Confirm Reservation</button>

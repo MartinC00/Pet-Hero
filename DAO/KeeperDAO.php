@@ -65,9 +65,19 @@
             $keeperList=$this->getAll();
             foreach($keeperList as $keeper)
             {
-                if($keeper->getKeeperId()==$id) return $keeper;     
+                if($keeper->getKeeperId()==$id) return $keeper;
             }
             return null;
+        }
+
+        public function getByUserId($userId)
+        {
+        	$keepersList=$this->getAll();
+        	foreach($keepersList as $keeper)
+        	{
+        		if($keeper->getUserId()==$userId) return $keeper;
+        	}
+        	return null;
         }
 
         public function modify(Keeper $keeper)

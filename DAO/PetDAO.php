@@ -20,18 +20,32 @@
 		{		
 			$query = "CALL Pets_add(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-			//$query = "INSERT INTO ".$this->tableName."(idUser, idPetType, name, breed, size, description, isActive) values (:idUser_, :idPetType_, :name_, :breed_, :size_, :description_, :isActive_)";
+			//$query = "INSERT INTO ".$this->tableName." (idUser, idPetType, name, breed, size, description, photo, vaccines, video, isActive) values (:idUser, :idPetType, :name, :breed, :size, :description, :photo, :vaccines, :video, :isActive)";
+
 			$parameters['idUser_']=$pet->getUserId();
-            $parameters['idPetType_']=$pet->getPetType()->getId(); //FOREIGN KEY
+            $parameters['idPetType_']=$pet->getPetType()->getId();
 			$parameters['name_']=$pet->getName();
 			$parameters['breed_']=$pet->getBreed();
 			$parameters['size_']=$pet->getSize();
 			$parameters['description_']=$pet->getDescription();
-			$parameters['photoId_']=$pet->getPhoto();
-			$parameters['vaccinesId_']=$pet->getVaccines();
-			$parameters['videoId_']=$pet->getVideo();
+			$parameters['photo_']=$pet->getPhoto();
+			$parameters['vaccines_']=$pet->getVaccines();
+			$parameters['video_']=$pet->getVideo();
             $parameters['isActive_']=$pet->getIsActive();
             
+			/* parameters para ejecutar query
+            $parameters['idUser']=$pet->getUserId();
+            $parameters['idPetType']=$pet->getPetType()->getId();
+			$parameters['name']=$pet->getName();
+			$parameters['breed']=$pet->getBreed();
+			$parameters['size']=$pet->getSize();
+			$parameters['description']=$pet->getDescription();
+			$parameters['photo']=$pet->getPhoto();
+			$parameters['vaccines']=$pet->getVaccines();
+			$parameters['video']=$pet->getVideo();
+            $parameters['isActive']=$pet->getIsActive();
+			*/
+
 			try
 			{
 				$this->Connection = Connection::getInstance();
@@ -64,9 +78,9 @@
 		            $pet->setBreed($row["breed"]);
 		            $pet->setSize($row["size"]);
 		            $pet->setDescription($row["description"]);
-		            //$pet->setPhoto($row["photo"]);
-		            //$pet->setVaccines($row["vaccines"]);
-		            //$pet->setVideo($row["video"]);
+		            $pet->setPhoto($row["photo"]);
+		            $pet->setVaccines($row["vaccines"]);
+		            $pet->setVideo($row["video"]);
 		            $pet->setIsActive($row["isActive"]);
 
 	                array_push($petsList, $pet);
@@ -110,7 +124,7 @@
 			}*/
 
 		}
-		public function getByIdDB($id)
+		public function getByIdQuery($id) //revisar, no funca
 		{
 			$query = "CALL Pets_getById(?)";
 			$parameters["pet_id"]=$id;
@@ -125,9 +139,37 @@
 
 		}
 
+		public function modify(Pet $pet)
+		{
+			$query = "CALL Pets_modify(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			$parameters['id_']=$pet->getId();
+			$parameters['idUser_']=$pet->getUserId();
+            $parameters['idPetType_']=$pet->getPetType()->getId();
+			$parameters['name_']=$pet->getName();
+			$parameters['breed_']=$pet->getBreed();
+			$parameters['size_']=$pet->getSize();
+			$parameters['description_']=$pet->getDescription();
+			$parameters['photo_']=$pet->getPhoto();
+			$parameters['vaccines_']=$pet->getVaccines();
+			$parameters['video_']=$pet->getVideo();
+            $parameters['isActive_']=$pet->getIsActive();
+			
+			try{
+            	$this->connection = Connection::GetInstance();
+            	$result = $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
+            	return $result;
+            }
+            catch (\PDOException $ex){
+            	echo $ex->getMessage();	
+            }
+
+		}
+
         public function getById($id)
         {
             $petList=$this->getAll();
+
             foreach($petList as $pet)
             {
                 if($pet->getId()==$id) return $pet;
@@ -135,19 +177,20 @@
             return null;
         }
 
-		
-
-		//pendientes: delete (change boolean isActive), modify
-
-
-
-
-
-
-
-
-
-
-
+        public function delete($id)
+        {
+        	$query = "CALL Pets_delete(?)";
+			$parameters['idPet']=$id;
+            
+			try
+			{
+				$this->Connection = Connection::getInstance();
+				return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
 	}
  ?>

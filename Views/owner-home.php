@@ -5,4 +5,6 @@
 
 ?>
 
+<?php if(isset($message)) echo $message; ?>
+
 <h2> OWNER HOME </h2>

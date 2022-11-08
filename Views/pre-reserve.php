@@ -5,6 +5,8 @@ include('owner-nav-bar.php');
 ?>
 <h2> Create a New Reservation!</h2>
 
+<?php if(isset($message)) echo $message; ?>
+
 <p>Selected Keeper: <?php echo $user->getName() . " " . $keeper->getPetSize() . " " . $keeper->getPrice()?></p>
 
 <form action="<?php echo FRONT_ROOT ."Reserve/showAddView" ?>" method="post">

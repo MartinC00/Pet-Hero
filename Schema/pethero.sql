@@ -29,22 +29,30 @@ DELIMITER $$
 # PETS
 
 drop procedure if exists Pets_add$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_add` (`idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photoId` int, `vaccinesPhotoId` int, `videoId` int, `isActive_` boolean)   
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_add` (`idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photo_` varchar(30), `vaccines_` varchar(30), `video_` varchar(30), `isActive_` boolean)   
 begin
-  insert into Pets (idUser, idPetType, name, breed, size, description, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, isActive_);
+  insert into Pets (idUser, idPetType, name, breed, size, description, photo, vaccines, video, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, photo_, vaccines_, video_, isActive_);
+    select LAST_INSERT_ID() from Pets;
 end$$
 
 drop procedure if exists Pets_modify$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_modify` (`id_` INT, `idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photoId_` int, `vaccinesPhotoId_` int, `videoId_` int, `isActive_` boolean)   
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_modify` (`id_` INT, `idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photo_` varchar(30), `vaccines_` varchar(30), `video_` varchar(30), `isActive_` boolean)   
 begin
   update pets set 
-    idUser=idUser_, idPetType=idPetType_, name=name_, breed=breed_, size=size_, description=description_, photoId=photoId_ , vaccinesPhotoId=vaccinesPhotoId_, videoId=videoId_, isActive=isActive_
+    idUser=idUser_, idPetType=idPetType_, name=name_, breed=breed_, size=size_, description=description_, photo=photo_ , vaccines=vaccines_, video=video_, isActive=isActive_
     where id=id_;
+end$$
+
+drop procedure if exists Pets_delete$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_delete` (`idPet` INT)   
+begin
+  update pets set 
+    isActive=false where id=idPet;
 end$$
 
 drop procedure if exists Pets_getAll$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getAll` ()   begin
-  select * from Pets;
+  select * from Pets where isActive=true;
 end$$
 
 drop procedure if exists Pets_getById$$
@@ -179,9 +187,9 @@ CREATE TABLE `pets` (
   `breed` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `size` varchar(10) COLLATE utf8_spanish2_ci NOT NULL,
   `description` varchar(80) COLLATE utf8_spanish2_ci DEFAULT NULL,
-  `photoId` int NOT NULL,
-  `vaccinesPhotoId` int NOT NULL,
-  `videoId` int NOT NULL,
+  `photo` varchar(30),
+  `vaccines` varchar(30),
+  `video` varchar(30),
   `isActive` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -195,6 +203,7 @@ CREATE TABLE `videos` (
 insert into UserTypes (id, nameType) values (1,'Owner'),(2,'Keeper');
 
 insert into `pettypes` (`id`, `name`) VALUES (1, 'Dog'), (2, 'Cat');
+
 
 -- --------------------------------------------------------
 

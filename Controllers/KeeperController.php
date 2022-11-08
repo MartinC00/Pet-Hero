@@ -61,7 +61,7 @@
 			else return 0;
 
 		}
-		public function showHomeView($response='')
+		public function showHomeView($message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "keeper-home.php");
@@ -106,7 +106,7 @@
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			$keeper= $this->keeperDAO->getById($_SESSION["loggedUser"]->getId());
+			$keeper= $this->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
 
 			return $keeper;
 		}
@@ -130,7 +130,7 @@
 			else
 			{
 				$this->keeperDAO->modify($keeper);
-				$this->showHomeView();
+				$this->showHomeView("Keeper data modified !");
 			}
 		}
 
