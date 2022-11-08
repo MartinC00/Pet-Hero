@@ -11,8 +11,6 @@
 		private $initialDate;
 		private $endDate; 
 		private $totalPrice; //count array fechas * keeper.price (per day)
-		
-
 
 	    public function getIdUserOwner()
 	    {
@@ -31,7 +29,6 @@
 	        return $this->idKeeper;
 	    }
 
-
 	    public function setIdKeeper($idKeeper)
 	    {
 	        $this->idKeeper = $idKeeper;
@@ -39,12 +36,10 @@
 	        return $this;
 	    }
 
-
 	    public function getIdPets()
 	    {
 	        return $this->idPets;
 	    }
-
 
 	    public function setIdPets($idPets)
 	    {
@@ -88,25 +83,17 @@
 
 	        return $this;
 	    }
-	
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * @param mixed $id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        public function getId()
+        {
+            return $this->id;
+        }
 
-        return $this;
+        public function setId($id)
+        {
+            $this->id = $id;
+
+            return $this;
+        }
     }
-}
  ?>

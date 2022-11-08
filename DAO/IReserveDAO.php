@@ -6,5 +6,5 @@
 
     interface IReserveDAO
     {
-
+        function getAll();
     }

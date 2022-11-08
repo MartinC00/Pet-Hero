@@ -29,18 +29,21 @@
 			$this->keeperController = new KeeperController();
 		}
 
-		public function add($startDate, $endDate, $idKeeper, $idPets, $totalPrice)
+		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice)
         {
             require_once(VIEWS_PATH . "validate-session.php");
             $reserve = new Reserve();
 
             $reserve->setIdUserOwner($_SESSION["loggedUser"]->getId());
+
             $reserve->setIdKeeper($idKeeper);
             $reserve->setIdPets($idPets); // CHECK ID PETS EXISTS (se puede tocar desde el codigo fuente el form y mandar cualquier id)
-            $reserve->setInitialDate($startDate);
+            $reserve->setInitialDate($initialDate);
             $reserve->setEndDate($endDate);
             $reserve->setTotalPrice($totalPrice);
 
+            $petTypeId = $this->petController->petDAO->getById($idPets[0])->getPetType()->getId();
+            $this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
 
             $this->reserveDAO->add($reserve);
             $this->userController->showHomeView("Reservation successfully booked! :) pending keeper's confirmation");
@@ -48,32 +51,22 @@
 
         public function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
         {
-        	$reservesList = $this->reserveDAO->getAll();
-        	$keeperReservesList=array();
+            $reserveList = $this->reserveDAO->getReservesByKeeper();
 
-        	foreach($reserveList as $reserve)
-        	{
-        		if($reserve->getKeeperId()==$idKeeper)
-        		{
-        			array_push($keeperReservesList, $reserve); //lista de reservas de ESE keeper
-        		}
-        	}
+            $reservesFilteredByDate = array();
 
-        	$reserveListDateFilter = array();
-        	foreach($keeperReservesList as $reserve)
-        	{
-        		if($reserve->getInitialDate() <= $initialDate && $reserve->getEndDate >= $endDate) 
-        			array_push($reserveListDateFilter, $reserve);
-        	}
+            foreach ($reserveList as $reserve) {
+                if ($reserve->getInitialDate() <= $initialDate && $reserve->getEndDate() >= $endDate)
+                    array_push($reservesFilteredByDate, $reserve);
+            }
 
-        	$reserveListPetTypeFilter = array();
-        	foreach($reserveListDateFilter as $reserve)
-        	{
-        		$petType = $this->petController->petDAO->getById($reserve->getIdPets()[0])->getPetType();
-        		if($petType->getId() == $idPetType)
-        			array_push($reserveListPetTypeFilter, $reserve);
-        	}
-
+            if (isset($reservesFilteredByDate)) {
+                $firstReserve = $reservesFilteredByDate[0];
+                $petType = $this->petController->petDAO->getById($firstReserve->getIdPets()[0])->getPetType();
+                if ($petType->getId() != $idPetType) {
+                    $this->showPreReserve($idKeeper, "This Keeper cannot take care of that kind of pet on those days.");
+                }
+            }
         }
 
 		public function remove($reserveId)
@@ -92,32 +85,45 @@
 			else if ($check == 2) { $this->showPreReserve($idKeeper, "Initial Date mustn't be previous to current date"); }
 			else
 			{
-	            $petList = array();
-	            foreach ($idPets as $petId) 
-	            {
-	                $pet = $this->petController->petDAO->getById($petId);
-	                array_push($petList, $pet);
-	            }
+                $petList = array();
 
-	            $flag=true;
-	            $petType = $petList[0]->getPetType();
-	            foreach($petList as $pet)
-	            {
-	            	if($pet->getPetType()!=$petType) $flag=false;
-	            }
+                foreach ($idPets as $petId) {
+                    $pet = $this->petController->petDAO->getById($petId);
+                    array_push($petList, $pet);
+                }
 
-	            if($flag)
-	            {
-		            $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
-					require_once(VIEWS_PATH . "add-reserve.php");
-	            }
-	            else
-	            {
-	            	$this->showPreReserve($idKeeper, "Pets should be from same pet-type");
-	            }
+                if($this->checkPetType($petList, $idKeeper)) {
+                    if ($this->checkPetSize($petList, $idKeeper)) {
+                        $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
+                        require_once(VIEWS_PATH . "add-reserve.php");
+                    } else
+                        $this->showPreReserve($idKeeper, "Please select pets that have a matching size with Keeper size");
+                }
+                else
+                    $this->showPreReserve($idKeeper, "Pets should be from same pet-type");
 			}
 		}
-		
+
+		private function checkPetSize($petList, $idKeeper) {
+            $keeperPetSize = $this->keeperController->keeperDAO->getById($idKeeper)->getPetSize();
+
+            foreach ($petList as $pet) {
+                if($pet->getSize() != $keeperPetSize)
+                    return false;
+            }
+            return true;
+        }
+
+        private function checkPetType($petList) {
+
+            $petType = $petList[0]->getPetType();
+
+            foreach($petList as $pet) {
+                if ($pet->getPetType() != $petType)
+                    return false;
+            }
+            return true;
+        }
 
         public function showPreReserve($keeperId, $message = "") 
         {
