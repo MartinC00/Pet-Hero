@@ -10,12 +10,12 @@
 
 	class UserController
 	{
-		public $UserDAO;
+		public $userDAO;
 		public $userTypeController;
 
 		public function __construct()
 		{
-			$this->UserDAO = new UserDAO();
+			$this->userDAO = new UserDAO();
 			$this->userTypeController = new UserTypeController();
 		}
 
@@ -45,8 +45,8 @@
 				else if($check==3) { $this->showAddView("Email already exists !!"); }
 				else
 				{
-					$this->UserDAO->add($user);
-					$user=$this->UserDAO->getByUsername($user->getUsername());
+					$this->userDAO->add($user);
+					$user=$this->userDAO->getByUsername($user->getUsername());
 					$_SESSION["loggedUser"] = $user;
 					$this->showAddView();
 				}
@@ -74,7 +74,7 @@
 
 		private function checkUser($newUser) 
 		{
-            $userList = $this->UserDAO->getAll();
+            $userList = $this->userDAO->getAll();
 
             foreach ($userList as $user) 
             {
@@ -89,7 +89,7 @@
 
         private function checkUserModify($newUser) 
 		{
-            $userList = $this->UserDAO->getAll();
+            $userList = $this->userDAO->getAll();
 
             foreach ($userList as $user) 
             {
@@ -123,7 +123,7 @@
 			else if($check==3) { $this->showModifyUserProfile("Email already exists !!"); }
 			else
 			{
-				$this->UserDAO->modify($user);
+				$this->userDAO->modify($user);
 				$_SESSION["loggedUser"]=$user;
 				$this->showHomeView("Profile modified !");
 			}			

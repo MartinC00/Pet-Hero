@@ -61,7 +61,7 @@
 
         private function checkReserveExists($idPets, $initialDate, $endDate, $idKeeper)
         {
-            $reserveList = $this->reserveDAO->getByKeeperOwnerId($idKeeper, $_SESSION["loggedUser"]->getId());
+            $reserveList = $this->reserveDAO->getReservesByKeeperOwnerId($idKeeper, $_SESSION["loggedUser"]->getId());
             $reservesFiltered = array();
 
             foreach ($reserveList as $reserve) 
@@ -84,7 +84,7 @@
 
         private function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
         {
-            $reserveList = $this->reserveDAO->getReservesByKeeper($idKeeper);
+            $reserveList = $this->reserveDAO->getReservesByKeeperId($idKeeper);
 
             $reservesFilteredByDate = array();
 
@@ -163,7 +163,7 @@
             require_once(VIEWS_PATH . "validate-session.php");
             $userPetList = $this->petController->petDAO->getListByUserId($_SESSION["loggedUser"]->getId());
             $keeper = $this->keeperController->keeperDAO->getById($keeperId);
-            $user = $this->userController->UserDAO->getById($keeper->getUserId());
+            $user = $this->userController->userDAO->getById($keeper->getUserId());
             require_once(VIEWS_PATH . "pre-reserve.php");
         }
 
@@ -174,20 +174,74 @@
             return $numberOfPets * $price * ($interval->days+1);
         }
 
-        public function showReserveList($idKeeper=null, $message='')
-		{
-			require_once(VIEWS_PATH . "validate-session.php");
-            
-            if($idKeeper) $reserveList=$this->reserveDAO->getReservesByKeeper($idKeeper);
-                else $reserveList = $this->reserveDAO->getByOwnerId($_SESSION["loggedUser"]->getId());
-                
-			require_once(VIEWS_PATH . "reserve-list.php");
+        public function showReserveList($message='')
+        {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
+                $reserveList = $this->reserveDAO->getReservesByOwnerId($_SESSION["loggedUser"]->getId());
+            else {
+                $keeper = $this->keeperController->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
+                $reserveList = $this->reserveDAO->getReservesByKeeperId($keeper->getKeeperId());
+            }
+
+            //var_dump($reserveList);
+
+            $ownerList = array();
+            $keeperList = array();
+            $userKeeperList = array();
+            $petListReserve = array();
+            $petListArray = array();
+
+            foreach($reserveList as $reserve)
+            {
+                $owner = $this->userController->userDAO->getById($reserve->getIdUserOwner());
+                $keeper = $this->keeperController->keeperDAO->getById($reserve->getIdKeeper());
+                $userKeeper = $this->userController->userDAO->getById($keeper->getUserId());
+
+                array_push($ownerList, $owner);
+                array_push($keeperList, $keeper);
+                array_push($userKeeperList, $userKeeper);
+
+                foreach($reserve->getIdPets() as $idPet)
+                {
+                    array_push($petListReserve, $this->petController->petDAO->getById($idPet));
+                }
+                array_push($petListArray, $petListReserve);
+
+                if ($reserve->getReserveStatus() == 0) { $reserve->setReserveStatus("Rejected"); }
+                else if ($reserve->getReserveStatus() == 1) { $reserve->setReserveStatus("Accepted"); }
+                else { $reserve->setReserveStatus("Pending"); }
+            }
+
+            $i = 0;
+
+            if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
+			    require_once(VIEWS_PATH . "owner-reserve-list.php");
+            else {
+                require_once(VIEWS_PATH . "keeper-reserve-list.php");
+            }
 		}
 
-		public function modifyReseve()
-		{
+//        public function showReserveList($idKeeper=null, $message='')
+//		{
+//			require_once(VIEWS_PATH . "validate-session.php");
+//
+//            if($idKeeper) $reserveList=$this->reserveDAO->getReservesByKeeperId($idKeeper);
+//                else $reserveList = $this->reserveDAO->getReservesByOwnerId($_SESSION["loggedUser"]->getId());
+//
+//			require_once(VIEWS_PATH . "owner-reserve-list.php");
+//		}
 
+		public function modifyStatus($reserveId, $status) {
+            require_once(VIEWS_PATH . "validate-session.php");
 
+            $this->reserveDAO->modifyStatus($reserveId, $status);
+
+            if($status == 0) {
+                $this->showReserveList("Reserve rejected!");
+            } else
+                $this->showReserveList("Reserve accepted!");
 		}
 	}
  ?>

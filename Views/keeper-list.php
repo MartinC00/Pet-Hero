@@ -43,7 +43,7 @@
               <form action="<?php echo FRONT_ROOT . "Reserve/showPreReserve" ?>" method="post">
               <?php foreach($keeperList as $keeper)
                 {
-                    $user = $this->userController->UserDAO->getById($keeper->getUserId());
+                    $user = $this->userController->userDAO->getById($keeper->getUserId());
                   ?>
                     <tr>
                       <td><?php echo $user->getName() ?></td>
@@ -55,7 +55,7 @@
                       <td><?php echo $keeper->getPetSize() ?></td>
                       <td><?php echo $keeper->getInitialDate() ?></td>
                       <td><?php echo $keeper->getEndDate() ?></td>
-                      <td><?php foreach($keeper->getDays() as $day) echo $day ?></td>
+                      <td><?php foreach($keeper->getDays() as $day) echo $day."<br>" ?></td>
                       <td><?php echo $keeper->getPrice() ?></td>
                       <td><button type="submit" name="keeperId" value="<?php echo $keeper->getKeeperId()?>"> Hire keeper </button></td>
                     </tr>
