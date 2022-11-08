@@ -43,7 +43,7 @@
 
 
             $this->reserveDAO->add($reserve);
-            $this->userController->showHomeView("Reservation successfully booked! :) pending keeper's confirmation")
+            $this->userController->showHomeView("Reservation successfully booked! :) pending keeper's confirmation");
         }
 
         public function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
@@ -132,9 +132,8 @@
             $date1 = DateTime::createFromFormat("Y-m-d", $startDate);
             $date2 = DateTime::createFromFormat("Y-m-d", $endDate);
             $interval = $date1->diff($date2);
-            return $numberOfPets * $price * $interval->days;
+            return $numberOfPets * $price * ($interval->days+1);
         }
-
 
         public function showReserveList($message='')
 		{
@@ -143,7 +142,6 @@
 			//filtrado para owner y para keeper, mostrarles sus reservas
 			require_once(VIEWS_PATH . "reserve-list.php");
 		}
-
 
 		public function modifyReseve()
 		{
