@@ -74,6 +74,7 @@
 			$keeperList=$this->keeperDAO->getAll();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
+
 		public function showFilterListView($initialDate, $endDate) //listado filtrado por fechas que ingreso el usuario
 		{
 			require_once(VIEWS_PATH . "validate-session.php");

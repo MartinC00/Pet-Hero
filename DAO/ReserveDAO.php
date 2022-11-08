@@ -61,38 +61,58 @@
             }
         }
 
-        public function getReservesByKeeper($idKeeper) {
+        public function getReservesByKeeperId($idKeeper) {
             $reserveList = $this->getAll();
+            $reserveListFiltered = array();
 
             foreach($reserveList as $reserve)
             {
                 if($reserve->getIdKeeper()==$idKeeper)
                 {
-                    array_push($reserveList, $reserve); //lista de reservas de ESE keeper
+                    array_push($reserveListFiltered, $reserve); //lista de reservas de ESE keeper
                 }
             }
-            return $reserveList;
+            return $reserveListFiltered;
         }
 
-        public function getByOwnerId($idUserOwner)
+        public function getReservesByOwnerId($idUserOwner)
         {
             $reserveList=$this->getAll();
             $reserveListFiltered = array();
             foreach($reserveList as $reserve)
             {
-                if($reserve->getIdUserOwner()==$idUserOwner) array_push($reserveListFiltered, $reserve);
+                if($reserve->getIdUserOwner()==$idUserOwner)
+                    array_push($reserveListFiltered, $reserve);
             }
             return $reserveListFiltered;
         }
 
-        public function getByKeeperOwnerId($idKeeper, $idUserOwner)
+        public function getReservesByKeeperOwnerId($idKeeper, $idUserOwner)
         {
-            $reserveList=$this->getReservesByKeeper($idKeeper);
+            $reserveList=$this->getReservesByKeeperId($idKeeper);
             $reserveListKeeperOwner = array();
             foreach($reserveList as $reserve)
             {
-                if($reserve->getIdUserOwner()==$idUserOwner) array_push($reserveListKeeperOwner, $reserve);
+                if($reserve->getIdUserOwner()==$idUserOwner)
+                    array_push($reserveListKeeperOwner, $reserve);
             }
             return $reserveListKeeperOwner;
+        }
+
+        public function modifyStatus($reserveId, $status) {
+            $query = "CALL reserves_modifyStatus(?, ?)";
+
+            $parameters['reserveId']=$reserveId;
+            $parameters['status']=$status;
+
+            try
+            {
+                $this->connection = Connection::getInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+            }
+            catch(\PDOException $ex)
+            {
+                echo $ex->getMessage();
+            }
         }
     }

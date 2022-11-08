@@ -3,7 +3,9 @@
     include('header.php');
     include('keeper-nav-bar.php');
     require_once("validate-session.php");
-?> 
+?>
+
+<h2>Your Keeper Info!</h2>
         <form action="<?php echo FRONT_ROOT."Keeper/showModifyKeeperProfile" ?>"method="post">
           <table style="text-align:center;">
             <thead>

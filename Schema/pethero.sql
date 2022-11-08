@@ -99,6 +99,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_delete` (`idReserve` INT) 
       delete from reserves where id=idReserve;
 end$$
 
+DROP PROCEDURE IF EXISTS `reserves_modifyStatus`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_modifyStatus` (`reserveId` INT, `status` INT)  begin
+    update reserves set reserveStatus=status where id=reserveId;
+end$$
+
 DROP PROCEDURE IF EXISTS `reserves_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_getAll` ()  begin
       select * from reserves;
