@@ -42,7 +42,6 @@
             $reserve->setEndDate($endDate);
             $reserve->setTotalPrice($totalPrice);
 
-//            var_dump($reserve);
             $petTypeId = $this->petController->petDAO->getById($idPets[0])->getPetType()->getId();
             $this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
 
@@ -52,24 +51,22 @@
 
         public function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
         {
-        	$reserveList = $this->reserveDAO->getReservesByKeeper();
+            $reserveList = $this->reserveDAO->getReservesByKeeper();
 
-        	$reserveListDateFilter = array();
+            $reservesFilteredByDate = array();
 
-        	foreach($reserveList as $reserve)
-        	{
-        		if($reserve->getInitialDate() <= $initialDate && $reserve->getEndDate >= $endDate) 
-        			array_push($reserveListDateFilter, $reserve);
-        	}
+            foreach ($reserveList as $reserve) {
+                if ($reserve->getInitialDate() <= $initialDate && $reserve->getEndDate() >= $endDate)
+                    array_push($reservesFilteredByDate, $reserve);
+            }
 
-        	$reserveListPetTypeFilter = array();
-        	foreach($reserveListDateFilter as $reserve)
-        	{
-        		$petType = $this->petController->petDAO->getById($reserve->getIdPets()[0])->getPetType();
-        		if($petType->getId() == $idPetType)
-        			array_push($reserveListPetTypeFilter, $reserve);
-        	}
-
+            if (isset($reservesFilteredByDate)) {
+                $firstReserve = $reservesFilteredByDate[0];
+                $petType = $this->petController->petDAO->getById($firstReserve->getIdPets()[0])->getPetType();
+                if ($petType->getId() != $idPetType) {
+                    $this->showPreReserve($idKeeper, "This Keeper cannot take care of that kind of pet on those days.");
+                }
+            }
         }
 
 		public function remove($reserveId)
