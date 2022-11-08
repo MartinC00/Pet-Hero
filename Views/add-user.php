@@ -40,3 +40,6 @@
 
 	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
 </form>
+<form action="<?php echo FRONT_ROOT ."Home/Index" ?>" method="get">
+    <input type="submit" value="Return">
+</form>

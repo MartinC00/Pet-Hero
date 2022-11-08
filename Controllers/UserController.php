@@ -125,7 +125,7 @@
 			{
 				$this->UserDAO->modify($user);
 				$_SESSION["loggedUser"]=$user;
-				$this->showHomeView();
+				$this->showHomeView("Profile modified !");
 			}			
 		}
 
@@ -143,7 +143,7 @@
         	require_once(VIEWS_PATH . "modify-user-profile.php");
         }
 
-		public function showHomeView()
+		public function showHomeView($message='')
 		{
 			if($_SESSION["loggedUser"]->getUserType()->getId() === 1) require_once(VIEWS_PATH . "owner-home.php");
 			else require_once(VIEWS_PATH . "keeper-home.php");
