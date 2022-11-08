@@ -1,7 +1,7 @@
 <?php
-require_once("validate-session.php");
-include('header.php');
-include('owner-nav-bar.php');
+    require_once("validate-session.php");
+    include('header.php');
+    include('owner-nav-bar.php');
 ?>
 
 <h2> Please check the reservation info</h2>
@@ -12,7 +12,7 @@ include('owner-nav-bar.php');
         <thead>
         <tr>
             <th>Name</th>
-            <th>Specie</th>
+            <th>Pet Type</th>
         </tr>
         </thead>
         <tbody>
