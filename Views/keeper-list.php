@@ -1,7 +1,7 @@
 <?php
+    require_once("validate-session.php");
     include('header.php');
     include('owner-nav-bar.php');
-    require_once("validate-session.php");
 ?>
 
 <table style="text-align:center;">

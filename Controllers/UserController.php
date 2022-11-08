@@ -51,7 +51,7 @@
 					$this->showAddView();
 				}
 			}
-			else showAddView("Incorrect user type, please select right");
+			else $this->showAddView("Incorrect user type, please select right");
 		}
 		
 		public function showAddView($message='')
