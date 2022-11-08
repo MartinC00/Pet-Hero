@@ -6,11 +6,12 @@
 	{
 		private $id;
 		private $idUserOwner;
-		private $idKeeper; //o bien el idUserKeeper
-		private $idPets; //array, ojo, CHECK petType (que no se mezclen perros y gatos, pero si muchos perros o muchos gatos)
+		private $idKeeper;
+		private $idPets;
 		private $initialDate;
 		private $endDate; 
-		private $totalPrice; //count array fechas * keeper.price (per day)
+		private $totalPrice;
+		private $reserveStatus;
 
 	    public function getIdUserOwner()
 	    {
@@ -95,5 +96,17 @@
 
             return $this;
         }
-    }
+
+	    public function getReserveStatus()
+	    {
+	        return $this->reserveStatus;
+	    }
+
+	    public function setReserveStatus($reserveStatus)
+	    {
+	        $this->reserveStatus = $reserveStatus;
+
+	        return $this;
+	    }
+	}
  ?>

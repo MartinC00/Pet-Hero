@@ -6,6 +6,7 @@
 	use Models\User;
 	use Models\Keeper;
 	use Models\Pet;
+    use Models\ReserveStatus;
 	use Controllers\PetController;
 	use Controllers\KeeperController;
 	use Controllers\UserController;
@@ -41,17 +42,49 @@
             $reserve->setInitialDate($initialDate);
             $reserve->setEndDate($endDate);
             $reserve->setTotalPrice($totalPrice);
+            $reserve->setReserveStatus(ReserveStatus::Pending);
 
             $petTypeId = $this->petController->petDAO->getById($idPets[0])->getPetType()->getId();
-            $this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
-
-            $this->reserveDAO->add($reserve);
-            $this->userController->showHomeView("Reservation successfully booked! :) pending keeper's confirmation");
+            $check=$this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
+            if($check)
+            {
+                $check=$this->checkReserveExists($idPets, $initialDate, $endDate, $idKeeper);
+                if(!$check)
+                {
+                    $this->reserveDAO->add($reserve);
+                    $this->userController->showHomeView("Reservation successfully booked! :) pending keeper's confirmation");
+                }
+                else $this->showPreReserve($idKeeper, "You already have a reservation booked for that pet on those days");
+            }
+            else $this->showPreReserve($idKeeper, "This Keeper cannot take care of that kind of pet on those days.");
         }
 
-        public function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
+        private function checkReserveExists($idPets, $initialDate, $endDate, $idKeeper)
         {
-            $reserveList = $this->reserveDAO->getReservesByKeeper();
+            $reserveList = $this->reserveDAO->getByKeeperOwnerId($idKeeper, $_SESSION["loggedUser"]->getId());
+            $reservesFiltered = array();
+
+            foreach ($reserveList as $reserve) 
+            {
+                if ($reserve->getInitialDate() <= $initialDate && $reserve->getEndDate() >= $endDate)
+                {
+                    if(array_intersect($reserve->getIdPets(), $idPets)) return true;
+                    /*
+                    foreach($reserve->getIdPets() as $idPetReserve)
+                    {
+                        foreach($idPets as $idPetOwner)
+                        {
+                            if($idPetOwner == $idPetReserve) return true;
+                        }
+                    }*/
+                }
+            }
+            return false;
+        }
+
+        private function checkReserve($idKeeper, $idPetType, $initialDate, $endDate)
+        {
+            $reserveList = $this->reserveDAO->getReservesByKeeper($idKeeper);
 
             $reservesFilteredByDate = array();
 
@@ -60,13 +93,13 @@
                     array_push($reservesFilteredByDate, $reserve);
             }
 
-            if (isset($reservesFilteredByDate)) {
+            if ($reservesFilteredByDate) {
                 $firstReserve = $reservesFilteredByDate[0];
                 $petType = $this->petController->petDAO->getById($firstReserve->getIdPets()[0])->getPetType();
-                if ($petType->getId() != $idPetType) {
-                    $this->showPreReserve($idKeeper, "This Keeper cannot take care of that kind of pet on those days.");
-                }
+                if ($petType->getId() != $idPetType) return false;                   
+                
             }
+            return true;
         }
 
 		public function remove($reserveId)
@@ -141,11 +174,13 @@
             return $numberOfPets * $price * ($interval->days+1);
         }
 
-        public function showReserveList($message='')
+        public function showReserveList($idKeeper=null, $message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
-			$reserveList=$this->reserveDAO->getAll();
-			//filtrado para owner y para keeper, mostrarles sus reservas
+            
+            if($idKeeper) $reserveList=$this->reserveDAO->getReservesByKeeper($idKeeper);
+                else $reserveList = $this->reserveDAO->getByOwnerId($_SESSION["loggedUser"]->getId());
+                
 			require_once(VIEWS_PATH . "reserve-list.php");
 		}
 
