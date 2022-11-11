@@ -109,6 +109,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_getAll` ()  begin
       select * from reserves;
 end$$
 
+DROP PROCEDURE IF EXISTS `reserves_for_keeper`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_keeper` (`idKeeper_` INT)  begin
+    select r.id, u.name, p.name as petName, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idUserOwner and r.idKeeper=idKeeper_ inner join pets p on p.id in (r.idPets);
+end$$
+
+DROP PROCEDURE IF EXISTS `reserves_for_owner`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_owner` (`idUserOwner_` INT)  begin
+    select r.id, u.name, p.name as petName, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idKeeper and r.idUserOwner=idUserOwner_ inner join pets p on p.id in (r.idPets);
+end$$
+
 DROP PROCEDURE IF EXISTS `Users_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Users_add` (`username_` VARCHAR(30), `password_` VARCHAR(30), `name_` VARCHAR(20), `lastname_` VARCHAR(20), `dni_` VARCHAR(10), `phone_` VARCHAR(15), `email_` VARCHAR(50), `userTypeId_` INT)  begin
   INSERT INTO Users (username, password, name, lastname, dni, phone, email, userTypeId) 
@@ -126,6 +136,10 @@ DROP PROCEDURE IF EXISTS `UserTypes_getById`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UserTypes_getById` (`idUserType` INT)  begin
   select * from UserTypes where id=idUserType;
 end$$
+
+
+
+
 
 DELIMITER ;
 
