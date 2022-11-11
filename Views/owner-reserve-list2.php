@@ -21,18 +21,14 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($reserveList as $reserve) { ; ?>
+        <?php foreach($reserveList as $row) { ?>
         <tr>
-            <td><?php echo $reserve->getId()?></td>
-            <td><?php echo $userKeeperList[$i]->getName()?></td>
-            <td>
-                <?php foreach($petListArray[$i++] as $pet) {
-                    echo $pet->getName();
-                } ?>
-            </td>
-            <td><?php echo $reserve->getInitialDate()?></td>
-            <td><?php echo $reserve->getEndDate()?></td>
-            <td><?php echo $reserve->getTotalPrice()?></td>
+            <td><?php echo $row["id"] ?></td>
+            <td><?php echo $row["name"]?></td>
+            <td><?php echo $row["petName"]?> </td>
+            <td><?php echo $row["initialDate"]?></td>
+            <td><?php echo $row["endDate"]?></td>
+            <td><?php echo $row["totalPrice"]?></td>
             <td><?php if($row["reserveStatus"] == 2) echo "Pending"; 
                         else if($row["reserveStatus"] == 1) echo "Accepted";
                             else echo "Rejected" ?></td>

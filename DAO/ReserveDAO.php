@@ -40,6 +40,7 @@
             try{            
                 $this->connection = Connection::GetInstance();
                 $result = $this->connection->Execute($query);
+                
                 foreach($result as $row)
                 {
                     $reserve = new Reserve();
@@ -109,6 +110,49 @@
             {
                 $this->connection = Connection::getInstance();
                 $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+            }
+            catch(\PDOException $ex)
+            {
+                echo $ex->getMessage();
+            }
+        }
+
+        public function getReservesForKeeper($id)
+        {
+            $query = "CALL reserves_for_keeper(?)";
+            $parameters['idKeeper_']=$id;
+            $reserveList=array();
+            try
+            {
+                $this->connection = Connection::getInstance();
+                $result=$this->connection->Execute($query, $parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+
+                foreach($result as $row)
+                {
+                    array_push($reserveList, $row);
+                }
+                return $reserveList;
+            }
+            catch(\PDOException $ex)
+            {
+                echo $ex->getMessage();
+            }
+        }
+        public function getReservesForOwner()
+        {
+            $query = "CALL reserves_for_keeper(?)";
+            $parameters['idUserOwner_']=$_SESSION['loggedUser']->getId();
+            $reserveList=array();
+            try
+            {
+                $this->connection = Connection::getInstance();
+                $result=$this->connection->Execute($query, $parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+
+                foreach($result as $row)
+                {
+                    array_push($reserveList, $row);
+                }
+                return $reserveList;
             }
             catch(\PDOException $ex)
             {
