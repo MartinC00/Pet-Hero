@@ -3,10 +3,18 @@
     namespace DAO;
 
     use Models\Reserve;
+    use Models\Pet;
+    use DAO\PetDAO;
 
     class ReserveDAO implements IReserveDAO
     {
         private $connection;
+        private $petDAO;
+
+        public function __construct()
+        {
+            $this->petDAO = new PetDAO();
+        }
 
         public function add($reserve)
         {
@@ -117,6 +125,20 @@
             }
         }
 
+        public function getReserveRowToShow($row)
+        {
+            $petsIdList = array();
+            $petNameList=array();
+            $petsIdList=explode("," , $row["idPets"]);
+            foreach($petsIdList as $id)
+            {
+                $pet=$this->petDAO->getById($id);
+                array_push($petNameList, $pet->getName()." ");
+            }
+            $row["petNameList"]=$petNameList;
+            return $row;
+        }
+
         public function getReservesForKeeper($id)
         {
             $query = "CALL reserves_for_keeper(?)";
@@ -129,7 +151,7 @@
 
                 foreach($result as $row)
                 {
-                    array_push($reserveList, $row);
+                    array_push($reserveList, $this->getReserveRowToShow($row));
                 }
                 return $reserveList;
             }
@@ -138,6 +160,7 @@
                 echo $ex->getMessage();
             }
         }
+
         public function getReservesForOwner()
         {
             $query = "CALL reserves_for_keeper(?)";
@@ -150,7 +173,7 @@
 
                 foreach($result as $row)
                 {
-                    array_push($reserveList, $row);
+                    array_push($reserveList, $this->getReserveRowToShow($row));
                 }
                 return $reserveList;
             }

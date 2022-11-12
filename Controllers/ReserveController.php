@@ -108,32 +108,43 @@
 			$message=$this->reserveDAO->delete($reserveId);
 			$this->showReserveList($message);
 		}
+        public function checkKeeperDisponibility($startDate, $endDate, $idKeeper)
+        {
+			require_once(VIEWS_PATH . "validate-session.php");
+            $keeper=$this->keeperController->keeperDAO->getById($idKeeper);
+            if($startDate < $keeper->getInitialDate() || $endDate > $keeper->getEndDate()) return 1;
+            else return 0;
+        }
 
 		public function showAddView($idPets, $startDate, $endDate, $idKeeper, $price)
 		{
-			require_once(VIEWS_PATH . "validate-session.php");
+            require_once(VIEWS_PATH . "validate-session.php");
             $check = $this->keeperController->datesCheck($startDate, $endDate);
 
             if($check == 1) { $this->showPreReserve($idKeeper, "Initial Date must be previous to End Date"); }
 			else if ($check == 2) { $this->showPreReserve($idKeeper, "Initial Date mustn't be previous to current date"); }
 			else
 			{
-                $petList = array();
-
-                foreach ($idPets as $petId) {
-                    $pet = $this->petController->petDAO->getById($petId);
-                    array_push($petList, $pet);
-                }
-
-                if($this->checkPetType($petList, $idKeeper)) {
-                    if ($this->checkPetSize($petList, $idKeeper)) {
-                        $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
-                        require_once(VIEWS_PATH . "add-reserve.php");
-                    } else
-                        $this->showPreReserve($idKeeper, "Please select pets that have a matching size with Keeper size");
-                }
+                $checkDisponibility = $this->checkKeeperDisponibility($startDate, $endDate, $idKeeper);
+                if($checkDisponibility == 1) $this->showPreReserve($idKeeper, "Selected dates are out of keeper's disponibility");
                 else
-                    $this->showPreReserve($idKeeper, "Pets should be from same pet-type");
+                {                    
+                    $petList = array();
+                    foreach ($idPets as $petId) {
+                        $pet = $this->petController->petDAO->getById($petId);
+                        array_push($petList, $pet);
+                    }
+
+                    if($this->checkPetType($petList, $idKeeper)) {
+                        if ($this->checkPetSize($petList, $idKeeper)) {
+                            $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
+                            require_once(VIEWS_PATH . "add-reserve.php");
+                        } else
+                            $this->showPreReserve($idKeeper, "Please select pets that have a matching size with Keeper size");
+                    }
+                    else
+                        $this->showPreReserve($idKeeper, "Pets should be from same pet-type");
+                }
 			}
 		}
 
@@ -229,28 +240,15 @@
             if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
             {
                 $reserveList = $this->reserveDAO->getReservesForOwner();
-
                 require_once(VIEWS_PATH . "owner-reserve-list2.php");
             }
             else 
             {
                 $keeper = $this->keeperController->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
                 $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
-
                 require_once(VIEWS_PATH . "keeper-reserve-list2.php");
             }
         }
-
-
-//        public function showReserveList($idKeeper=null, $message='')
-//		{
-//			require_once(VIEWS_PATH . "validate-session.php");
-//
-//            if($idKeeper) $reserveList=$this->reserveDAO->getReservesByKeeperId($idKeeper);
-//                else $reserveList = $this->reserveDAO->getReservesByOwnerId($_SESSION["loggedUser"]->getId());
-//
-//			require_once(VIEWS_PATH . "owner-reserve-list.php");
-//		}
 
 		public function modifyStatus($reserveId, $status) {
             require_once(VIEWS_PATH . "validate-session.php");

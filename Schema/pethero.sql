@@ -111,12 +111,12 @@ end$$
 
 DROP PROCEDURE IF EXISTS `reserves_for_keeper`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_keeper` (`idKeeper_` INT)  begin
-    select r.id, u.name, p.name as petName, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idUserOwner and r.idKeeper=idKeeper_ inner join pets p on p.id in (r.idPets);
+    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idUserOwner and r.idKeeper=idKeeper_;
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_for_owner`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_owner` (`idUserOwner_` INT)  begin
-    select r.id, u.name, p.name as petName, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idKeeper and r.idUserOwner=idUserOwner_ inner join pets p on p.id in (r.idPets);
+    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idKeeper and r.idUserOwner=idUserOwner_ ;
 end$$
 
 DROP PROCEDURE IF EXISTS `Users_add`$$
