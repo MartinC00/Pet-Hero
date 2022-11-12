@@ -26,7 +26,7 @@
         <tr>
             <td><?php echo $row["id"] ?></td>
             <td><?php echo $row["name"]?></td>
-            <td><?php echo $row["petName"]?> </td>
+            <td><?php foreach ($row["petNameList"] as $petName) echo $petName?> </td>
             <td><?php echo $row["initialDate"]?></td>
             <td><?php echo $row["endDate"]?></td>
             <td><?php echo $row["totalPrice"]?></td>

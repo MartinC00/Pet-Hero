@@ -229,14 +229,12 @@
             if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
             {
                 $reserveList = $this->reserveDAO->getReservesForOwner();
-
                 require_once(VIEWS_PATH . "owner-reserve-list2.php");
             }
             else 
             {
                 $keeper = $this->keeperController->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
                 $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
-
                 require_once(VIEWS_PATH . "keeper-reserve-list2.php");
             }
         }
