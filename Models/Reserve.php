@@ -12,6 +12,7 @@
 		private $endDate; 
 		private $totalPrice;
 		private $reserveStatus;
+		private $paymentStatus;
 
 	    public function getIdUserOwner()
 	    {
@@ -105,6 +106,18 @@
 	    public function setReserveStatus($reserveStatus)
 	    {
 	        $this->reserveStatus = $reserveStatus;
+
+	        return $this;
+	    }
+
+	    public function getPaymentStatus()
+	    {
+	        return $this->paymentStatus;
+	    }
+
+	    public function setPaymentStatus($paymentStatus)
+	    {
+	        $this->paymentStatus = $paymentStatus;
 
 	        return $this;
 	    }

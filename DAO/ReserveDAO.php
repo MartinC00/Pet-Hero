@@ -18,7 +18,7 @@
 
         public function add($reserve)
         {
-            $query = "CALL reserves_add(?, ?, ?, ?, ?, ?, ?)";
+            $query = "CALL reserves_add(?, ?, ?, ?, ?, ?, ?, ?)";
 
             $parameters['idUserOwner_']=$reserve->getIdUserOwner();
             $parameters['idKeeper_']=$reserve->getIdKeeper();
@@ -27,6 +27,7 @@
             $parameters['endDate_']=$reserve->getEndDate();
             $parameters['totalPrice_']=$reserve->getTotalPrice();    
             $parameters['reserveStatus_']=$reserve->getReserveStatus();    
+            $parameters['paymentStatus_']=$reserve->getPaymentStatus();    
 
 
             try
@@ -48,7 +49,7 @@
             try{            
                 $this->connection = Connection::GetInstance();
                 $result = $this->connection->Execute($query);
-                
+
                 foreach($result as $row)
                 {
                     $reserve = new Reserve();
@@ -60,8 +61,9 @@
                     $reserve->setEndDate($row["endDate"]);
                     $reserve->setTotalPrice($row["totalPrice"]);
                     $reserve->setReserveStatus($row["reserveStatus"]);
+                    $reserve->setPaymentStatus($row["paymentStatus"]);
                     
-                    array_push($reserveList, $reserve);
+                    array_push($reserveList, $reserve); 
                 }
                 return $reserveList;
             }
@@ -69,7 +71,15 @@
                 echo $ex->getMessage();
             }
         }
-
+        public function getById($id)
+        {
+            $reserveList=$this->getAll();
+            foreach($reserveList as $reserve)
+            {
+                if($reserve->getId()==$id) return $reserve;
+            }
+            return null;
+        }
         public function getReservesByKeeperId($idKeeper) {
             $reserveList = $this->getAll();
             $reserveListFiltered = array();
@@ -125,6 +135,24 @@
             }
         }
 
+        public function modifyPayment($reserveId, $paymentStatus)
+        {
+            $query = "CALL reserves_modifyStatus(?, ?)";
+
+            $parameters['reserveId']=$reserveId;
+            $parameters['status']=$paymentStatus;
+
+            try
+            {
+                $this->connection = Connection::getInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+            }
+            catch(\PDOException $ex)
+            {
+                echo $ex->getMessage();
+            }
+        }
+
         public function getReserveRowToShow($row)
         {
             $petsIdList = array();
@@ -163,7 +191,7 @@
 
         public function getReservesForOwner()
         {
-            $query = "CALL reserves_for_keeper(?)";
+            $query = "CALL reserves_for_owner(?)";
             $parameters['idUserOwner_']=$_SESSION['loggedUser']->getId();
             $reserveList=array();
             try
