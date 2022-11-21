@@ -7,9 +7,11 @@
 	use Models\Keeper;
 	use Models\Pet;
     use Models\ReserveStatus;
+    use Models\PaymentStatus;
 	use Controllers\PetController;
 	use Controllers\KeeperController;
 	use Controllers\UserController;
+    use Controllers\MailController;
 	use DAO\UserDAO;
 	use DAO\KeeperDAO;
 	use DAO\PetDAO;
@@ -21,6 +23,7 @@
 		private $petController;
 		private $keeperController;
 		private $userController;
+        private $mailController;
 
 		public function __construct()
 		{
@@ -28,6 +31,7 @@
 			$this->petController = new PetController();
 			$this->userController = new UserController();
 			$this->keeperController = new KeeperController();
+            $this->mailController = new MailController();
 		}
 
 		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice)
@@ -43,6 +47,7 @@
             $reserve->setEndDate($endDate);
             $reserve->setTotalPrice($totalPrice);
             $reserve->setReserveStatus(ReserveStatus::Pending);
+            $reserve->setPaymentStatus(PaymentStatus::Unpayed);
 
             $petTypeId = $this->petController->petDAO->getById($idPets[0])->getPetType()->getId();
             $check=$this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
@@ -256,9 +261,21 @@
             $this->reserveDAO->modifyStatus($reserveId, $status);
 
             if($status == 0) {
-                $this->showReserveList("Reserve rejected!");
+                $this->showReserveList2("Reserve rejected!");
             } else
-                $this->showReserveList("Reserve accepted!");
+            {
+                $reserve=$this->reserveDAO->getById($reserveId);
+                $owner=$this->userController->userDAO->getById($reserve->getIdUserOwner());
+                $this->mailController->sendEmail($reserveId, $owner->getEmail());
+                $this->showReserveList2("Reserve accepted!");
+            }
 		}
+
+        public function payReserveSign($id)
+        {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
+            $this->showReserveList2("Sign Payed!");
+        }
 	}
  ?>

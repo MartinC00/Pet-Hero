@@ -36,7 +36,7 @@
             <?php if($row["reserveStatus"] == 2) { ?>
                 <td>
                     <form action="<?php echo FRONT_ROOT."Reserve/modifyStatus" ?>" method="post">
-                        <input type="hidden" name="reserveId" value="<?php echo $row["reserveStatus"]?>">
+                        <input type="hidden" name="reserveId" value="<?php echo $row["id"]?>">
                         <button type="submit" name="status" value="1"> ACCEPT </button>
                         <button type="submit" name="status" value="0"> REJECT </button>
                     </form>

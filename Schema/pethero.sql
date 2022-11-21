@@ -88,9 +88,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_getById` (`idPetType` INT)
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_add`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_add` (`idUserOwner_` INT, `idKeeper_` INT, `idPets_` VARCHAR(15), `initialDate_` DATE, `endDate_` DATE, `totalPrice_` INT(6), `reserveStatus_` INT(1))  begin
-  insert into reserves (idUserOwner, idKeeper, idPets, initialDate ,endDate ,totalPrice, reserveStatus) 
-    VALUES (idUserOwner_, idKeeper_ , idPets_ , initialDate_ ,endDate_ ,totalPrice_ , reserveStatus_ );
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_add` (`idUserOwner_` INT, `idKeeper_` INT, `idPets_` VARCHAR(15), `initialDate_` DATE, `endDate_` DATE, `totalPrice_` INT(6), `reserveStatus_` INT(1), `paymentStatus_` INT(1))  begin
+  insert into reserves (idUserOwner, idKeeper, idPets, initialDate ,endDate ,totalPrice, reserveStatus, paymentStatus) 
+    VALUES (idUserOwner_, idKeeper_ , idPets_ , initialDate_ ,endDate_ ,totalPrice_ , reserveStatus_ , paymentStatus_);
     select LAST_INSERT_ID() from reserves;
 end$$
 
@@ -104,6 +104,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_modifyStatus` (`reserveId`
     update reserves set reserveStatus=status where id=reserveId;
 end$$
 
+DROP PROCEDURE IF EXISTS `reserves_modifyPayment`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_modifyPayment` (`reserveId` INT, `status` INT)  begin
+    update reserves set paymentStatus=status where id=reserveId;
+end$$
+
 DROP PROCEDURE IF EXISTS `reserves_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_getAll` ()  begin
       select * from reserves;
@@ -111,12 +116,12 @@ end$$
 
 DROP PROCEDURE IF EXISTS `reserves_for_keeper`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_keeper` (`idKeeper_` INT)  begin
-    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idUserOwner and r.idKeeper=idKeeper_;
-end$$
+    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus, r.paymentStatus from reserves r inner join users u on u.id=idKeeper_;
+end$$ 
 
 DROP PROCEDURE IF EXISTS `reserves_for_owner`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_for_owner` (`idUserOwner_` INT)  begin
-    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus from reserves r inner join users u on u.id=r.idKeeper and r.idUserOwner=idUserOwner_ ;
+    select r.id, u.name, r.idPets, r.initialDate, r.endDate, r.totalPrice, r.reserveStatus, r.paymentStatus from reserves r inner join users u on u.id=idUserOwner_;
 end$$
 
 DROP PROCEDURE IF EXISTS `Users_add`$$
@@ -257,16 +262,9 @@ CREATE TABLE IF NOT EXISTS `reserves` (
   `endDate` date NOT NULL,
   `totalPrice` int(6) NOT NULL,
   `reserveStatus` int(1) NOT NULL,
+  `paymentStatus` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `reserves`
---
-
-INSERT INTO `reserves` (`id`, `idUserOwner`, `idKeeper`, `idPets`, `initialDate`, `endDate`, `totalPrice`, `reserveStatus`) VALUES
-(2, 1, 1, '5', '2022-11-08', '2022-11-15', 4000, 2),
-(5, 1, 1, '7', '2022-11-09', '2022-11-15', 3500, 2);
 
 -- --------------------------------------------------------
 
@@ -321,17 +319,6 @@ INSERT INTO `usertypes` (`id`, `nameType`) VALUES
 (2, 'Keeper');
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `videos`
---
-
-DROP TABLE IF EXISTS `videos`;
-CREATE TABLE IF NOT EXISTS `videos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

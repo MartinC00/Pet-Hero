@@ -18,6 +18,7 @@
             <th><label for="">To</label></th>
             <th><label for="">Total Amount</label></th>
             <th><label for="">Status</label></th>
+            <th><label for="">Payment</label></th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +33,13 @@
             <td><?php if($row["reserveStatus"] == 2) echo "Pending"; 
                         else if($row["reserveStatus"] == 1) echo "Accepted";
                             else echo "Rejected" ?></td>
+            <td><?php if($row["paymentStatus"] == 2) echo "Payed"; 
+                        else if($row["paymentStatus"] == 1) echo "Signed";
+                            else echo "Unpayed" ?> </td>
+
+            <form action="<?php echo FRONT_ROOT . "Reserve/payReserveSign" ?>"></form>
+            <?php if($row["reserveStatus"] == 1) { ?> <td><button type="submit" value="<?php echo $row["id"] ?>">PAY CUPON</button> </td> 
         </tr>
-        <?php } ?>
+        <?php } } ?>
     </tbody>
 </table>
