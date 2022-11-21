@@ -142,8 +142,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UserTypes_getById` (`idUserType` IN
   select * from UserTypes where id=idUserType;
 end$$
 
+DROP PROCEDURE IF EXISTS `coupons_add`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `coupons_add` (`idReserve_` INT, `code_` VARCHAR(20))  begin
+  insert into coupons (idReserve, code)
+    VALUES (idReserve_, code_);
+select LAST_INSERT_ID() from coupons;
+end$$
 
-
+DROP PROCEDURE IF EXISTS `coupons_getAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `coupons_getAll` ()  begin
+select * from coupons;
+end$$
 
 
 DELIMITER ;
@@ -294,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `lastname`, `dni`, `phone`, `email`, `userTypeId`) VALUES
-(1, 'owner', '123', 'asd', 'asd', '12345677', '2235663251', 'alguito@gmail.com', 1),
+(1, 'owner', '123', 'asd', 'asd', '12345677', '2235663251', 'cabreramartin403@gmail.com', 1),
 (2, 'keeper', '123', 'john', 'asd', '12345678', '2235663251', 'algo@gmail.com', 2);
 
 -- --------------------------------------------------------
@@ -319,6 +328,18 @@ INSERT INTO `usertypes` (`id`, `nameType`) VALUES
 (2, 'Keeper');
 
 -- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `coupons`
+--
+
+DROP TABLE IF EXISTS `coupons`;
+CREATE TABLE IF NOT EXISTS `coupons` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `idReserve` INT NOT NULL,
+    `code` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
