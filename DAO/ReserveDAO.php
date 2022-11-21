@@ -29,11 +29,10 @@
             $parameters['reserveStatus_']=$reserve->getReserveStatus();    
             $parameters['paymentStatus_']=$reserve->getPaymentStatus();    
 
-
             try
             {
                 $this->Connection = Connection::getInstance();
-                return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure); //Me va a retornar filas afectadas, y si le pongo true, el ultimo id insertado
+                return $this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure);
             }
             catch(\PDOException $ex)
             {
@@ -71,6 +70,7 @@
                 echo $ex->getMessage();
             }
         }
+
         public function getById($id)
         {
             $reserveList=$this->getAll();

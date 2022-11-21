@@ -6,8 +6,6 @@
     use Models\Reserve;
 ?>
 
-<?php if(isset($message)) echo $message ?>
-
 <table style="text-align: center">
     <thead>
         <tr>
@@ -48,3 +46,5 @@
         <?php } ?>
     </tbody>
 </table>
+
+<?php if(isset($message)) echo $message ?>

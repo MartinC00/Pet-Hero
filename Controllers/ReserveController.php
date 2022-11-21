@@ -238,7 +238,7 @@
 		}
 
 
-        public function showReserveList2()
+        public function showReserveList2($message = "")
         {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -266,8 +266,8 @@
             {
                 $reserve=$this->reserveDAO->getById($reserveId);
                 $owner=$this->userController->userDAO->getById($reserve->getIdUserOwner());
-                $this->mailController->sendEmail($reserveId, $owner->getEmail());
-                $this->showReserveList2("Reserve accepted!");
+                $this->mailController->sendEmail($reserveId, $owner->getName(), $owner->getEmail());
+                $this->showReserveList2("Reserve accepted! Payment coupon sent to the owner.");
             }
 		}
 
