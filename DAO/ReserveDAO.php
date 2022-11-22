@@ -137,7 +137,7 @@
 
         public function modifyPayment($reserveId, $paymentStatus)
         {
-            $query = "CALL reserves_modifyStatus(?, ?)";
+            $query = "CALL reserves_modifyPayment(?, ?)";
 
             $parameters['reserveId']=$reserveId;
             $parameters['status']=$paymentStatus;
