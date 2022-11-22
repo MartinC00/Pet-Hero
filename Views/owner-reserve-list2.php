@@ -54,7 +54,7 @@
             <form action="<?php echo FRONT_ROOT . "Reserve/payReserveSign" ?>">
                 <td><input type="number" name="id" required> </td>
                 <td><input type="text" name="code" required></td>
-                <td><button type="submit" >PAY</button></td>
+                <td><button type="submit" >PAY RESERVE</button></td>
             </form>
         </tr>
     </tbody>

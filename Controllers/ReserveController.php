@@ -26,7 +26,7 @@
 		private $userController;
         private $mailController;
         private $couponController;
-
+        
 		public function __construct()
 		{
 			$this->reserveDAO = new ReserveDAO();
