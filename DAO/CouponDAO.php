@@ -46,4 +46,14 @@ class CouponDAO
             echo $ex->getMessage();
         }
     }
+    public function getByReserveId($id)
+    {
+        $couponList=$this->getAll();
+
+        foreach($couponList as $coupon)
+        {
+            if($coupon->getIdReserve()==$id) return $coupon;
+        }
+        return null;
+    }
 }

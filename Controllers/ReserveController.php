@@ -12,6 +12,7 @@
 	use Controllers\KeeperController;
 	use Controllers\UserController;
     use Controllers\MailController;
+    use Controllers\CouponController;
 	use DAO\UserDAO;
 	use DAO\KeeperDAO;
 	use DAO\PetDAO;
@@ -24,6 +25,7 @@
 		private $keeperController;
 		private $userController;
         private $mailController;
+        private $couponController;
 
 		public function __construct()
 		{
@@ -32,6 +34,7 @@
 			$this->userController = new UserController();
 			$this->keeperController = new KeeperController();
             $this->mailController = new MailController();
+            $this->couponController = new CouponController();
 		}
 
 		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice)
@@ -271,11 +274,25 @@
             }
 		}
 
-        public function payReserveSign($id)
+        public function payReserveSign($id, $code)
         {
             require_once(VIEWS_PATH . "validate-session.php");
-            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
-            $this->showReserveList2("Sign Payed!");
+            $reserve=$this->reserveDAO->getById($id);
+            if($reserve)
+            {
+                $coupon=$this->couponController->couponDAO->getByReserveId($id);
+                if($reserve->getPaymentStatus()!= PaymentStatus::Signed)
+                {
+                    if($coupon->getCode()==$code)
+                    {
+                        $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
+                        $this->showReserveList2("Sign Payed!");
+                    }
+                    else $this->showReserveList2("Incorrect coupon code! Please check");
+
+                }else $this->showReserveList2("Reserve already signed!");
+            }
+            else $this->showReserveList2("Incorrect reserve number! Please check");  
         }
 	}
  ?>
