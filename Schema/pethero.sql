@@ -154,6 +154,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `coupons_getAll` ()  begin
 select * from coupons;
 end$$
 
+DROP PROCEDURE IF EXISTS `chats_add`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_add` (`idUserOwner_` INT, `idUserKeeper_` INT, `status_` INT)  begin
+  insert into chats (idUserOwner, idUserKeeper, status)
+    VALUES (idUserOwner_, idUserKeeper_, status_);
+select LAST_INSERT_ID() from chats;
+end$$
+
+DROP PROCEDURE IF EXISTS `messages_add`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
+  insert into messages (idSender, message, date)
+    VALUES (idSender_, message_, date_);
+select LAST_INSERT_ID() from messages;
+end$$
 
 DELIMITER ;
 
@@ -258,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `reserves` (
   `reserveStatus` int(1) NOT NULL,
   `paymentStatus` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -323,6 +336,30 @@ CREATE TABLE IF NOT EXISTS `coupons` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `idReserve` INT NOT NULL,
     `code` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `chats`
+--
+
+DROP TABLE IF EXISTS `chats`;
+CREATE TABLE IF NOT EXISTS `chats` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `idUserOwner` INT NOT NULL,
+    `idUserKeeper` INT NOT NULL,
+    `status` BOOL NOT NULL,
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+DROP TABLE IF EXISTS `messages`;
+CREATE TABLE IF NOT EXISTS `messages` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `idSender` INT NOT NULL,
+    `message` VARCHAR(100) NOT NULL,
+    `date` DATETIME NOT NULL,
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
