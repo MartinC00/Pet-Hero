@@ -160,21 +160,6 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `images`
---
-
-DROP TABLE IF EXISTS `images`;
-CREATE TABLE IF NOT EXISTS `images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(5) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `photo` mediumblob NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `keepers`
 --
 
@@ -273,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `reserves` (
   `reserveStatus` int(1) NOT NULL,
   `paymentStatus` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
