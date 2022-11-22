@@ -27,8 +27,7 @@
         private $mailController;
         private $couponController;
         
-		public function __construct()
-		{
+		public function __construct() {
 			$this->reserveDAO = new ReserveDAO();
 			$this->petController = new PetController();
 			$this->userController = new UserController();
@@ -37,8 +36,7 @@
             $this->couponController = new CouponController();
 		}
 
-		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice)
-        {
+		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice) {
             require_once(VIEWS_PATH . "validate-session.php");
             $reserve = new Reserve();
 
