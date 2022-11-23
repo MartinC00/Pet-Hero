@@ -6,7 +6,7 @@ class Chat {
     private $id;
     private $idUserOwner;
     private $idUserKeeper;
-    private $status; // bool
+    private $status;
 
     public function getId()
     {

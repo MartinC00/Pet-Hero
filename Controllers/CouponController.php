@@ -15,6 +15,7 @@ class CouponController
     }
 
     public function add($idReserve) {
+        require_once(VIEWS_PATH."validate-session.php");
         $coupon = new Coupon();
 
         $coupon->setIdReserve($idReserve);

@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `pethero`
 --
+drop database if EXISTS pethero;
+create database pethero;
+use pethero;
 
 DELIMITER $$
 --
@@ -36,6 +39,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `keepers_modify` (`keeperId_` INT, `
   update keepers set 
       userId=userId_, addressStreet=addressStreet_ , addressNumber=addressNumber_ , petSize=petSize_, initialDate=initialDate_, endDate=endDate_ , days=days_ , price=price_
   where keeperId=keeperId_;
+end$$
+
+DROP PROCEDURE IF EXISTS `keepers_list`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `keepers_list` ()  begin
+   select k.userId, k.keeperId, u.name, u.lastname, u.phone, u.email, k.addressStreet, k.addressNumber, k.petSize, k.initialDate, k.endDate, k.days, k.price
+   from keepers k inner join users u on u.id=k.userId;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_add`$$
@@ -159,6 +168,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_add` (`idUserOwner_` INT, `id
   insert into chats (idUserOwner, idUserKeeper, status)
     VALUES (idUserOwner_, idUserKeeper_, status_);
 select LAST_INSERT_ID() from chats;
+end$$
+
+DROP PROCEDURE IF EXISTS `chats_getAll`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getAll` ()  begin
+select * from chats;
+end$$
+
+DROP PROCEDURE IF EXISTS `chats_getByIds`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getByIds` (`idUserOwner_` INT, `idUserKeeper_` INT)  begin
+   select * from Chats where idUserOwner=idUserOwner_ and idUserKeeper=idUserKeeper_;
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_add`$$
