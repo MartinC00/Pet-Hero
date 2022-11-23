@@ -59,6 +59,32 @@
 				echo $ex->getMessage();
 			}
 		}
+		public function getFullListForOwner()
+		{
+			$chatDAO = new ChatDAO();
+			$keeperList = array();
+			$query = "CALL keepers_list()";           
+
+			try
+			{
+				$this->connection = Connection::getInstance();
+				$result=$this->connection->Execute($query, array(), QueryType::StoredProcedure); 
+				foreach($result as $row)
+				{
+					$chat=$chatDAO->getByIds($_SESSION['loggedUser']->getId(), $row["userId"]);	
+					if($chat) $row["chat"]=$chat[0];
+					else $row["chat"]=null;
+					array_push($keeperList, $row);
+				}
+				return $keeperList;
+			}
+			catch(\PDOException $ex)
+			{
+				echo $ex->getMessage();
+			}
+
+
+		}
 		
 		public function getById($id)
         {

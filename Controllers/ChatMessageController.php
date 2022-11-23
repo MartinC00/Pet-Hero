@@ -17,6 +17,7 @@
         }
 
         public function add($message) {
+            require_once(VIEWS_PATH."validate-session.php");
             $chat = new ChatMessage();
 
             $chat->setIdSender($_SESSION["loggedUser"]->getId());
