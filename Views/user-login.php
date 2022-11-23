@@ -1,5 +1,7 @@
-<h1>PET HERO</h1>
-
+<?php
+    include('header.php');
+    include('guest-nav-bar.php');
+?>
 <h2>LOGIN TO MANAGE</h2>
 
 <form action="<?php echo FRONT_ROOT."Home/Login" ?>" method="post">
@@ -11,6 +13,8 @@
 </form>
 
 <h2>Not a member yet?</h2>
-<a href="<?php echo FRONT_ROOT."User/showAddView" ?>">Register</a>
+<form action="<?php echo FRONT_ROOT."User/showAddView" ?>" method="get">
+    <button type="submit">Register</button>
+</form>
 
 <?php echo $message; ?>

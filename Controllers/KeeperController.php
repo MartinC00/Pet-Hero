@@ -61,19 +61,28 @@
 			else return 0;
 
 		}
-		public function showHomeView($response='')
+		public function showHomeView($message='')
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "keeper-home.php");
 		}
 
-		public function showListView()
+		public function showListView2() //sin implementacion de chat, no va a funcionar con la keeper-list ahora
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
 			$message=''; $message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getAll();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
+
+		public function showListView($message="") //con chat
+		{
+			require_once(VIEWS_PATH . "validate-session.php");
+			$message1='';$initialDate=''; $endDate='';
+			$keeperList=$this->keeperDAO->getFullListForOwner();
+			require_once(VIEWS_PATH . "keeper-list.php");
+		}
+
 		public function showFilterListView($initialDate, $endDate) //listado filtrado por fechas que ingreso el usuario
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
@@ -130,7 +139,7 @@
 			else
 			{
 				$this->keeperDAO->modify($keeper);
-				$this->showHomeView();
+				$this->showHomeView("Keeper data modified !");
 			}
 		}
 

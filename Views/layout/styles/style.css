@@ -29,3 +29,7 @@ html, body {
     background-color: royalblue;
     color: white;
 }
+
+td, th {
+    width: 200px;
+}

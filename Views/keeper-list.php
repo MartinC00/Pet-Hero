@@ -1,7 +1,7 @@
 <?php
+    require_once("validate-session.php");
     include('header.php');
     include('owner-nav-bar.php');
-    require_once("validate-session.php");
 ?>
 
 <table style="text-align:center;">
@@ -19,6 +19,8 @@
                 <th style="width: 110px;">End Date</th>
                 <th style="width: 110px;">Days</th>
                 <th style="width: 110px;">Price</th>
+                <th style="width: 110px;">Hire!</th>
+                <th style="width: 110px;">Chat</th>
               <?php } ?>
               </tr>
             </thead>
@@ -41,27 +43,33 @@
               <?php if(isset($message)) echo $message; ?>
 
               <form action="<?php echo FRONT_ROOT . "Reserve/showPreReserve" ?>" method="post">
-              <?php foreach($keeperList as $keeper)
-                {
-                    $user = $this->userController->UserDAO->getById($keeper->getUserId());
-                  ?>
+              <?php foreach($keeperList as $keeper)  {  ?>
                     <tr>
-                      <td><?php echo $user->getName() ?></td>
-                      <td><?php echo $user->getLastname() ?></td>
-                      <td><?php echo $user->getPhone() ?></td>
-                      <td><?php echo $user->getEmail() ?></td>
-                      <td><?php echo $keeper->getAddressStreet() ?></td>
-                      <td><?php echo $keeper->getAddressNumber() ?></td>
-                      <td><?php echo $keeper->getPetSize() ?></td>
-                      <td><?php echo $keeper->getInitialDate() ?></td>
-                      <td><?php echo $keeper->getEndDate() ?></td>
-                      <td><?php foreach($keeper->getDays() as $day) echo $day ?></td>
-                      <td><?php echo $keeper->getPrice() ?></td>
-                      <td><button type="submit" name="keeperId" value="<?php echo $keeper->getKeeperId()?>"> Hire keeper </button></td>
+                      <td><?php echo $keeper["name"] ?></td>
+                      <td><?php echo $keeper["lastname"] ?></td>
+                      <td><?php echo $keeper["phone"] ?></td>
+                      <td><?php echo $keeper["email"] ?></td>
+                      <td><?php echo $keeper["addressStreet"] ?></td>
+                      <td><?php echo $keeper["addressNumber"] ?></td>
+                      <td><?php echo $keeper["petSize"] ?></td>
+                      <td><?php echo $keeper["initialDate"] ?></td>
+                      <td><?php echo $keeper["endDate"] ?></td>
+                      <td><?php echo $keeper["days"]?></td>
+                      <td><?php echo $keeper["price"] ?></td>
+                      <td><button type="submit" name="keeperId" value="<?php echo $keeper["keeperId"] ?>"> Hire keeper </button></td>
+                      </form>
+                      
+                      <?php if(is_null($keeper["chat"])){ ?> 
+                      <form action="<?php echo FRONT_ROOT . "Chat/add" ?>" method="post">
+                        <td><button type="submit" name="idUserKeeper" value="<?php echo $keeper["userId"] ?>"> Send chat request </button></td> <?php //LA IDEA DE ESTE BOTON ES CREAR EL CHAT CON EL STATUS 2 OSEA PENDIENTE DE ACEPTACION (el keeper debe aceptarlo) ?>
+                      </form>
+                    <?php } 
+                    else if($keeper["chat"]["status"]==0){  ?> <td>Rejected</td> <?php } 
+                    else if($keeper["chat"]["status"]==1){  ?> <td>Accepted</td> <?php }
+                    else { ?> <td>Pending</td> <?php } ?>
                     </tr>
                   <?php
                 }
               ?>                           
-              </form>
             </tbody>
           </table>

@@ -1,4 +1,8 @@
-<?php use Models\UserType; ?>
+<?php
+    include('header.php');
+    include('guest-nav-bar.php');
+    use Models\UserType;
+?>
 
 <h1> Welcome !</h1>
 <h2> Complete Your Data </h2>
@@ -39,4 +43,7 @@
     </table>
 
 	<input type="submit" value="Agregar" style="background-color:#DC5E47;color:black;"/>
+</form>
+<form action="<?php echo FRONT_ROOT ."Home/Index" ?>" method="get">
+    <input type="submit" value="Return">
 </form>

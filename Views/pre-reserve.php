@@ -14,7 +14,7 @@ include('owner-nav-bar.php');
     <table style="text-align: center">
         <thead>
         <tr>
-            <th></th>
+            <th style="width: 50px" >Select</th>
             <th>Name</th>
             <th>Specie</th>
             <th>Size</th>
@@ -23,19 +23,25 @@ include('owner-nav-bar.php');
         <tbody>
         <?php foreach($userPetList as $pet) { ?>
             <tr>
-                <td><input type="checkbox" name="idPets[]" value="<?php echo $pet->getId()?>"></td>
+                <td style="width: 50px" ><input type="checkbox" name="idPets[]" value="<?php echo $pet->getId()?>"></td>
                 <td><?php echo $pet->getName()?></td>
                 <td><?php echo $pet->getPetType()->getName()?></td>
                 <td><?php echo $pet->getSize()?></td>
             </tr>
         <?php } ?>
+        <tr>
+            <td colspan="2">
+                <label for="startDate">From</label>
+                <input type="date" name="startDate" id="startDate">
+            </td>
+            <td colspan="2">
+                <label for="endDate">To</label>
+                <input type="date" name="endDate" id="endDate">
+            </td>
+        </tr>
         </tbody>
     </table>
 
-    <label for="startDate">From</label>
-    <input type="date" name="startDate" id="startDate">
-    <label for="endDate">To</label>
-    <input type="date" name="endDate" id="endDate">
     <input type="hidden" name="idKeeper" value="<?php echo $keeper->getKeeperId()?>" readonly>
     <input type="hidden" name="price" value="<?php echo $keeper->getPrice()?>" readonly>
 
