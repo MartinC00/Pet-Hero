@@ -28,44 +28,36 @@
             $this->chatDAO->add($chat);
             $this->keeperController->showListView("Chat creado, esperando confirmacion");
         }
-        public function modify()
-        {
+
+        public function modify() {
             require_once(VIEWS_PATH."validate-session.php");
 
         }
-        public function showChatView()
-        {
+
+        public function showChatsView() {
             require_once(VIEWS_PATH."validate-session.php");
+            $chatList = array();
+
             /*
-            if(keeper)
-            {
+            if(keeper) {
                 chatList=chatDAO->getChatsForKeeper (crear metodo en chatDAO y procedure correspondiente)
             }
-            else
-            {
-                chatList=chatDAO->getChatsForKeeper (crear metodo en chatDAO y procedure correspondiente)
+            else {
+                chatList=chatDAO->getChatsForOwner (crear metodo en chatDAO y procedure correspondiente)
             }
+
             require once chatView (esto sería para compartir una chat view, CREAR CHAT VIEW)
             */
-        }
 
-        public function chatListKeeper() 
-        {
-            require_once(VIEWS_PATH."validate-session.php");
-            /*
-            if(keeper)
-            {
-                chatList=chatDAO->getChatsForKeeper (crear metodo en chatDAO y procedure correspondiente)
-            }
-            else
-            {
-                chatList=chatDAO->getChatsForKeeper (crear metodo en chatDAO y procedure correspondiente)
+            $logged = $_SESSION["loggedUser"];
+
+            if($logged->getUserType()->getNameType() == "Owner") {
+                $chatList = $this->chatDAO->getChatsForOwner($logged->getId());
+                require_once(VIEWS_PATH."chat-list-owner");
+            } else {
+                $chatList = $this->chatDAO->getChatsForKeeper($logged->getId());
                 require_once(VIEWS_PATH."chat-list-keeper");
             }
-            require once chatView (esto sería para compartir una chat view, CREAR CHAT VIEW)
-            */
-            require_once(VIEWS_PATH."chat-list-keeper");
-
         }
 
     }

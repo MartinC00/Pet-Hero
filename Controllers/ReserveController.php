@@ -114,6 +114,7 @@
 			$message=$this->reserveDAO->delete($reserveId);
 			$this->showReserveList($message);
 		}
+
         public function checkKeeperDisponibility($startDate, $endDate, $idKeeper)
         {
 			require_once(VIEWS_PATH . "validate-session.php");
