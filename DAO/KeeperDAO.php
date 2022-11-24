@@ -59,6 +59,7 @@
 				echo $ex->getMessage();
 			}
 		}
+
 		public function getFullListForOwner()
 		{
 			$chatDAO = new ChatDAO();
