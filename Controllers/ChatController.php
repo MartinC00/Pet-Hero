@@ -57,20 +57,18 @@
                 require_once(VIEWS_PATH."chat-list-keeper.php");
             }
         }
-        public function chatView($idChat, $name)
-        {
+
+        public function chatView($idChat, $name) {
             require_once(VIEWS_PATH."validate-session.php");
 
             $messageList = array();
             $logged = $_SESSION["loggedUser"];
 
-            if($logged->getUserType()->getNameType() == "Owner") 
-            {
-                $messageList = $this->chatMessageController()->getListByChatId($idChat);
+            if($logged->getUserType()->getNameType() == "Owner") {
+                $messageList = $this->chatMessageController->getListByChatId($idChat);
 
             } 
-            else 
-            {
+            else {
 
                 
             }
