@@ -20,6 +20,7 @@
                 echo $ex->getMessage();
             }
         }
+
         public function getAll()
         {
             $chatList = array();
@@ -31,28 +32,28 @@
                 foreach($result as $row)
                 {
                     $chat = new Chat();
-                    $pet->setId($row["id"]);
-                    $pet->setIdUserKeeper($row["idUserKeeper"]);
-                    $pet->setIdUserOwner($row["idUserOwner"]);
-                    $pet->setStatus($row["status"]);
+                    $chat->setId($row["id"]);
+                    $chat->setIdUserKeeper($row["idUserKeeper"]);
+                    $chat->setIdUserOwner($row["idUserOwner"]);
+                    $chat->setStatus($row["status"]);
 
                     array_push($chatList, $chat);
                 }
 
-                return $petsList;
+                return $chatList;
             }
             catch(\PDOException $ex){
                 echo $ex->getMessage();
             }
 
         }
+
         public function getByIds($idUserOwner, $idUserKeeper)
         {
-            $chatList = array();
             $query = "CALL chats_getByIds(?, ?)";
 
-            $parameters['idUserOwner_']= $idUserOwner;
-            $parameters['idUserKeeper_']= $idUserKeeper;
+            $parameters["idUserOwner_"]= $idUserOwner;
+            $parameters["idUserKeeper_"]= $idUserKeeper;
 
             try{            
                 $this->connection = Connection::GetInstance();
@@ -64,6 +65,7 @@
             }
 
         }
+
         public function getById($id)
         {
             $chatList=$this->getAll();
@@ -72,5 +74,33 @@
                 if($chat->getId()==$id) return $chat;
             }
             return null;
+        }
+
+        public function getChatsForOwner($idUserOwner) {
+            $query = "CALL chats_getForOwner(?)";
+
+            $parameters["idUserOwner_"] = $idUserOwner;
+
+            try{
+                $this->connection = Connection::GetInstance();
+                return $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            }
+            catch(\PDOException $ex){
+                echo $ex->getMessage();
+            }
+        }
+
+        public function getChatsForKeeper($idUserKeeper) {
+            $query = "CALL chats_getForKeeper(?)";
+
+            $parameters["idUserKeeper_"] = $idUserKeeper;
+
+            try{
+                $this->connection = Connection::GetInstance();
+                return $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+            }
+            catch(\PDOException $ex){
+                echo $ex->getMessage();
+            }
         }
     }

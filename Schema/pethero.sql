@@ -177,7 +177,7 @@ end$$
 
 DROP PROCEDURE IF EXISTS `chats_getByIds`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getByIds` (`idUserOwner_` INT, `idUserKeeper_` INT)  begin
-   select * from Chats where idUserOwner=idUserOwner_ and idUserKeeper=idUserKeeper_;
+   select * from chats where idUserOwner=idUserOwner_ and idUserKeeper=idUserKeeper_;
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_add`$$
