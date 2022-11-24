@@ -188,7 +188,7 @@ select LAST_INSERT_ID() from messages;
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_byChatId`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idChat_` INT)  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_byChatId` (`idChat_` INT)  begin
   select * from chats where idChat=idChat_;
 end$$
 
