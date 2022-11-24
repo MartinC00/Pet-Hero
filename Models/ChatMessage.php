@@ -4,6 +4,7 @@ namespace Models;
 
 class ChatMessage {
     private $id;
+    private $idChat;
     private $idSender;
     private $message;
     private $date;
@@ -48,4 +49,15 @@ class ChatMessage {
         $this->date = $date;
     }
 
+    public function getIdChat()
+    {
+        return $this->idChat;
+    }
+
+    public function setIdChat($idChat)
+    {
+        $this->idChat = $idChat;
+
+        return $this;
+    }
 }

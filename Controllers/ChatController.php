@@ -6,14 +6,17 @@
     use Models\Chat;
     use Models\Status;
     use Controllers\KeeperController;
+    use Controllers\ChatMessageController;
 
     class ChatController {
 
         public $chatDAO;
+        private $chatMessageController;
 
         public function __construct() {
             $this->chatDAO = new ChatDAO();
             $this->keeperController = new KeeperController();
+            $this->chatMessageController = new ChatMessageController();
         }
 
         public function add($idUserKeeper) {
@@ -34,35 +37,44 @@
             $chat = $this->chatDAO->getById($chatId);
             
             if($chat)
-            {       
-                $chat->setStatus($status); 
-            }
+                $this->chatDAO->modifyStatus($chatId, $status);
+            
+            if($status==1) $this->showListView("Chat Accepted");
+            else $this->showListView("Chat Rejected");
         }
 
-        public function showChatsView() {
+        public function showListView($message="") {
             require_once(VIEWS_PATH."validate-session.php");
+
             $chatList = array();
-
-            /*
-            if(keeper) {
-                chatList=chatDAO->getChatsForKeeper (crear metodo en chatDAO y procedure correspondiente)
-            }
-            else {
-                chatList=chatDAO->getChatsForOwner (crear metodo en chatDAO y procedure correspondiente)
-            }
-
-            require once chatView (esto sería para compartir una chat view, CREAR CHAT VIEW)
-            */
-
             $logged = $_SESSION["loggedUser"];
 
             if($logged->getUserType()->getNameType() == "Owner") {
                 $chatList = $this->chatDAO->getChatsForOwner($logged->getId());
-                require_once(VIEWS_PATH."chat-list-owner");
+                require_once(VIEWS_PATH."chat-list-owner.php");
             } else {
                 $chatList = $this->chatDAO->getChatsForKeeper($logged->getId());
-                require_once(VIEWS_PATH."chat-list-keeper");
+                require_once(VIEWS_PATH."chat-list-keeper.php");
             }
+        }
+        public function chatView($idChat, $name)
+        {
+            require_once(VIEWS_PATH."validate-session.php");
+
+            $messageList = array();
+            $logged = $_SESSION["loggedUser"];
+
+            if($logged->getUserType()->getNameType() == "Owner") 
+            {
+                $messageList = $this->chatMessageController()->getListByChatId($idChat);
+
+            } 
+            else 
+            {
+
+                
+            }
+            require_once(VIEWS_PATH."chat-view.php");
         }
 
     }

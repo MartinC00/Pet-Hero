@@ -8,7 +8,8 @@
 
 <h2> My chats</h2>
 
-<?php  ?>
+<?php if(isset($message)) echo $message; ?>
+
     <table style="text-align:center;">
         <thead>
             <tr>
@@ -23,10 +24,13 @@
                     <td><?php echo $chat["ownerName"] ?></td>
 
                     <?php if($chat["status"] == 1) { ?>
+                      <td>Accepted</td>
                         <form action="<?php echo FRONT_ROOT."Chat/showChatView" ?>" method="post">
-                            <td><button type="submit" value="<?php echo $chat["id"]?>"> SEND MESSAGE </button></td>
+                            <input type="hidden" name="ownerName" value="<?php echo $chat["ownerName"] ?>">
+                            <td><button type="submit" value="<?php echo $chat["id"]?>"> GO TO CHAT </button></td>
                         </form>
                     <?php } else if($chat["status"] == 2) { ?>
+                      <td>Pending</td>
                         <td>
                             <form action="<?php echo FRONT_ROOT."Chat/modifyStatus" ?>" method="post">
                                 <input type="hidden" name="chatId" value="<?php echo $chat["id"]?>">
@@ -34,7 +38,7 @@
                                 <button type="submit" name="status" value="0"> REJECT </button>
                             </form>
                         </td>
-                    <?php } else { ?> <td> Chat rejected </td> <?php } ?>
+                    <?php } else { ?> <td> Rejected </td> <?php } ?>
                 </tr>
             <?php } ?>
         </tbody>

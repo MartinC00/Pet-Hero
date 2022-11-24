@@ -181,20 +181,34 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getByIds` (`idUserOwner_` INT
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_add`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
-  insert into messages (idSender, message, date)
-    VALUES (idSender_, message_, date_);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idChat_` INT, `idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
+  insert into messages (idChat, idSender, message, date)
+    VALUES (idChat_, idSender_, message_, date_);
 select LAST_INSERT_ID() from messages;
+end$$
+
+DROP PROCEDURE IF EXISTS `messages_byChatId`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idChat_` INT)  begin
+  select * from chats where idChat=idChat_;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getForOwner`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForOwner` (`idUserOwner_` INT)  begin
-   select * from Chats where idUserOwner=idUserOwner_;
+   select c.*, u.name as keeperName from chats c inner join users u on 
+   u.id=c.idUserKeeper having idUserOwner=idUserOwner_;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getForKeeper`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForKeeper` (`idUserKeeper_` INT)  begin
-   select * from Chats where idUserKeeper=idUserkeeper_;
+   select c.*, u.name as ownerName from chats c inner join users u on
+   u.id=c.idUserOwner having idUserKeeper=idUserkeeper_;
+end$$
+
+DROP PROCEDURE IF EXISTS `chats_modify_status`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_modify_status` (`idChat` INT, `status_` INT) begin
+  update chats set 
+    status=status_
+    where id=idChat;
 end$$
 
 DELIMITER ;
@@ -386,6 +400,7 @@ CREATE TABLE IF NOT EXISTS `chats` (
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
+    `idChat` int(11) NOT NULL,
     `idSender` INT NOT NULL,
     `message` VARCHAR(100) NOT NULL,
     `date` DATETIME NOT NULL,
