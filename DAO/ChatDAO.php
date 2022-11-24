@@ -103,4 +103,21 @@
                 echo $ex->getMessage();
             }
         }
+
+        public function modifyStatus($idChat, $status)
+        {
+            $query = "CALL chats_modify_status(?, ?)";
+
+            $parameters["idChat"] = $idChat;
+            $parameters["status_"] = $status;
+
+            try{
+                $this->connection = Connection::GetInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
+            }
+            catch(\PDOException $ex){
+                echo $ex->getMessage();
+            }
+
+        }
     }
