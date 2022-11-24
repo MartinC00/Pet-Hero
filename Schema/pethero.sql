@@ -187,6 +187,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idSender_` INT, `me
 select LAST_INSERT_ID() from messages;
 end$$
 
+DROP PROCEDURE IF EXISTS `chats_getForOwner`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForOwner` (`idUserOwner_` INT)  begin
+   select * from Chats where idUserOwner=idUserOwner_;
+end$$
+
+DROP PROCEDURE IF EXISTS `chats_getForKeeper`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForKeeper` (`idUserKeeper_` INT)  begin
+   select * from Chats where idUserKeeper=idUserkeeper_;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------

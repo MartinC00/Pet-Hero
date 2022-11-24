@@ -29,9 +29,14 @@
             $this->keeperController->showListView("Chat creado, esperando confirmacion");
         }
 
-        public function modify() {
+        public function modifyStatus($chatId, $status) {
             require_once(VIEWS_PATH."validate-session.php");
-
+            $chat = $this->chatDAO->getById($chatId);
+            
+            if($chat)
+            {       
+                $chat->setStatus($status); 
+            }
         }
 
         public function showChatsView() {
