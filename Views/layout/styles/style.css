@@ -32,5 +32,16 @@ html, body {
 }
 
 td, th {
+    border-width: thin;
     width: 200px;
+}
+
+.msg-sent {
+    border-width: thick;
+    float: right;
+}
+
+.msg-rcvd {
+    border-width: thick;
+    float: left;
 }
