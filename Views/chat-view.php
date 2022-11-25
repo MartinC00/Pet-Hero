@@ -21,6 +21,6 @@
 
 <form action="<?php echo FRONT_ROOT."ChatMessage/add" ?>" method="post">
     <input type="text" name="newMessage" maxlength="100" required>
-    <input type="hidden" name="name" value="<?php echo $name; ?>" maxlength="100">
+    <input type="hidden" name="name" value="<?php echo $name; ?>" readonly>
     <button type="submit" name="chatId" value="<?php echo $chatId; ?>">ENVIAR</button>
 </form>
