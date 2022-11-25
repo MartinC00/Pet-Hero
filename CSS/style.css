@@ -3,13 +3,7 @@ html, body {
     font-family: Candara, Arial, sans-serif;
     font-size: 1.3rem;
     margin: 0;
-}
-
-.background-img {
-    background-image: url("img/wp1080.jpeg");
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    background: url("img/wp1080.jpeg") fixed;
 }
 
 .login-wrapper {
@@ -62,6 +56,23 @@ td, th {
     padding: 20px;
     max-width: 500px;
     margin: auto;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 600px;
+}
+
+.chat-input {
+    background: #222222;
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+
+.chat-input input {
+    width: 300px;
 }
 
 .msg {
@@ -78,6 +89,7 @@ td, th {
     color: #fff;
     /* moves it to the right */
     margin-left: auto;
+    word-wrap: break-word;
 }
 
 .msg.rcvd {
@@ -86,6 +98,7 @@ td, th {
     color: #555;
     /* moves it to the left */
     margin-right: auto;
+    word-wrap: break-word;
 }
 
 /* Improve radius for messages group */

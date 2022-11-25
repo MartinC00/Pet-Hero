@@ -14,7 +14,7 @@
 <form action="<?php echo FRONT_ROOT ."Pet/add" ?>" method="post" enctype="multipart/form-data">
     <table style="text-align: center">
         <thead>
-            <tr style="background-color: darkred">
+            <tr style="background-color: rgba(139,0,0,0.5)">
                 <th colspan="5">Pet Info</th>
             </tr>
             <tr>
@@ -48,7 +48,7 @@
     <br>
     <table>
         <thead>
-        <tr style="background-color: darkred">
+        <tr style="background-color: rgba(139,0,0,0.5)">
             <th colspan="3">Media</th>
         </tr>
         <tr>

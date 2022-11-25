@@ -20,6 +20,7 @@
             <th style="width: 110px;">Photo</th>
             <th style="width: 120px;">Vaccines</th>
             <th style="width: 120px;">Video</th>
+            <th style="width: 120px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,8 +36,10 @@
                     <td><video width="320" controls><source src="<?php echo IMG_PATH.$pet->getVideo(); ?>" type="video/mp4">
                      Your browser does not support the video tag.</video>
                     </td>
-                    <td> <button type="submit" value="<?php echo $pet->getId() ?>" name="id"> Modify </button></td>
-                     <td> <button type="submit" value="<?php echo $pet->getId() ?>" name="id" formaction="<?php echo FRONT_ROOT . "Pet/remove" ?>"> Delete </button></td>
+                    <td>
+                        <button type="submit" value="<?php echo $pet->getId() ?>" name="id"> Modify </button>
+                        <button type="submit" value="<?php echo $pet->getId() ?>" name="id" formaction="<?php echo FRONT_ROOT . "Pet/remove" ?>"> Delete </button>
+                    </td>
                 </tr>
             <?php } ?>
         </tbody>
