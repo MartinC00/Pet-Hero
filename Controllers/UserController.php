@@ -3,15 +3,14 @@
 	namespace Controllers;
 
 	use Models\User;	
-	use Models\UserType as UserType;
-	use Controllers\UserTypeController as UserTypeController;
-	use DAO\UserTypeDAO as UserTypeDAO;	
-	use DAO\UserDAO as UserDAO;	
+	use Models\UserType;
+	use Controllers\UserTypeController;
+	use DAO\UserDAO;	
 
 	class UserController
 	{
-		public $userDAO;
-		public $userTypeController;
+		private $userDAO;
+		private $userTypeController;
 
 		public function __construct()
 		{
@@ -22,7 +21,7 @@
 		public function add ($username, $password, $name, $lastname, $dni, $phone, $email, $userTypeId)
 		{
 			$userType = new UserType();
-			$userType = $this->userTypeController->userTypeDAO->getById($userTypeId);
+			$userType = $this->userTypeController->getById($userTypeId);
 
 			if($userType)
 			{				
@@ -58,7 +57,7 @@
 		{
 			if(!isset($_SESSION["loggedUser"])) 
 			{
-				$userTypeList = $this->userTypeController->userTypeDAO->getAll();
+				$userTypeList = $this->userTypeController->getAll();
 				require_once(VIEWS_PATH . "add-user.php");
 			}
 			else if ($_SESSION["loggedUser"]->getUserType()->getId() == 2)
@@ -129,6 +128,18 @@
 			}			
 		}
 
+		
+		
+		public function getByUsername($username)
+		{
+			return $this->userDAO->getByUsername($username);
+		}
+
+		public function getById($id)
+		{
+			return $this->userDAO->getById($id);
+		}
+		
         public function showMyProfile()
         {
         	require_once(VIEWS_PATH . "validate-session.php");
@@ -148,32 +159,6 @@
 			if($_SESSION["loggedUser"]->getUserType()->getId() === 1) require_once(VIEWS_PATH . "owner-home.php");
 			else require_once(VIEWS_PATH . "keeper-home.php");
 		}
-
-
-
-/* 
-		public function showListView() no tiene uso, no se deberia poder mostrar todos los usuarios a nadie que no sea admin
-		{
-			//ADAPTAR SEGUN KEEPER U OWNER
-
-			$userList=$this->userDAO->getAll();
-			require_once(VIEWS_PATH . "users-list.php");
-		}
-
-		public function remove(//id o username) 
-		{
-			$this->userDAO->delete(); //Dentro de la DAO uso la funcion delete() para no llamarla tambien remove()
-
-			//adaptar segun usuario...
-
-			$this-> // show algo
-
-		} //por el momento no tiene uso, salvo que el user quiera eliminarse a si mismo o un admin lo haga
-*/
-
-		
-
-
 	}
 
  ?>

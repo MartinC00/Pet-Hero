@@ -6,16 +6,12 @@
 	use Models\User;
 	use Controllers\UserController;
 	use DAO\KeeperDAO;
-	use DAO\UserDAO;
-
 
 	class KeeperController {
-		public $keeperDAO;
-		//private $userController;
+		private $keeperDAO;
 
 		public function __construct() {
 			$this->keeperDAO = new KeeperDAO();
-            //$this->userController = new UserController();
 		}
 
 		public function add($addressStreet, $addressNumber, $petSize, $initialDate, $endDate, $days, $price) {
@@ -62,16 +58,14 @@
 			require_once(VIEWS_PATH . "keeper-home.php");
 		}
 
-		public function showListView2() { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
+		public function showListView2($message='') { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
 			require_once(VIEWS_PATH . "validate-session.php");
-			$message=''; $message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getAll();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function showListView($message = "") { //con chat
 			require_once(VIEWS_PATH . "validate-session.php");
-			$message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getFullListForOwner();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
@@ -81,22 +75,22 @@
 			
 			$check = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $message1="Initial Date must be previous to End Date"; $this->showListView(); }
-			else if ($check == 2) { $message1="Initial Date mustn't be previous to current date"; $this->showListView();}
+			if($check == 1) { $this->showListView("Initial Date must be previous to End Date"); }
+			else if ($check == 2) { $this->showListView("Initial Date mustn't be previous to current date"); }
 			else {
-				$keeperList=$this->keeperDAO->getAll();
+				$keeperList=$this->keeperDAO->getFullListForOwner();
 				$keeperListFiltered = array();
 
 				foreach ($keeperList as $keeper) {
-					if($keeper->getInitialDate() <= $initialDate && $endDate <= $keeper->getEndDate()) {
+					if($keeper["initialDate"] <= $initialDate && $endDate <= $keeper["endDate"]) {
 						array_push($keeperListFiltered, $keeper);
 					}
 				}
 
 				$keeperList=$keeperListFiltered;
 				if(empty($keeperList)) $message="Oh, seems like there's not keepers availables in that range of dates... Try another dates";
+				require_once(VIEWS_PATH . "keeper-list.php");
 			}
-			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function getKeeperLogged() {
@@ -135,5 +129,19 @@
 			$keeper = $this->getKeeperLogged();
         	require_once(VIEWS_PATH . "modify-keeper-profile.php");
 		}
+
+		public function getById($id)
+        {
+            return $this->keeperDAO->getById($id);
+        }
+        public function getByUserId($id)
+        {
+            return $this->keeperDAO->getByUserId($id);
+        }
+
+        public function getKeeperName($idKeeper)
+        {
+        	return $this->keeperDAO->getKeeperName($idKeeper);
+        }
 	}
  ?>

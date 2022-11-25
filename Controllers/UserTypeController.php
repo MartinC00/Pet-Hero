@@ -30,5 +30,13 @@
             $userTypeList = $this->userTypeDAO->getAll();
             require_once(VIEWS_PATH."user-type-list.php");
         }
+        public function getAll()
+        {
+            return $this->userTypeDAO->getAll();
+        }
+        public function getById($id)
+        {
+            return $this->userTypeDAO->getById($id);
+        }
     }
 ?>

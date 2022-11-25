@@ -2,15 +2,14 @@
 
 	namespace Controllers;
 
-	use Models\Pet as Pet;
+	use Models\Pet;
     use Models\PetType;
     use Controllers\PetTypeController;
-    use DAO\PetTypeDAO;
-	use DAO\PetDAO as PetDAO;
+	use DAO\PetDAO;
 
 	class PetController	
     {
-		public $petDAO;
+		private $petDAO;
         private $petTypeController;
 
 		public function __construct() 
@@ -23,7 +22,7 @@
         {
 			require_once(VIEWS_PATH . "validate-session.php");
 
-            $petType = $this->petTypeController->petTypeDAO->getById($petTypeId);
+            $petType = $this->petTypeController->getById($petTypeId);
 
             if($petType)
             {                
@@ -44,9 +43,7 @@
     			else 
                 {
     				$id=$this->petDAO->add($pet);
-                    //$petList = $this->petDAO->getAll();
-                    //$id = $petList[count($petList) - 1]->getId();
-                    
+
                     $this->uploadPhoto($id);
                     $this->uploadVaccines($id);
                     $this->uploadVideo($id);
@@ -60,7 +57,7 @@
 		public function showAddView($message = "") 
         {
 			require_once(VIEWS_PATH . "validate-session.php");
-            $petTypeList = $this->petTypeController->petTypeDAO->getAll();
+            $petTypeList = $this->petTypeController->getAll();
             require_once(VIEWS_PATH . "add-pet.php");
 		}
 
@@ -71,6 +68,16 @@
                 if ($newPet->getName() == $pet->getName() && $newPet->getUserId()==$pet->getUserId()) return 1; //Esta verificacion implica que se tiene que repetir el nombre en la lista de mascotas y ademas que esa mascosta este asociada al mismo usuario que esta creando esta nueva. Un usuario no puede registrar dos mascotas que se llamen igual, pero distintos usuarios pueden tener mascotas que se llamen igual
             }
             return 0;
+        }
+
+        public function getById($id)
+        {
+            return $this->petDAO->getById($id);
+        }
+        
+        public function getListByUserId($id)
+        {
+            return $this->petDAO->getListByUserId($id);
         }
 
 		public function showPetsList($message="") 

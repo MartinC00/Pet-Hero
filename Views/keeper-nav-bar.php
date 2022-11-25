@@ -7,6 +7,6 @@
     <a class="active" href="<?php echo  FRONT_ROOT."Keeper/showHomeView"?>">HOME</a>
     <a class="logo" style="float: left; padding: 0; height: 0"
        href="<?php echo FRONT_ROOT."Keeper/showHomeView"?>">
-        <img src="/Pet-Hero/Views/layout/logo.png" alt="Logo">
+        <img src="<?php echo CSS_PATH . "/img/logo.png" ?>" alt="Logo">
     </a>
 </nav> <br>

@@ -5,14 +5,20 @@
     use Models\Reserve;
     use Models\Pet;
     use DAO\PetDAO;
+    use DAO\UserDAO;
+    use DAO\KeeperDAO;
 
     class ReserveDAO implements IReserveDAO
     {
         private $connection;
         private $petDAO;
+        private $userDAO;
+        private $keeperDAO;
 
         public function __construct()
         {
+            $this->userDAO = new UserDAO();
+            $this->keeperDAO = new KeeperDAO();
             $this->petDAO = new PetDAO();
         }
 
@@ -164,6 +170,7 @@
                 array_push($petNameList, $pet->getName()." ");
             }
             $row["petNameList"]=$petNameList;
+
             return $row;
         }
 
@@ -171,6 +178,7 @@
         {
             $query = "CALL reserves_for_keeper(?)";
             $parameters['idKeeper_']=$id;
+
             $reserveList=array();
             try
             {
@@ -179,8 +187,12 @@
 
                 foreach($result as $row)
                 {
-                    array_push($reserveList, $this->getReserveRowToShow($row));
-                }
+                    
+                    $ownerName=$this->userDAO->getOwnerName($row["idUserOwner"]);
+                    $row["ownerName"]=$ownerName;
+                    array_push($reserveList, $this->getReserveRowToShow($row));  
+                }                
+
                 return $reserveList;
             }
             catch(\PDOException $ex)
@@ -201,6 +213,8 @@
 
                 foreach($result as $row)
                 {
+                    $keeperName=$this->keeperDAO->getKeeperName($row["idKeeper"]);
+                    $row["keeperName"]=$keeperName;
                     array_push($reserveList, $this->getReserveRowToShow($row));
                 }
                 return $reserveList;

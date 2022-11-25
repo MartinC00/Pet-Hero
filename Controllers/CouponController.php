@@ -7,7 +7,7 @@
 
 class CouponController
 {
-    public $couponDAO;
+    private $couponDAO;
 
     public function __construct()
     {
@@ -24,6 +24,10 @@ class CouponController
         $this->couponDAO->add($coupon);
 
         return $coupon->getCode();
+    }
+    public function getByReserveId($id)
+    {
+        return $this->couponDAO->getByReserveId($id);
     }
 
 
