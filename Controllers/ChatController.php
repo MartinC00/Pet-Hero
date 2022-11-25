@@ -11,6 +11,7 @@
     class ChatController {
 
         public $chatDAO;
+        private $keeperController;
         private $chatMessageController;
 
         public function __construct() {
@@ -43,7 +44,7 @@
             else $this->showListView("Chat Rejected");
         }
 
-        public function showListView($message="") {
+        public function showListView($message = "") {
             require_once(VIEWS_PATH."validate-session.php");
 
             $chatList = array();
@@ -58,20 +59,14 @@
             }
         }
 
-        public function chatView($idChat, $name) {
+        public function showChatView($name, $chatId) {
             require_once(VIEWS_PATH."validate-session.php");
 
             $messageList = array();
             $logged = $_SESSION["loggedUser"];
 
-            if($logged->getUserType()->getNameType() == "Owner") {
-                $messageList = $this->chatMessageController->getListByChatId($idChat);
+            $messageList = $this->chatMessageController->getListByChatId($chatId);
 
-            } 
-            else {
-
-                
-            }
             require_once(VIEWS_PATH."chat-view.php");
         }
 

@@ -1,12 +1,12 @@
 <?php 
 	namespace DAO;
+
 	use Models\Pet;
 	use Models\PetType;
 	use DAO\PetTypeDAO;
 	use DAO\QueryType;
 	
-	class PetDAO
-	{
+	class PetDAO {
 		private $connection;
 		private $tableName="Pets";
 		private $petTypeDAO;

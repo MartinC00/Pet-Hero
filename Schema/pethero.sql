@@ -30,15 +30,15 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `keepers_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `keepers_add` (`userId_` INT, `addressStreet_` VARCHAR(45), `addressNumber_` VARCHAR(5), `petSize_` VARCHAR(10), `initialDate_` DATE, `endDate_` DATE, `days_` VARCHAR(60), `price_` INT(5))  begin
-  insert into keepers (userId,addressStreet,addressNumber,petSize,initialDate,endDate,days,price) 
+    insert into keepers (userId,addressStreet,addressNumber,petSize,initialDate,endDate,days,price)
     VALUES (userId_,addressStreet_,addressNumber_,petSize_,initialDate_,endDate_,days_,price_);
 end$$
 
 DROP PROCEDURE IF EXISTS `keepers_modify`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `keepers_modify` (`keeperId_` INT, `userId_` INT, `addressStreet_` VARCHAR(45), `addressNumber_` VARCHAR(5), `petSize_` VARCHAR(10), `initialDate_` DATE, `endDate_` DATE, `days_` VARCHAR(60), `price_` INT(5))  begin
-  update keepers set 
-      userId=userId_, addressStreet=addressStreet_ , addressNumber=addressNumber_ , petSize=petSize_, initialDate=initialDate_, endDate=endDate_ , days=days_ , price=price_
-  where keeperId=keeperId_;
+    update keepers set
+    userId=userId_, addressStreet=addressStreet_ , addressNumber=addressNumber_ , petSize=petSize_, initialDate=initialDate_, endDate=endDate_ , days=days_ , price=price_
+    where keeperId=keeperId_;
 end$$
 
 DROP PROCEDURE IF EXISTS `keepers_list`$$
@@ -49,63 +49,63 @@ end$$
 
 DROP PROCEDURE IF EXISTS `Pets_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_add` (`idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photo_` VARCHAR(30), `vaccines_` VARCHAR(30), `video_` VARCHAR(30), `isActive_` BOOLEAN)  begin
-  insert into Pets (idUser, idPetType, name, breed, size, description, photo, vaccines, video, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, photo_, vaccines_, video_, isActive_);
+    insert into Pets (idUser, idPetType, name, breed, size, description, photo, vaccines, video, isActive) values (idUser_, idPetType_, name_, breed_, size_, description_, photo_, vaccines_, video_, isActive_);
     select LAST_INSERT_ID() from Pets;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_delete`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_delete` (`idPet` INT)  begin
-  update pets set 
+    update pets set
     isActive=false where id=idPet;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getAll` ()  begin
-  select * from Pets where isActive=true;
+    select * from Pets where isActive=true;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_getById`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getById` (`pet_id` INT)  begin
-  select * from Pets where id=pet_id;
+    select * from Pets where id=pet_id;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_getListByUserId`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_getListByUserId` (`user_id` INT)  begin
-  select * from Pets where idUser=user_id;
+    select * from Pets where idUser=user_id;
 end$$
 
 DROP PROCEDURE IF EXISTS `Pets_modify`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Pets_modify` (`id_` INT, `idUser_` INT, `idPetType_` INT, `name_` VARCHAR(20), `breed_` VARCHAR(20), `size_` VARCHAR(10), `description_` VARCHAR(80), `photo_` VARCHAR(30), `vaccines_` VARCHAR(30), `video_` VARCHAR(30), `isActive_` BOOLEAN)  begin
-  update pets set 
+    update pets set
     idUser=idUser_, idPetType=idPetType_, name=name_, breed=breed_, size=size_, description=description_, photo=photo_ , vaccines=vaccines_, video=video_, isActive=isActive_
     where id=id_;
 end$$
 
 DROP PROCEDURE IF EXISTS `PetTypes_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_add` (`name_` VARCHAR(10))  begin
-  insert into PetTypes(name) values (name_);
+    insert into PetTypes(name) values (name_);
 end$$
 
 DROP PROCEDURE IF EXISTS `PetTypes_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_getAll` ()  begin
-  select * from PetTypes;
+    select * from PetTypes;
 end$$
 
 DROP PROCEDURE IF EXISTS `PetTypes_getById`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PetTypes_getById` (`idPetType` INT)  begin
-  select * from PetTypes where id=idPetType;
+    select * from PetTypes where id=idPetType;
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_add` (`idUserOwner_` INT, `idKeeper_` INT, `idPets_` VARCHAR(15), `initialDate_` DATE, `endDate_` DATE, `totalPrice_` INT(6), `reserveStatus_` INT(1), `paymentStatus_` INT(1))  begin
-  insert into reserves (idUserOwner, idKeeper, idPets, initialDate ,endDate ,totalPrice, reserveStatus, paymentStatus) 
+    insert into reserves (idUserOwner, idKeeper, idPets, initialDate ,endDate ,totalPrice, reserveStatus, paymentStatus)
     VALUES (idUserOwner_, idKeeper_ , idPets_ , initialDate_ ,endDate_ ,totalPrice_ , reserveStatus_ , paymentStatus_);
     select LAST_INSERT_ID() from reserves;
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_delete`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_delete` (`idReserve` INT)  begin
-      delete from reserves where id=idReserve;
+    delete from reserves where id=idReserve;
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_modifyStatus`$$
@@ -120,7 +120,7 @@ end$$
 
 DROP PROCEDURE IF EXISTS `reserves_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `reserves_getAll` ()  begin
-      select * from reserves;
+    select * from reserves;
 end$$
 
 DROP PROCEDURE IF EXISTS `reserves_for_keeper`$$
@@ -135,79 +135,78 @@ end$$
 
 DROP PROCEDURE IF EXISTS `Users_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Users_add` (`username_` VARCHAR(30), `password_` VARCHAR(30), `name_` VARCHAR(20), `lastname_` VARCHAR(20), `dni_` VARCHAR(10), `phone_` VARCHAR(15), `email_` VARCHAR(50), `userTypeId_` INT)  begin
-  INSERT INTO Users (username, password, name, lastname, dni, phone, email, userTypeId) 
+    INSERT INTO Users (username, password, name, lastname, dni, phone, email, userTypeId)
     VALUES (username_, password_, name_, lastname_, dni_, phone_ , email_ , userTypeId_);
 end$$
 
 DROP PROCEDURE IF EXISTS `Users_modify`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Users_modify` (`id_` INT, `username_` VARCHAR(30), `password_` VARCHAR(30), `name_` VARCHAR(20), `lastname_` VARCHAR(20), `dni_` VARCHAR(10), `phone_` VARCHAR(15), `email_` VARCHAR(50), `userTypeId_` INT)  begin
-  update Users set 
+    update Users set
     username=username_ , password=password_ , name=name_ , lastname=lastname_, dni=dni_, phone=phone_ , email=email_ , userTypeId=userTypeId_
     where id=id_;
 end$$
 
 DROP PROCEDURE IF EXISTS `UserTypes_getById`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UserTypes_getById` (`idUserType` INT)  begin
-  select * from UserTypes where id=idUserType;
+    select * from UserTypes where id=idUserType;
 end$$
 
 DROP PROCEDURE IF EXISTS `coupons_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `coupons_add` (`idReserve_` INT, `code_` VARCHAR(20))  begin
-  insert into coupons (idReserve, code)
+    insert into coupons (idReserve, code)
     VALUES (idReserve_, code_);
 select LAST_INSERT_ID() from coupons;
 end$$
 
 DROP PROCEDURE IF EXISTS `coupons_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `coupons_getAll` ()  begin
-select * from coupons;
+    select * from coupons;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_add`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_add` (`idUserOwner_` INT, `idUserKeeper_` INT, `status_` INT)  begin
-  insert into chats (idUserOwner, idUserKeeper, status)
+    insert into chats (idUserOwner, idUserKeeper, status)
     VALUES (idUserOwner_, idUserKeeper_, status_);
 select LAST_INSERT_ID() from chats;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getAll`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getAll` ()  begin
-select * from chats;
+    select * from chats;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getByIds`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getByIds` (`idUserOwner_` INT, `idUserKeeper_` INT)  begin
-   select * from chats where idUserOwner=idUserOwner_ and idUserKeeper=idUserKeeper_;
+    select * from chats where idUserOwner=idUserOwner_ and idUserKeeper=idUserKeeper_;
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_add`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`idChat_` INT, `idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
-  insert into messages (idChat, idSender, message, date)
-    VALUES (idChat_, idSender_, message_, date_);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`chatId_` INT, `idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
+    insert into messages (chatId, idSender, message, date)
+    VALUES (chatId_, idSender_, message_, date_);
 select LAST_INSERT_ID() from messages;
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_byChatId`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_byChatId` (`idChat_` INT)  begin
-  select * from chats where idChat=idChat_;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_byChatId` (`chatId_` INT)  begin
+    select * from messages where chatId = chatId_;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getForOwner`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForOwner` (`idUserOwner_` INT)  begin
-   select c.*, u.name as keeperName from chats c inner join users u on 
-   u.id=c.idUserKeeper having idUserOwner=idUserOwner_;
+    select c.*, u.name as keeperName from chats c inner join users u on
+    u.id=c.idUserKeeper having idUserOwner=idUserOwner_;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_getForKeeper`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getForKeeper` (`idUserKeeper_` INT)  begin
-   select c.*, u.name as ownerName from chats c inner join users u on
-   u.id=c.idUserOwner having idUserKeeper=idUserkeeper_;
+    select c.*, u.name as ownerName from chats c inner join users u on
+    u.id=c.idUserOwner having idUserKeeper=idUserkeeper_;
 end$$
 
 DROP PROCEDURE IF EXISTS `chats_modify_status`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_modify_status` (`idChat` INT, `status_` INT) begin
-  update chats set 
-    status=status_
+    update chats set status=status_
     where id=idChat;
 end$$
 
@@ -400,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `chats` (
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `idChat` int(11) NOT NULL,
+    `chatId` int(11) NOT NULL,
     `idSender` INT NOT NULL,
     `message` VARCHAR(100) NOT NULL,
     `date` DATETIME NOT NULL,

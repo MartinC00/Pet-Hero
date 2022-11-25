@@ -1,6 +1,6 @@
 <?php
     include('header.php');
-    if($_SESSION['loggedUser']->getUserType()->getId() == 1)
+    if($logged->getUserType()->getId() == 1)
         include('owner-nav-bar.php');
     else
         include('keeper-nav-bar.php');
@@ -8,16 +8,19 @@
 
 <?php if(isset($viewMessage)) echo $viewMessage; ?>
 
-<h2> CHAT WITH <?php echo $name ?></h2>
+<h2> Chat with <?php echo $name; ?></h2>
 
-    <table style="text-align:center;">
-        
-        <tbody>
-            <?php foreach($messageList as $message) { ?>
-                <tr>
-                    <td><?php $message ?>
-                    </td>
-                </tr>
-                <?php } ?>
-        </tbody>
-    </table>
+<div class="chat-box">
+    <?php foreach($messageList as $message) {
+        if($message->getIdSender() == $logged->getId()) { ?>
+            <p class="msg sent"><?php echo $message->getMessage(); ?></p>
+        <?php } else { ?>
+            <p class="msg rcvd"><?php echo $message->getMessage() ?></p>
+    <?php } } ?>
+</div>
+
+<form action="<?php echo FRONT_ROOT."ChatMessage/add" ?>" method="post">
+    <input type="text" name="newMessage" maxlength="100" required>
+    <input type="hidden" name="name" value="<?php echo $name; ?>" maxlength="100">
+    <button type="submit" name="chatId" value="<?php echo $chatId; ?>">ENVIAR</button>
+</form>

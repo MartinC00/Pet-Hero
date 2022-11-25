@@ -22,8 +22,8 @@
 			$parameters['price_']=$keeper->getPrice();
 
 			try{
-				$this->Connection = Connection::getInstance();
-				$this->Connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true);
+				$this->connection = Connection::getInstance();
+				$this->connection->ExecuteNonQuery($query,$parameters, QueryType::StoredProcedure, true);
 			}catch(\PDOException $ex){
 				throw $ex;
 			}

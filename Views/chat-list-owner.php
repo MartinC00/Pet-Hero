@@ -21,21 +21,19 @@
             <?php foreach($chatList as $chat) { ?>
                 <tr>
                     <td><?php echo $chat["keeperName"] ?></td>
-
-                     
-                      <td> <?php if($chat["status"] == 1) echo "Accepted";
-                      		else if($chat["status"] == 2) echo "Pending";
-                      			else echo "Rejected"; ?>
-                      </td>
-                        <td>
-                        	<?php if($chat["status"] == 1) { ?>
-	                            <form action="<?php echo FRONT_ROOT."Chat/showChatView" ?>" method="post">
-	                            	<input type="hidden" name="keeperName" value="<?php echo $chat["keeperName"] ?>">
-	                        		<button type="submit" value="<?php echo $chat["id"]?>"> GO TO CHAT </button>
-	                            </form><?php } 
-	                            else echo "No actions" ?>
-                        </td>
+                    <td><?php if($chat["status"] == 1) echo "Accepted";
+                        else if($chat["status"] == 2) echo "Pending";
+                        else echo "Rejected"; ?>
+                    </td>
+                    <td>
+                        <?php if($chat["status"] == 1) { ?>
+                            <form action="<?php echo FRONT_ROOT."Chat/showChatView" ?>" method="post">
+                                <input type="hidden" name="name" value="<?php echo $chat["keeperName"]; ?>">
+                                <button type="submit" name="chatId" value="<?php echo $chat["id"]?>"> GO TO CHAT </button>
+                            </form>
+                        <?php } else echo "No actions"; ?>
+                    </td>
                 </tr>
-                <?php } ?>
+            <?php } ?>
         </tbody>
     </table>
