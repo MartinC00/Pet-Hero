@@ -58,16 +58,14 @@
 			require_once(VIEWS_PATH . "keeper-home.php");
 		}
 
-		public function showListView2() { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
+		public function showListView2($message='') { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
 			require_once(VIEWS_PATH . "validate-session.php");
-			$message=''; $message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getAll();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function showListView($message = "") { //con chat
 			require_once(VIEWS_PATH . "validate-session.php");
-			$message1='';$initialDate=''; $endDate='';
 			$keeperList=$this->keeperDAO->getFullListForOwner();
 			require_once(VIEWS_PATH . "keeper-list.php");
 		}
@@ -77,22 +75,22 @@
 			
 			$check = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $message1="Initial Date must be previous to End Date"; $this->showListView(); }
-			else if ($check == 2) { $message1="Initial Date mustn't be previous to current date"; $this->showListView();}
+			if($check == 1) { $this->showListView("Initial Date must be previous to End Date"); }
+			else if ($check == 2) { $this->showListView("Initial Date mustn't be previous to current date"); }
 			else {
-				$keeperList=$this->keeperDAO->getAll();
+				$keeperList=$this->keeperDAO->getFullListForOwner();
 				$keeperListFiltered = array();
 
 				foreach ($keeperList as $keeper) {
-					if($keeper->getInitialDate() <= $initialDate && $endDate <= $keeper->getEndDate()) {
+					if($keeper["initialDate"] <= $initialDate && $endDate <= $keeper["endDate"]) {
 						array_push($keeperListFiltered, $keeper);
 					}
 				}
 
 				$keeperList=$keeperListFiltered;
 				if(empty($keeperList)) $message="Oh, seems like there's not keepers availables in that range of dates... Try another dates";
+				require_once(VIEWS_PATH . "keeper-list.php");
 			}
-			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function getKeeperLogged() {
@@ -138,7 +136,12 @@
         }
         public function getByUserId($id)
         {
-            return $this->keeperDAO->getById($id);
+            return $this->keeperDAO->getByUserId($id);
+        }
+
+        public function getKeeperName($idKeeper)
+        {
+        	return $this->keeperDAO->getKeeperName($idKeeper);
         }
 	}
  ?>

@@ -249,6 +249,7 @@
             else 
             {
                 $keeper = $this->keeperController->getByUserId($_SESSION["loggedUser"]->getId());
+
                 $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
                 require_once(VIEWS_PATH . "keeper-reserve-list2.php");
             }
@@ -277,16 +278,20 @@
             if($reserve)
             {
                 $coupon=$this->couponController->getByReserveId($id);
-                if($reserve->getPaymentStatus()!= PaymentStatus::Signed)
+                if($reserve->getReserveStatus()==ReserveStatus::Accepted)
                 {
-                    if($coupon->getCode()==$code)
+                    if($reserve->getPaymentStatus()== PaymentStatus::Unpayed)
                     {
-                        $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
-                        $this->showReserveList2("Sign Payed!");
-                    }
-                    else $this->showReserveList2("Incorrect coupon code! Please check");
+                        if($coupon->getCode()==$code)
+                        {
+                            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
+                            $this->showReserveList2("Sign Payed!");
+                        }
+                        else $this->showReserveList2("Incorrect coupon code! Please check");
 
-                }else $this->showReserveList2("Reserve already signed!");
+                    }else $this->showReserveList2("Reserve already signed or payed!");
+                
+                }else $this->showReserveList2("Reserve isn't accepted yet");
             }
             else $this->showReserveList2("Incorrect reserve number! Please check");  
         }

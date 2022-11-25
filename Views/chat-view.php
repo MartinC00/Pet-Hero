@@ -25,3 +25,9 @@
         <button type="submit" name="chatId" value="<?php echo $chatId; ?>" style="width: available">ENVIAR</button>
     </form>
 </div>
+
+    <form action="<?php echo FRONT_ROOT . "Chat/showChatView" ?>" method="post"> 
+        <input type="hidden" name="name" value="<?php echo $name ?>">
+        <button type="submit" name="chatId" value="<?php echo $chatId ?>">REFRESH</button>
+    </form> 
+

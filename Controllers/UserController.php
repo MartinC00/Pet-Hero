@@ -127,6 +127,8 @@
 				$this->showHomeView("Profile modified !");
 			}			
 		}
+
+		
 		
 		public function getByUsername($username)
 		{

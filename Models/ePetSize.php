@@ -7,5 +7,4 @@
 		case Medium;
 		case Big;
 	}
-
  ?>

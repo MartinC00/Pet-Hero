@@ -2,6 +2,7 @@
 	namespace DAO;
 	use Models\Keeper;
 	use DAO\QueryType;
+	use DAO\UserDAO;
 
 	class KeeperDAO
 	{
@@ -70,6 +71,7 @@
 			{
 				$this->connection = Connection::getInstance();
 				$result=$this->connection->Execute($query, array(), QueryType::StoredProcedure); 
+
 				foreach($result as $row)
 				{
 					$chat=$chatDAO->getByIds($_SESSION['loggedUser']->getId(), $row["userId"]);	
@@ -83,8 +85,6 @@
 			{
 				echo $ex->getMessage();
 			}
-
-
 		}
 		
 		public function getById($id)
@@ -131,10 +131,16 @@
 				echo $ex->getMessage();
 			}
         }
-			
-		
-		
-	}
+
+        public function getKeeperName($idKeeper)
+        {
+        	$userDAO = new UserDAO();
+        	$keeper=$this->getById($idKeeper);
+            $user=$userDAO->getById($keeper->getUserId());
+
+            return $user->getName();
+        }
 
 
- ?>
+    }
+ ?> 

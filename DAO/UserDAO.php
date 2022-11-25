@@ -118,7 +118,10 @@
 				echo $ex->getMessage();
 			}
         }
-
+        public function getOwnerName($idOwner)
+        {
+        	return $this->getById($idOwner)->getName();
+        }
 
 	}
 

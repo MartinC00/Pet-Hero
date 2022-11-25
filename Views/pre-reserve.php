@@ -14,6 +14,8 @@ include('owner-nav-bar.php');
             <th style="width: 110px;">Keeper Name</th>
             <th style="width: 110px;">Pet Size</th>
             <th style="width: 110px;">Price</th>
+            <th style="width: 110px;">Initial Date</th>
+            <th style="width: 110px;">End Date</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +23,8 @@ include('owner-nav-bar.php');
             <td> <?php echo $user->getName() ?> </td>
             <td> <?php echo $keeper->getPetSize() ?> </td>
             <td> <?php echo $keeper->getPrice() ?> </td>
+            <td> <?php echo $keeper->getInitialDate() ?> </td>
+            <td> <?php echo $keeper->getEndDate() ?> </td>
         </tr>
     </tbody>
 </table>
