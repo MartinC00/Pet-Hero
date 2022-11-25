@@ -10,7 +10,7 @@
 
     class ChatController {
 
-        public $chatDAO;
+        private $chatDAO;
         private $keeperController;
         private $chatMessageController;
 

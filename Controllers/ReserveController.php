@@ -13,9 +13,6 @@
 	use Controllers\UserController;
     use Controllers\MailController;
     use Controllers\CouponController;
-	use DAO\UserDAO;
-	use DAO\KeeperDAO;
-	use DAO\PetDAO;
 	use DAO\ReserveDAO;
 
 	class ReserveController
@@ -50,7 +47,7 @@
             $reserve->setReserveStatus(ReserveStatus::Pending);
             $reserve->setPaymentStatus(PaymentStatus::Unpayed);
 
-            $petTypeId = $this->petController->petDAO->getById($idPets[0])->getPetType()->getId();
+            $petTypeId = $this->petController->getById($idPets[0])->getPetType()->getId();
             $check=$this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
             if($check)
             {
@@ -101,7 +98,7 @@
 
             if ($reservesFilteredByDate) {
                 $firstReserve = $reservesFilteredByDate[0];
-                $petType = $this->petController->petDAO->getById($firstReserve->getIdPets()[0])->getPetType();
+                $petType = $this->petController->getById($firstReserve->getIdPets()[0])->getPetType();
                 if ($petType->getId() != $idPetType) return false;                   
                 
             }
@@ -118,7 +115,7 @@
         public function checkKeeperDisponibility($startDate, $endDate, $idKeeper)
         {
 			require_once(VIEWS_PATH . "validate-session.php");
-            $keeper=$this->keeperController->keeperDAO->getById($idKeeper);
+            $keeper=$this->keeperController->getById($idKeeper);
             if($startDate < $keeper->getInitialDate() || $endDate > $keeper->getEndDate()) return 1;
             else return 0;
         }
@@ -138,7 +135,7 @@
                 {                    
                     $petList = array();
                     foreach ($idPets as $petId) {
-                        $pet = $this->petController->petDAO->getById($petId);
+                        $pet = $this->petController->getById($petId);
                         array_push($petList, $pet);
                     }
 
@@ -156,7 +153,7 @@
 		}
 
 		private function checkPetSize($petList, $idKeeper) {
-            $keeperPetSize = $this->keeperController->keeperDAO->getById($idKeeper)->getPetSize();
+            $keeperPetSize = $this->keeperController->getById($idKeeper)->getPetSize();
 
             foreach ($petList as $pet) {
                 if($pet->getSize() != $keeperPetSize)
@@ -179,9 +176,9 @@
         public function showPreReserve($keeperId, $message = "") 
         {
             require_once(VIEWS_PATH . "validate-session.php");
-            $userPetList = $this->petController->petDAO->getListByUserId($_SESSION["loggedUser"]->getId());
-            $keeper = $this->keeperController->keeperDAO->getById($keeperId);
-            $user = $this->userController->userDAO->getById($keeper->getUserId());
+            $userPetList = $this->petController->getListByUserId($_SESSION["loggedUser"]->getId());
+            $keeper = $this->keeperController->getById($keeperId);
+            $user = $this->userController->getById($keeper->getUserId());
             require_once(VIEWS_PATH . "pre-reserve.php");
         }
 
@@ -199,7 +196,7 @@
             if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
                 $reserveList = $this->reserveDAO->getReservesByOwnerId($_SESSION["loggedUser"]->getId());
             else {
-                $keeper = $this->keeperController->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
+                $keeper = $this->keeperController->getByUserId($_SESSION["loggedUser"]->getId());
                 $reserveList = $this->reserveDAO->getReservesByKeeperId($keeper->getKeeperId());
             }
             
@@ -211,9 +208,9 @@
 
             foreach($reserveList as $reserve)
             {
-                $owner = $this->userController->userDAO->getById($reserve->getIdUserOwner());
-                $keeper = $this->keeperController->keeperDAO->getById($reserve->getIdKeeper());
-                $userKeeper = $this->userController->userDAO->getById($keeper->getUserId());
+                $owner = $this->userController->getById($reserve->getIdUserOwner());
+                $keeper = $this->keeperController->getById($reserve->getIdKeeper());
+                $userKeeper = $this->userController->getById($keeper->getUserId());
 
                 array_push($ownerList, $owner);
                 array_push($keeperList, $keeper);
@@ -221,7 +218,7 @@
 
                 foreach($reserve->getIdPets() as $idPet)
                 {
-                    array_push($petListReserve, $this->petController->petDAO->getById($idPet));
+                    array_push($petListReserve, $this->petController->getById($idPet));
                 }
                 array_push($petListArray, $petListReserve);
 
@@ -251,7 +248,7 @@
             }
             else 
             {
-                $keeper = $this->keeperController->keeperDAO->getByUserId($_SESSION["loggedUser"]->getId());
+                $keeper = $this->keeperController->getByUserId($_SESSION["loggedUser"]->getId());
                 $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
                 require_once(VIEWS_PATH . "keeper-reserve-list2.php");
             }
@@ -267,7 +264,7 @@
             } else
             {
                 $reserve=$this->reserveDAO->getById($reserveId);
-                $owner=$this->userController->userDAO->getById($reserve->getIdUserOwner());
+                $owner=$this->userController->getById($reserve->getIdUserOwner());
                 $this->mailController->sendEmail($reserveId, $owner->getName(), $owner->getEmail());
                 $this->showReserveList2("Reserve accepted! Payment coupon sent to the owner.");
             }
@@ -279,7 +276,7 @@
             $reserve=$this->reserveDAO->getById($id);
             if($reserve)
             {
-                $coupon=$this->couponController->couponDAO->getByReserveId($id);
+                $coupon=$this->couponController->getByReserveId($id);
                 if($reserve->getPaymentStatus()!= PaymentStatus::Signed)
                 {
                     if($coupon->getCode()==$code)

@@ -6,16 +6,12 @@
 	use Models\User;
 	use Controllers\UserController;
 	use DAO\KeeperDAO;
-	use DAO\UserDAO;
-
 
 	class KeeperController {
-		public $keeperDAO;
-		//private $userController;
+		private $keeperDAO;
 
 		public function __construct() {
 			$this->keeperDAO = new KeeperDAO();
-            //$this->userController = new UserController();
 		}
 
 		public function add($addressStreet, $addressNumber, $petSize, $initialDate, $endDate, $days, $price) {
@@ -135,5 +131,14 @@
 			$keeper = $this->getKeeperLogged();
         	require_once(VIEWS_PATH . "modify-keeper-profile.php");
 		}
+
+		public function getById($id)
+        {
+            return $this->keeperDAO->getById($id);
+        }
+        public function getByUserId($id)
+        {
+            return $this->keeperDAO->getById($id);
+        }
 	}
  ?>

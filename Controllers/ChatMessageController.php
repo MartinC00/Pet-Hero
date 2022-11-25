@@ -10,7 +10,7 @@
 
     class ChatMessageController {
 
-        public $messageDAO;
+        private $messageDAO;
 
         public function __construct() {
             $this->messageDAO = new ChatMessageDAO();
@@ -33,7 +33,6 @@
 
             $chatController = new ChatController();
             $chatController->showChatView($name, $chatId);
-
         }
 
         public function getListByChatId($chatId) {

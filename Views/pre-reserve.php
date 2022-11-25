@@ -7,8 +7,24 @@ include('owner-nav-bar.php');
 
 <?php if(isset($message)) echo $message; ?>
 
-<p>Selected Keeper: <?php echo $user->getName() . " " . $keeper->getPetSize() . " " . $keeper->getPrice()?></p>
-
+<p>Selected Keeper:</p>
+<table>
+    <thead>
+        <tr>
+            <th style="width: 110px;">Keeper Name</th>
+            <th style="width: 110px;">Pet Size</th>
+            <th style="width: 110px;">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td> <?php echo $user->getName() ?> </td>
+            <td> <?php echo $keeper->getPetSize() ?> </td>
+            <td> <?php echo $keeper->getPrice() ?> </td>
+        </tr>
+    </tbody>
+</table>
+<br>
 <form action="<?php echo FRONT_ROOT ."Reserve/showAddView" ?>" method="post">
 
     <table style="text-align: center">

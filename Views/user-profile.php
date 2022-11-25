@@ -10,11 +10,11 @@
         <thead>
             <tr>
                 <th style="width: 100px;">Username</th>
-                <th style="width: 100px;">Nombre</th>
-                <th style="width: 150px;">Apellido</th>
+                <th style="width: 100px;">Name</th>
+                <th style="width: 150px;">Lastname</th>
                 <th style="width: 150px;">DNI</th>
                 <th style="width: 150px;">Phone Number</th>
-                <th style="width: 250px;">email</th>
+                <th style="width: 250px;">Email</th>
                 <th style="width: 150px;">User Type</th>
                 <th style="width: 150px;">Actions</th>
             </tr>

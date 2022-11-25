@@ -181,7 +181,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `chats_getByIds` (`idUserOwner_` INT
 end$$
 
 DROP PROCEDURE IF EXISTS `messages_add`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`chatId_` INT, `idSender_` INT, `message_` VARCHAR(100), `date_` DATETIME)  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `messages_add` (`chatId_` INT, `idSender_` INT, `message_` VARCHAR(200), `date_` DATETIME)  begin
     insert into messages (chatId, idSender, message, date)
     VALUES (chatId_, idSender_, message_, date_);
 select LAST_INSERT_ID() from messages;
@@ -236,8 +236,10 @@ CREATE TABLE IF NOT EXISTS `keepers` (
 -- Volcado de datos para la tabla `keepers`
 --
 
-INSERT INTO `keepers` (`keeperId`, `userId`, `addressStreet`, `addressNumber`, `petSize`, `initialDate`, `endDate`, `days`, `price`) VALUES
-(1, 2, 'calleNroUno', '5000', 'Medium', '2022-11-09', '2022-11-30', 'Monday,Tuesday,Wednesday,Thursday,Friday', 500);
+INSERT INTO `keepers` 
+(`keeperId`, `userId`, `addressStreet`, `addressNumber`, `petSize`, `initialDate`, `endDate`, `days`, `price`) 
+VALUES (1, 2, 'Independencia', '3530', 'Medium', '2022-11-25', '2022-12-22', 'Monday,Tuesday,Wednesday,Thursday,Friday', 3000),
+(2, 4, 'Av. Tejedor', '5000', 'Big', '2022-11-25', '2022-12-30', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 2500);
 
 -- --------------------------------------------------------
 
@@ -266,13 +268,13 @@ CREATE TABLE IF NOT EXISTS `pets` (
 --
 
 INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `description`, `photo`, `vaccines`, `video`, `isActive`) VALUES
-(1, 1, 1, 'perroS', 'raza1', 'Small', 'asd', NULL, NULL, NULL, 1),
-(2, 1, 1, 'perroM', 'asd', 'Medium', 'asd', NULL, NULL, NULL, 1),
-(3, 1, 1, 'perroB', 'asd', 'Big', 'asd', NULL, NULL, NULL, 1),
-(4, 1, 2, 'gatoS', 'asd', 'Small', 'asd', NULL, NULL, NULL, 1),
-(5, 1, 2, 'gatoM', 'asd', 'Medium', 'asd', NULL, NULL, NULL, 1),
-(6, 1, 2, 'gatoB', 'asd', 'Big', 'asd', NULL, NULL, NULL, 1),
-(7, 1, 2, 'gatoM2', 'asd', 'Medium', 'asd', NULL, NULL, NULL, 1);
+(1, 5, 1, 'Lali', 'Caniche', 'Small', 'es muy inteligente y pasea a diario en el auto', NULL, NULL, NULL, 1),
+(2, 3, 1, 'Mora', 'Galgo', 'Medium', 'es muy veloz', NULL, NULL, NULL, 1),
+(3, 5, 1, 'Amigo', 'Mestizo', 'Big', 'rescatado de la calle u.u pero muy fiel :)', NULL, NULL, NULL, 1),
+(4, 3, 2, 'Melon', 'Naranja', 'Small', 'se parece a Garfield', NULL, NULL, NULL, 1),
+(5, 1, 2, 'Shiro', 'Ragdoll', 'Medium', 'muy bonito y sabe hablar', NULL, NULL, NULL, 1),
+(6, 1, 2, 'Neko', 'Gris', 'Big', 'el unico gato baboso de mdq', NULL, NULL, NULL, 1),
+(7, 5, 2, 'Cleo', 'Gris', 'Medium', 'le gusta mirar palomas por la ventana', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -343,8 +345,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `lastname`, `dni`, `phone`, `email`, `userTypeId`) VALUES
-(1, 'owner', '123', 'asd', 'asd', '12345677', '2235663251', 'cabreramartin403@gmail.com', 1),
-(2, 'keeper', '123', 'john', 'asd', '12345678', '2235663251', 'algo@gmail.com', 2);
+(1, 'crisO', '123', 'Cristian', 'Halm', '12345677', '2235663251', 'cris@gmail.com', 1),
+(2, 'nicoK', '123', 'Nicolas', 'Bertolucci', '12345678', '2235663251', 'nico@gmail.com', 2),
+(3, 'martinO', '123', 'Martin', 'Cabrera', '42946488', '2236663251', 'cabreramartin403@gmail.com', 1),
+(4, 'agustinK', '123', 'Agustin', 'Lapenna', '38283270', '2236613251', 'agustinjlapenna@gmail.com', 2),
+(5, 'sofiaO', '123', 'Sofia', 'Belber', '44283270', '2236613221', 'sofiabelber@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -401,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `chatId` int(11) NOT NULL,
     `idSender` INT NOT NULL,
-    `message` VARCHAR(100) NOT NULL,
+    `message` VARCHAR(200) NOT NULL,
     `date` DATETIME NOT NULL,
     PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
