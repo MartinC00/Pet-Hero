@@ -17,10 +17,11 @@
         <?php } else { ?>
             <p class="msg rcvd"><?php echo $message->getMessage() ?></p>
     <?php } } ?>
+</div>
+<div class="chat-input">
     <form action="<?php echo FRONT_ROOT."ChatMessage/add" ?>" method="post">
         <input type="text" id="newMessage" name="newMessage" maxlength="100" required>
         <input type="hidden" name="name" value="<?php echo $name; ?>" readonly>
         <button type="submit" name="chatId" value="<?php echo $chatId; ?>" style="width: available">ENVIAR</button>
     </form>
 </div>
-
