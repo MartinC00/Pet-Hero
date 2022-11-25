@@ -6,7 +6,7 @@
 
   <table style="text-align:center;">
     <thead>
-      <tr>
+      <tr style="background: rgba(0,0,0,0.5); color: white">
         <?php if(!empty($keeperList)) { ?>
           <th style="width: 100px;">Name</th>
           <th style="width: 170px;">Lastname</th>
@@ -42,7 +42,7 @@
 
         <?php foreach($keeperList as $keeper)  {  ?>
           <form action="<?php echo FRONT_ROOT . "Reserve/showPreReserve" ?>" method="post">
-                <tr>
+                <tr style="background: rgba(0,0,0,0.5); color: white">
                   <td><?php echo $keeper["name"] ?></td>
                   <td><?php echo $keeper["lastname"] ?></td>
                   <td><?php echo $keeper["phone"] ?></td>
@@ -52,7 +52,7 @@
                   <td><?php echo $keeper["petSize"] ?></td>
                   <td><?php echo $keeper["initialDate"] ?></td>
                   <td><?php echo $keeper["endDate"] ?></td>
-                  <td><?php echo $keeper["days"]?></td>
+                  <td style="word-wrap: break-word"><?php echo str_replace(",", " ", $keeper["days"])?></td>
                   <td><?php echo $keeper["price"] ?></td>
                   <td> <button type="submit" name="keeperId" value="<?php echo $keeper["keeperId"] ?>"> Hire keeper </button> </td>
                   </form>
