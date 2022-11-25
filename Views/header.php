@@ -9,3 +9,4 @@
 <!--        <link href="/Pet-Hero/Views/Layout/styles/style.css" rel="stylesheet" type="text/css" media="all">-->
     </head>
     <body>
+        <div class="background-img">
