@@ -24,7 +24,8 @@
         private $mailController;
         private $couponController;
         
-		public function __construct() {
+		public function __construct() 
+        {
 			$this->reserveDAO = new ReserveDAO();
 			$this->petController = new PetController();
 			$this->userController = new UserController();
@@ -33,7 +34,8 @@
             $this->couponController = new CouponController();
 		}
 
-		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice) {
+		public function add($initialDate, $endDate, $idKeeper, $idPets, $totalPrice) 
+        {
             require_once(VIEWS_PATH . "validate-session.php");
             $reserve = new Reserve();
 
@@ -123,11 +125,9 @@
 		public function showAddView($idPets, $startDate, $endDate, $idKeeper, $price)
 		{
             require_once(VIEWS_PATH . "validate-session.php");
-            $check = $this->keeperController->datesCheck($startDate, $endDate);
+            $validation = $this->keeperController->datesCheck($startDate, $endDate);
 
-            if($check == 1) { $this->showPreReserve($idKeeper, "Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showPreReserve($idKeeper, "Initial Date mustn't be previous to current date"); }
-			else
+			if($validation == 0)
 			{
                 $checkDisponibility = $this->checkKeeperDisponibility($startDate, $endDate, $idKeeper);
                 if($checkDisponibility == 1) $this->showPreReserve($idKeeper, "Selected dates are out of keeper's disponibility");
@@ -150,6 +150,7 @@
                         $this->showPreReserve($idKeeper, "Pets should be from same pet-type");
                 }
 			}
+            else $this->showPreReserve($idKeeper, $validation);
 		}
 
 		private function checkPetSize($petList, $idKeeper) {
@@ -189,7 +190,68 @@
             return $numberOfPets * $price * ($interval->days+1);
         }
 
-        public function showReserveList($message='')
+
+
+        public function showReserveList($message = "")
+        {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
+            {
+                $reserveList = $this->reserveDAO->getReservesForOwner();
+                require_once(VIEWS_PATH . "owner-reserve-list.php");
+            }
+            else 
+            {
+                $keeper = $this->keeperController->getByUserId($_SESSION["loggedUser"]->getId());
+
+                $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
+                require_once(VIEWS_PATH . "keeper-reserve-list.php");
+            }
+        }
+
+		public function modifyStatus($reserveId, $status) {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $this->reserveDAO->modifyStatus($reserveId, $status);
+
+            if($status == 0) {
+                $this->showReserveList("Reserve rejected!");
+            } else
+            {
+                $reserve=$this->reserveDAO->getById($reserveId);
+                $owner=$this->userController->getById($reserve->getIdUserOwner());
+                $this->mailController->sendEmail($reserveId, $owner->getName(), $owner->getEmail());
+                $this->showReserveList("Reserve accepted! Payment coupon sent to the owner.");
+            }
+		}
+
+        public function payReserveSign($id, $code)
+        {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $reserve=$this->reserveDAO->getById($id);
+            if($reserve)
+            {
+                $coupon=$this->couponController->getByReserveId($id);
+                if($reserve->getReserveStatus()==ReserveStatus::Accepted)
+                {
+                    if($reserve->getPaymentStatus()== PaymentStatus::Unpayed)
+                    {
+                        if($coupon->getCode()==$code)
+                        {
+                            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
+                            $this->showReserveList("Sign Payed!");
+                        }
+                        else $this->showReserveList("Incorrect coupon code! Please check");
+
+                    }else $this->showReserveList("Reserve already signed or payed!");
+                
+                }else $this->showReserveList("Reserve isn't accepted yet");
+            }
+            else $this->showReserveList("Incorrect reserve number! Please check");  
+        }
+        
+        public function showReserveList_DEPRECATED($message='') //previo a implementacion de inner join en el mysql
         {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -235,65 +297,5 @@
                 require_once(VIEWS_PATH . "keeper-reserve-list.php");
             }
 		}
-
-
-        public function showReserveList2($message = "")
-        {
-            require_once(VIEWS_PATH . "validate-session.php");
-
-            if($_SESSION["loggedUser"]->getUserType()->getNameType()=="Owner")
-            {
-                $reserveList = $this->reserveDAO->getReservesForOwner();
-                require_once(VIEWS_PATH . "owner-reserve-list2.php");
-            }
-            else 
-            {
-                $keeper = $this->keeperController->getByUserId($_SESSION["loggedUser"]->getId());
-
-                $reserveList = $this->reserveDAO->getReservesForKeeper($keeper->getKeeperId());
-                require_once(VIEWS_PATH . "keeper-reserve-list2.php");
-            }
-        }
-
-		public function modifyStatus($reserveId, $status) {
-            require_once(VIEWS_PATH . "validate-session.php");
-
-            $this->reserveDAO->modifyStatus($reserveId, $status);
-
-            if($status == 0) {
-                $this->showReserveList2("Reserve rejected!");
-            } else
-            {
-                $reserve=$this->reserveDAO->getById($reserveId);
-                $owner=$this->userController->getById($reserve->getIdUserOwner());
-                $this->mailController->sendEmail($reserveId, $owner->getName(), $owner->getEmail());
-                $this->showReserveList2("Reserve accepted! Payment coupon sent to the owner.");
-            }
-		}
-
-        public function payReserveSign($id, $code)
-        {
-            require_once(VIEWS_PATH . "validate-session.php");
-            $reserve=$this->reserveDAO->getById($id);
-            if($reserve)
-            {
-                $coupon=$this->couponController->getByReserveId($id);
-                if($reserve->getReserveStatus()==ReserveStatus::Accepted)
-                {
-                    if($reserve->getPaymentStatus()== PaymentStatus::Unpayed)
-                    {
-                        if($coupon->getCode()==$code)
-                        {
-                            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
-                            $this->showReserveList2("Sign Payed!");
-                        }
-                        else $this->showReserveList2("Incorrect coupon code! Please check");
-
-                    }else $this->showReserveList2("Reserve already signed or payed!");
-                
-                }else $this->showReserveList2("Reserve isn't accepted yet");
-            }
-            else $this->showReserveList2("Incorrect reserve number! Please check");  
-        }
 	}
  ?>

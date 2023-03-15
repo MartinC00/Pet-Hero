@@ -1,7 +1,7 @@
 <?php
     namespace Models;
     
-    abstract class ReserveStatus
+    enum ReserveStatus
     {
         const Rejected = 0;
         const Accepted = 1;

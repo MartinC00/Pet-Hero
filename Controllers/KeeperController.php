@@ -26,15 +26,14 @@
 			$keeper->setDays($days);
 			$keeper->setPrice($price);
 
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showAddView("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showAddView("Initial Date mustn't be previous to current date"); }
-			else
+			if($validation == 0) 
 			{			
 				$response=$this->keeperDAO->add($keeper);
 				$this->showHomeView($response);
 			}
+			else $this->showAddView($validation);
 		}
 
 		public function showAddView($message = "") {
@@ -43,14 +42,22 @@
 		}
 
 		public function datesCheck($initialDate, $endDate) {
-			$currentDate = strtotime(date("d-m-Y",time()));
+			$currentDateUnix = strtotime(date("d-m-Y",time()));
 			$initialDateUnix = strtotime($initialDate);
 			$endDateUnix = strtotime($endDate);
 
-			if($initialDateUnix > $endDateUnix) return 1;
-			else if($initialDateUnix < $currentDate) return 2;
-			else return 0;
 
+			if($initialDateUnix > $endDateUnix)
+			{
+				$errorMessage="Initial Date must be previous to End Date";
+				return $errorMessage;
+			} 
+			else if($initialDateUnix < $currentDateUnix)
+			{
+				$errorMessage2="Initial Date mustn't be previous to current date";
+				return $errorMessage;
+			} 
+			else return 0;
 		}
 
 		public function showHomeView($message = "") {
@@ -73,11 +80,10 @@
 		public function showFilterListView($initialDate, $endDate) { //listado filtrado por fechas que ingreso el usuario
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showListView("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showListView("Initial Date mustn't be previous to current date"); }
-			else {
+			if($validation == 0) 
+			{
 				$keeperList=$this->keeperDAO->getFullListForOwner();
 				$keeperListFiltered = array();
 
@@ -91,6 +97,7 @@
 				if(empty($keeperList)) $message="Oh, seems like there's not keepers availables in that range of dates... Try another dates";
 				require_once(VIEWS_PATH . "keeper-list.php");
 			}
+			else $this->showListView($validation);
 		}
 
 		public function getKeeperLogged() {
@@ -110,14 +117,14 @@
 			$keeper->setDays($days);
 			$keeper->setPrice($price);
 
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showModifyKeeperProfile("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showModifyKeeperProfile("Initial Date mustn't be previous to current date"); }
-			else {
+			if($validation == 1) 
+			{
 				$this->keeperDAO->modify($keeper);
 				$this->showHomeView("Keeper data modified !");
 			}
+			else $this->showModifyKeeperProfile($validation);
 		}
 
 		public function showKeeperProfile() {

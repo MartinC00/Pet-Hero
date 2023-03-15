@@ -21,7 +21,7 @@
         {
             require_once(VIEWS_PATH."validate-session.php");
             
-            if($_SESSION["loggedUser"]->getUserType()->getId() === 2) //keeper = id: 2
+            if($_SESSION["loggedUser"]->getUserType()->getId() == 2) //keeper = id: 2
             {
                require_once(VIEWS_PATH."keeper-home.php"); 
             }
@@ -35,7 +35,7 @@
         {
             $user = $this->userController->getByUsername($userName);
 
-            if(($user != null) && ($user->getPassword() === $password)) 
+            if(($user != null) && ($user->getPassword() == $password)) 
             {
                 $_SESSION["loggedUser"] = $user;
                 $this->showHomeView();

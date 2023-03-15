@@ -156,7 +156,7 @@
 
 		public function showHomeView($message='')
 		{
-			if($_SESSION["loggedUser"]->getUserType()->getId() === 1) require_once(VIEWS_PATH . "owner-home.php");
+			if($_SESSION["loggedUser"]->getUserType()->getId() == 1) require_once(VIEWS_PATH . "owner-home.php");
 			else require_once(VIEWS_PATH . "keeper-home.php");
 		}
 	}

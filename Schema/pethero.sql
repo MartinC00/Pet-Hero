@@ -245,8 +245,8 @@ CREATE TABLE `keepers` (
 --
 
 INSERT INTO `keepers` (`keeperId`, `userId`, `addressStreet`, `addressNumber`, `petSize`, `initialDate`, `endDate`, `days`, `price`) VALUES
-(1, 2, 'Independencia', '3530', 'Medium', '2022-11-25', '2022-12-22', 'Monday,Tuesday,Wednesday,Thursday,Friday', 3000),
-(2, 4, 'Av. Tejedor', '5000', 'Big', '2022-11-25', '2022-12-30', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 2500);
+(1, 2, 'Independencia', '3530', 'Medium', '2023-01-25', '2023-05-22', 'Monday,Tuesday,Wednesday,Thursday,Friday', 3000),
+(2, 4, 'Av. Tejedor', '5000', 'Big', '2023-01-25', '2023-05-30', 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday', 2500);
 
 -- --------------------------------------------------------
 
