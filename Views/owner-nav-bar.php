@@ -4,7 +4,7 @@
     <a href="<?php echo FRONT_ROOT."Pet/showAddView"?>">ADD PET</a>
     <a href="<?php echo FRONT_ROOT."Pet/showPetsList"?>">MY PETS</a>
     <a href="<?php echo FRONT_ROOT."Chat/showListView"?>">CHATS</a>
-    <a href="<?php echo FRONT_ROOT."Reserve/showReserveList2"?>">RESERVATIONS</a>
+    <a href="<?php echo FRONT_ROOT."Reserve/showReserveList"?>">RESERVATIONS</a>
     <a href="<?php echo FRONT_ROOT."User/showMyProfile"?>">PROFILE</a>
     <a class="active" href="<?php echo FRONT_ROOT."User/showHomeView"?>">HOME</a>
     <a class="logo" style="float: left; padding: 0; height: 0"

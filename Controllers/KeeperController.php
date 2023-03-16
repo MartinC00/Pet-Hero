@@ -42,7 +42,14 @@
 		}
 
 		public function datesCheck($initialDate, $endDate) {
-			$currentDateUnix = strtotime(date("d-m-Y",time()));
+			$currentDate = date("Y-m-d", time()-10800); //10800 son 3 horas en segundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
+
+			if($initialDate > $endDate) return "Initial Date must be previous to End Date";		
+			else if($initialDate < $currentDate) return "Initial Date mustn't be previous to current date";
+			else return 0;
+		/*
+		public function datesCheck($initialDate, $endDate) {
+			$currentDateUnix = strtotime(date("d-m-Y",time())); //10800000 son 3 horas en milisegundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
 			$initialDateUnix = strtotime($initialDate);
 			$endDateUnix = strtotime($endDate);
 
@@ -54,21 +61,16 @@
 			} 
 			else if($initialDateUnix < $currentDateUnix)
 			{
-				$errorMessage2="Initial Date mustn't be previous to current date";
+				$errorMessage="Initial Date mustn't be previous to current date";
 				return $errorMessage;
 			} 
 			else return 0;
 		}
+		*/
 
 		public function showHomeView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "keeper-home.php");
-		}
-
-		public function showListView2($message='') { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
-			require_once(VIEWS_PATH . "validate-session.php");
-			$keeperList=$this->keeperDAO->getAll();
-			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function showListView($message = "") { //con chat
@@ -119,7 +121,7 @@
 
 			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($validation == 1) 
+			if($validation == 0) 
 			{
 				$this->keeperDAO->modify($keeper);
 				$this->showHomeView("Keeper data modified !");
