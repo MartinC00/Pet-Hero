@@ -122,37 +122,51 @@
             else return 0;
         }
 
-		public function showAddView($idPets, $startDate, $endDate, $idKeeper, $price)
+		public function showAddView($startDate, $endDate, $idKeeper, $price, $idPets=array())
 		{
             require_once(VIEWS_PATH . "validate-session.php");
-            $validation = $this->keeperController->datesCheck($startDate, $endDate);
 
-			if($validation == 0)
-			{
-                $checkDisponibility = $this->checkKeeperDisponibility($startDate, $endDate, $idKeeper);
-                if($checkDisponibility == 1) $this->showPreReserve($idKeeper, "Selected dates are out of keeper's disponibility");
-                else
-                {                    
-                    $petList = array();
-                    foreach ($idPets as $petId) {
-                        $pet = $this->petController->getById($petId);
-                        array_push($petList, $pet);
-                    }
+            if(!empty($idPets))
+            {
+                $datesValidation = $this->keeperController->datesCheck($startDate, $endDate);
 
-                    if($this->checkPetType($petList, $idKeeper)) {
-                        if ($this->checkPetSize($petList, $idKeeper)) {
-                            $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
-                            require_once(VIEWS_PATH . "add-reserve.php");
-                        } else
-                            $this->showPreReserve($idKeeper, "Please select pets that have a matching size with Keeper size");
-                    }
+    			if($datesValidation == 0)
+    			{
+                    $checkDisponibility = $this->checkKeeperDisponibility($startDate, $endDate, $idKeeper);
+                    if($checkDisponibility == 1) $this->showPreReserve($idKeeper, "Selected dates are out of keeper's disponibility");
                     else
-                        $this->showPreReserve($idKeeper, "Pets should be from same pet-type");
-                }
-			}
-            else $this->showPreReserve($idKeeper, $validation);
+                    {                    
+                        $petList = array();
+                        foreach ($idPets as $petId) {
+                            $pet = $this->petController->getById($petId);
+                            array_push($petList, $pet);
+                        }
+
+                        if($this->checkPetType($petList, $idKeeper)) {
+                            if ($this->checkPetSize($petList, $idKeeper)) {
+                                $totalPrice = $this->calculateTotalPrice(count($idPets), $startDate, $endDate, $price);
+                                require_once(VIEWS_PATH . "add-reserve.php");
+                            } else
+                                $this->showPreReserve($idKeeper, "Please select pets that have a matching size with Keeper size");
+                        }
+                        else
+                            $this->showPreReserve($idKeeper, "Pets should be from the same specie.");
+                    }
+    			}
+                else $this->showPreReserve($idKeeper, $datesValidation);
+            }
+            else $this->showPreReserve($idKeeper, "You have to select at least 1 pet !!");
 		}
 
+        public function showPreReserve($keeperId, $message = "") 
+        {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $userPetList = $this->petController->getListByUserId($_SESSION["loggedUser"]->getId());
+            $keeper = $this->keeperController->getById($keeperId);
+            $user = $this->userController->getById($keeper->getUserId());
+            require_once(VIEWS_PATH . "pre-reserve.php");
+        }
+        
 		private function checkPetSize($petList, $idKeeper) {
             $keeperPetSize = $this->keeperController->getById($idKeeper)->getPetSize();
 
@@ -174,14 +188,6 @@
             return true;
         }
 
-        public function showPreReserve($keeperId, $message = "") 
-        {
-            require_once(VIEWS_PATH . "validate-session.php");
-            $userPetList = $this->petController->getListByUserId($_SESSION["loggedUser"]->getId());
-            $keeper = $this->keeperController->getById($keeperId);
-            $user = $this->userController->getById($keeper->getUserId());
-            require_once(VIEWS_PATH . "pre-reserve.php");
-        }
 
         private function calculateTotalPrice($numberOfPets, $startDate, $endDate, $price) {
             $date1 = DateTime::createFromFormat("Y-m-d", $startDate);

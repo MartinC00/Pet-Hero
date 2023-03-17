@@ -47,6 +47,7 @@
 			if($initialDate > $endDate) return "Initial Date must be previous to End Date";		
 			else if($initialDate < $currentDate) return "Initial Date mustn't be previous to current date";
 			else return 0;
+		}
 		/*
 		public function datesCheck($initialDate, $endDate) {
 			$currentDateUnix = strtotime(date("d-m-Y",time())); //10800000 son 3 horas en milisegundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()

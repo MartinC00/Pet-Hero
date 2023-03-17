@@ -190,7 +190,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `chats` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `idUserOwner` int(11) NOT NULL,
   `idUserKeeper` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
@@ -210,7 +210,7 @@ INSERT INTO `chats` (`id`, `idUserOwner`, `idUserKeeper`, `status`) VALUES
 --
 
 CREATE TABLE `coupons` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `idReserve` int(11) NOT NULL,
   `code` varchar(20) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -229,7 +229,7 @@ INSERT INTO `coupons` (`id`, `idReserve`, `code`) VALUES
 --
 
 CREATE TABLE `keepers` (
-  `keeperId` int(11) NOT NULL,
+  `keeperId` int(11) NOT NULL AUTO_INCREMENT primary key,
   `userId` int(11) NOT NULL,
   `addressStreet` varchar(45) NOT NULL,
   `addressNumber` varchar(5) NOT NULL,
@@ -255,7 +255,7 @@ INSERT INTO `keepers` (`keeperId`, `userId`, `addressStreet`, `addressNumber`, `
 --
 
 CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `chatId` int(11) NOT NULL,
   `idSender` int(11) NOT NULL,
   `message` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
@@ -280,7 +280,7 @@ INSERT INTO `messages` (`id`, `chatId`, `idSender`, `message`, `date`) VALUES
 --
 
 CREATE TABLE `pets` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `idUser` int(11) NOT NULL,
   `idPetType` int(11) NOT NULL,
   `name` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
@@ -313,7 +313,7 @@ INSERT INTO `pets` (`id`, `idUser`, `idPetType`, `name`, `breed`, `size`, `descr
 --
 
 CREATE TABLE `pettypes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `name` varchar(10) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -332,7 +332,7 @@ INSERT INTO `pettypes` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `reserves` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `idUserOwner` int(11) NOT NULL,
   `idKeeper` int(11) NOT NULL,
   `idPets` varchar(15) COLLATE utf8_spanish2_ci NOT NULL,
@@ -357,7 +357,7 @@ INSERT INTO `reserves` (`id`, `idUserOwner`, `idKeeper`, `idPets`, `initialDate`
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `username` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `password` varchar(30) COLLATE utf8_spanish2_ci NOT NULL,
   `name` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
@@ -386,7 +386,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `name`, `lastname`, `dni`, `p
 --
 
 CREATE TABLE `usertypes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT primary key,
   `nameType` varchar(10) COLLATE utf8_spanish2_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 

@@ -47,7 +47,7 @@
                     $this->uploadPhoto($id);
                     $this->uploadVaccines($id);
                     $this->uploadVideo($id);
-    				$this->showAddView("Nueva mascota registrada !");
+    				$this->showAddView("New pet added !");
                 }
 			}
             else $this->showAddView("Please set correctly the pet type and stop manipulating html code :) ");

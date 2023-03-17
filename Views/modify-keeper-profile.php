@@ -1,4 +1,9 @@
-<?php use Models\ePetSize; use Models\eDays; ?>
+<?php
+    require_once("validate-session.php");
+    include('header.php');
+    include('keeper-nav-bar.php');
+	use Models\ePetSize; use Models\eDays; ?>
+	
 <h2> Modify your Keeper Data </h2>
 
 <?php if(isset($message)) echo $message;?>
