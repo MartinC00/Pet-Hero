@@ -6,8 +6,8 @@
 	use Models\User;
 	use Models\Keeper;
 	use Models\Pet;
-    use Models\ReserveStatus;
-    use Models\PaymentStatus;
+    use Models\eReserveStatus;
+    use Models\ePaymentStatus;
 	use Controllers\PetController;
 	use Controllers\KeeperController;
 	use Controllers\UserController;
@@ -46,8 +46,8 @@
             $reserve->setInitialDate($initialDate);
             $reserve->setEndDate($endDate);
             $reserve->setTotalPrice($totalPrice);
-            $reserve->setReserveStatus(ReserveStatus::Pending);
-            $reserve->setPaymentStatus(PaymentStatus::Unpayed);
+            $reserve->setReserveStatus(eReserveStatus::Pending);
+            $reserve->setPaymentStatus(ePaymentStatus::Unpayed);
 
             $petTypeId = $this->petController->getById($idPets[0])->getPetType()->getId();
             $check=$this->checkReserve($idKeeper, $petTypeId, $initialDate, $endDate);
@@ -235,26 +235,38 @@
         public function payReserveSign($id, $code)
         {
             require_once(VIEWS_PATH . "validate-session.php");
+            
+            $checkReturn = $this->checkPay($id, $code);
+
+            if(is_bool($checkReturn))
+            {
+                $this->reserveDAO->modifyPayment($id, ePaymentStatus::Signed);
+                $this->showReserveList("Sign Payed!");
+            }
+            else $this->showReserveList($checkReturn);
+        }
+
+        private function checkPay($id, $code)
+        {
             $reserve=$this->reserveDAO->getById($id);
             if($reserve)
             {
                 $coupon=$this->couponController->getByReserveId($id);
-                if($reserve->getReserveStatus()==ReserveStatus::Accepted)
+                if($reserve->getReserveStatus()==eReserveStatus::Accepted)
                 {
-                    if($reserve->getPaymentStatus()== PaymentStatus::Unpayed)
+                    if($reserve->getPaymentStatus()== ePaymentStatus::Unpayed)
                     {
                         if($coupon->getCode()==$code)
                         {
-                            $this->reserveDAO->modifyPayment($id, PaymentStatus::Signed);
-                            $this->showReserveList("Sign Payed!");
+                            return true;
                         }
-                        else $this->showReserveList("Incorrect coupon code! Please check");
-
-                    }else $this->showReserveList("Reserve already signed or payed!");
-                
-                }else $this->showReserveList("Reserve isn't accepted yet");
+                        else return "Incorrect coupon code! Please check";
+                    }
+                    else return "Reserve already signed or payed!";
+                }
+                else return "Reserve isn't accepted yet";
             }
-            else $this->showReserveList("Incorrect reserve number! Please check");  
+            else return "Incorrect reserve number! Please check";
         }
         
         public function showReserveList_DEPRECATED($message='') //previo a implementacion de inner join en el mysql

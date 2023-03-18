@@ -24,7 +24,7 @@
     <tbody>
         <?php foreach($reserveList as $row) { ?>
         <tr>
-            <td><?php echo $row["id"]+1 ?></td>
+            <td><?php echo $row["id"] ?></td>
             <td><?php echo $row["keeperName"]?></td>
             <td><?php foreach ($row["petNameList"] as $petName) echo $petName?> </td>
             <td><?php echo $row["initialDate"]?></td>

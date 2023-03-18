@@ -1,7 +1,7 @@
 <?php
     namespace Models;
     
-    enum ReserveStatus
+    enum eReserveStatus
     {
         const Rejected = 0;
         const Accepted = 1;
