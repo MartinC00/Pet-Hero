@@ -1,7 +1,7 @@
 <?php
     namespace Models;
     
-    abstract class PaymentStatus
+    enum ePaymentStatus
     {
         const Unpayed = 0;
         const Signed = 1;

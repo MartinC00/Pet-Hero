@@ -41,3 +41,7 @@
     <button type="submit">Confirm Reservation</button>
 
 </form>
+
+<form action="<?php echo FRONT_ROOT . "Reserve/showPreReserve" ?>" method="post">
+    <button type="submit" name = "keeperId" value="<?php echo $idKeeper?>"> BACK </button>
+</form>

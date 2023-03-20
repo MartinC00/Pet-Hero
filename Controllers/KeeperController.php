@@ -26,15 +26,14 @@
 			$keeper->setDays($days);
 			$keeper->setPrice($price);
 
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showAddView("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showAddView("Initial Date mustn't be previous to current date"); }
-			else
+			if($validation == 0) 
 			{			
 				$response=$this->keeperDAO->add($keeper);
 				$this->showHomeView($response);
 			}
+			else $this->showAddView($validation);
 		}
 
 		public function showAddView($message = "") {
@@ -43,25 +42,36 @@
 		}
 
 		public function datesCheck($initialDate, $endDate) {
-			$currentDate = strtotime(date("d-m-Y",time()));
+			$currentDate = date("Y-m-d", time()-10800); //10800 son 3 horas en segundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
+
+			if($initialDate > $endDate) return "Initial Date must be previous to End Date";		
+			else if($initialDate < $currentDate) return "Initial Date mustn't be previous to current date";
+			else return 0;
+		}
+		/*
+		public function datesCheck($initialDate, $endDate) {
+			$currentDateUnix = strtotime(date("d-m-Y",time())); //10800000 son 3 horas en milisegundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
 			$initialDateUnix = strtotime($initialDate);
 			$endDateUnix = strtotime($endDate);
 
-			if($initialDateUnix > $endDateUnix) return 1;
-			else if($initialDateUnix < $currentDate) return 2;
-			else return 0;
 
+			if($initialDateUnix > $endDateUnix)
+			{
+				$errorMessage="Initial Date must be previous to End Date";
+				return $errorMessage;
+			} 
+			else if($initialDateUnix < $currentDateUnix)
+			{
+				$errorMessage="Initial Date mustn't be previous to current date";
+				return $errorMessage;
+			} 
+			else return 0;
 		}
+		*/
 
 		public function showHomeView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
 			require_once(VIEWS_PATH . "keeper-home.php");
-		}
-
-		public function showListView2($message='') { //sin implementacion de chat, no va a funcionar con la keeper-list ahora
-			require_once(VIEWS_PATH . "validate-session.php");
-			$keeperList=$this->keeperDAO->getAll();
-			require_once(VIEWS_PATH . "keeper-list.php");
 		}
 
 		public function showListView($message = "") { //con chat
@@ -73,11 +83,10 @@
 		public function showFilterListView($initialDate, $endDate) { //listado filtrado por fechas que ingreso el usuario
 			require_once(VIEWS_PATH . "validate-session.php");
 			
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showListView("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showListView("Initial Date mustn't be previous to current date"); }
-			else {
+			if($validation == 0) 
+			{
 				$keeperList=$this->keeperDAO->getFullListForOwner();
 				$keeperListFiltered = array();
 
@@ -91,6 +100,7 @@
 				if(empty($keeperList)) $message="Oh, seems like there's not keepers availables in that range of dates... Try another dates";
 				require_once(VIEWS_PATH . "keeper-list.php");
 			}
+			else $this->showListView($validation);
 		}
 
 		public function getKeeperLogged() {
@@ -110,14 +120,14 @@
 			$keeper->setDays($days);
 			$keeper->setPrice($price);
 
-			$check = $this->datesCheck($initialDate, $endDate);
+			$validation = $this->datesCheck($initialDate, $endDate);
 
-			if($check == 1) { $this->showModifyKeeperProfile("Initial Date must be previous to End Date"); }
-			else if ($check == 2) { $this->showModifyKeeperProfile("Initial Date mustn't be previous to current date"); }
-			else {
+			if($validation == 0) 
+			{
 				$this->keeperDAO->modify($keeper);
 				$this->showHomeView("Keeper data modified !");
 			}
+			else $this->showModifyKeeperProfile($validation);
 		}
 
 		public function showKeeperProfile() {

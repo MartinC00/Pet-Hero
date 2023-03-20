@@ -35,7 +35,7 @@
         </form> <br>
 
         <form action="<?php echo FRONT_ROOT . "Keeper/showListView" ?>" method="get"> <input type="submit" value="Reset"></form> 
-
+        <br>
         <?php if(isset($message)) echo$message; ?>
 
         <h2> KEEPERs LIST </h2>

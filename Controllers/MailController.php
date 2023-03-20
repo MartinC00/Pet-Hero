@@ -45,7 +45,7 @@
                         Please DO NOT SHARE THIS CODE WITH ANYONE besides the official site of Pet Hero.
                         Thank you for trusting your pets with us!";
 
-                $subject = "Cupon code for Pet Hero´s reservation payment";
+                $subject = "Cupon code for Pet Hero's reservation payment";
 
                 //Content
                 $mail->isHTML(true);                          //Set email format to HTML

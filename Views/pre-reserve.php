@@ -29,8 +29,21 @@ include('owner-nav-bar.php');
     </tbody>
 </table>
 <br>
+<?php if(!empty($userPetList)) { ?>
 <form action="<?php echo FRONT_ROOT ."Reserve/showAddView" ?>" method="post">
-
+    <tr>
+        <td colspan="2">
+            <label for="startDate">From</label>
+            <input type="date" name="startDate" id="startDate" required>
+        </td>
+        <td colspan="2">
+            <label for="endDate">To</label>
+            <input type="date" name="endDate" id="endDate" required> 
+        </td>
+        <br>
+    </tr>
+    <input type="hidden" name="idKeeper" value="<?php echo $keeper->getKeeperId()?>" readonly> <br>
+    <input type="hidden" name="price" value="<?php echo $keeper->getPrice()?>" readonly>
     <table style="text-align: center">
         <thead>
         <tr>
@@ -41,6 +54,7 @@ include('owner-nav-bar.php');
         </tr>
         </thead>
         <tbody>
+
         <?php foreach($userPetList as $pet) { ?>
             <tr>
                 <td style="width: 50px" ><input type="checkbox" name="idPets[]" value="<?php echo $pet->getId()?>"></td>
@@ -49,22 +63,10 @@ include('owner-nav-bar.php');
                 <td><?php echo $pet->getSize()?></td>
             </tr>
         <?php } ?>
-        <tr>
-            <td colspan="2">
-                <label for="startDate">From</label>
-                <input type="date" name="startDate" id="startDate">
-            </td>
-            <td colspan="2">
-                <label for="endDate">To</label>
-                <input type="date" name="endDate" id="endDate">
-            </td>
-        </tr>
         </tbody>
     </table>
 
-    <input type="hidden" name="idKeeper" value="<?php echo $keeper->getKeeperId()?>" readonly>
-    <input type="hidden" name="price" value="<?php echo $keeper->getPrice()?>" readonly>
 
-    <button type="submit">Preview Reservation</button>
-
+        <button type="submit">Preview Reservation</button>
 </form>
+<?php } else echo "Oh.. seems like you don't have pets registered, add at least 1 before hire a keeper."; ?>

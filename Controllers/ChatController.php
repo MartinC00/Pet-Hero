@@ -30,7 +30,7 @@
             $chat->setStatus(Status::Pending);
 
             $this->chatDAO->add($chat);
-            $this->keeperController->showListView("Chat creado, esperando confirmacion");
+            $this->keeperController->showListView("Chat request sent, waiting for keeper's confirmation!");
         }
 
         public function modifyStatus($chatId, $status) {
