@@ -48,26 +48,6 @@
 			else if($initialDate < $currentDate) return "Initial Date mustn't be previous to current date";
 			else return 0;
 		}
-		/*
-		public function datesCheck($initialDate, $endDate) {
-			$currentDateUnix = strtotime(date("d-m-Y",time())); //10800000 son 3 horas en milisegundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
-			$initialDateUnix = strtotime($initialDate);
-			$endDateUnix = strtotime($endDate);
-
-
-			if($initialDateUnix > $endDateUnix)
-			{
-				$errorMessage="Initial Date must be previous to End Date";
-				return $errorMessage;
-			} 
-			else if($initialDateUnix < $currentDateUnix)
-			{
-				$errorMessage="Initial Date mustn't be previous to current date";
-				return $errorMessage;
-			} 
-			else return 0;
-		}
-		*/
 
 		public function showHomeView($message = "") {
 			require_once(VIEWS_PATH . "validate-session.php");
@@ -153,5 +133,26 @@
         {
         	return $this->keeperDAO->getKeeperName($idKeeper);
         }
+
+        /*
+		public function datesCheck($initialDate, $endDate) {
+			$currentDateUnix = strtotime(date("d-m-Y",time())); //10800000 son 3 horas en milisegundos, la diferencia horaria entre -3GMT nuestra zona horaria y 0 GMT, la zona horaria bajo la cual se rige time()
+			$initialDateUnix = strtotime($initialDate);
+			$endDateUnix = strtotime($endDate);
+
+
+			if($initialDateUnix > $endDateUnix)
+			{
+				$errorMessage="Initial Date must be previous to End Date";
+				return $errorMessage;
+			} 
+			else if($initialDateUnix < $currentDateUnix)
+			{
+				$errorMessage="Initial Date mustn't be previous to current date";
+				return $errorMessage;
+			} 
+			else return 0;
+		}
+		*/
 	}
  ?>

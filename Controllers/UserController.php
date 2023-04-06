@@ -92,21 +92,25 @@
 
             foreach ($userList as $user) 
             {
-                if ($newUser->getUsername() == $user->getUsername() && $user->getId()!=$newUser->getId()) return 1;
+                if ($newUser->getUsername() == $user->getUsername() && $user->getId()!=$newUser->getId()) return "Username isn't available, please choose another one";
                 
-                else if($newUser->getDni() == $user->getDni() && $user->getId()!=$newUser->getId()) return 2;
+                else if($newUser->getDni() == $user->getDni() && $user->getId()!=$newUser->getId()) return "DNI already exists !!";
                
-                else if($newUser->getEmail() == $user->getEmail() && $user->getId()!=$newUser->getId()) return 3;
+                else if($newUser->getEmail() == $user->getEmail() && $user->getId()!=$newUser->getId()) return "Email already exists !!";
             }
+            
+            if($newUser->getPassword()==$_SESSION["loggedUser"]->getPassword())	return "Password is already in use";
+
             return 0;
         }
     
 		public function modifyProfile($username, $password, $name, $lastname, $dni, $phone, $email)
 		{
 			require_once(VIEWS_PATH . "validate-session.php");
-			
-			$user = $_SESSION["loggedUser"];
 
+			$user = new User();
+			$user->setId($_SESSION["loggedUser"]->getId());
+			$user->setUserType($_SESSION["loggedUser"]->getUserType());
 			$user->setUsername($username);
 			$user->setPassword($password);
 			$user->setName($name);
@@ -115,20 +119,17 @@
 			$user->setPhone($phone);
 			$user->setEmail($email);
 			
-			$check = $this->checkUserModify($user);
+			$verificationMessage = $this->checkUserModify($user);
 
-			if($check==1) { $this->showModifyUserProfile("Username isn't available, please choose another one"); }
-			else if($check==2) { $this->showModifyUserProfile("DNI already exists !!"); }
-			else if($check==3) { $this->showModifyUserProfile("Email already exists !!"); }
-			else
+			if($verificationMessage==0)
 			{
 				$this->userDAO->modify($user);
 				$_SESSION["loggedUser"]=$user;
 				$this->showHomeView("Profile modified !");
-			}			
+			}			 
+			else 
+				$this->showModifyUserProfile($verificationMessage); 			
 		}
-
-		
 		
 		public function getByUsername($username)
 		{

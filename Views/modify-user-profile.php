@@ -23,13 +23,13 @@
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" name="username" id="username" value="<?php echo $user->getUsername(); ?>"></td>
-                <td><input type="password" name="password" id="password" value="<?php echo $user->getPassword(); ?>" ></td>
-                <td><input type="text" name="name" id="name" value="<?php echo $user->getName(); ?> "></td>
-                <td><input type="text" name="lastname" id="lastname" value="<?php echo $user->getLastname(); ?> "></td>
-                <td><input type="text" name="dni" id="dni" value="<?php echo $user->getDni(); ?>" ></td>
-                <td><input type="number" name="phone" id="phone" value="<?php echo $user->getPhone(); ?>"></td>
-                <td><input type="email" name="email" id="email" value="<?php echo $user->getEmail(); ?>" ></td>
+                <td><input type="text" name="username" id="username" value="<?php echo $user->getUsername(); ?>" minlength="5"required></td>
+                <td><input type="password" name="password" id="password" value="<?php echo $user->getPassword(); ?>" minlength="3" required></td>
+                <td><input type="text" name="name" id="name" value="<?php echo $user->getName(); ?> "required></td>
+                <td><input type="text" name="lastname" id="lastname" value="<?php echo $user->getLastname(); ?> "required></td>
+                <td><input type="text" name="dni" id="dni" value="<?php echo $user->getDni(); ?>" required></td>
+                <td><input type="number" name="phone" id="phone" value="<?php echo $user->getPhone(); ?>"required></td>
+                <td><input type="email" name="email" id="email" value="<?php echo $user->getEmail(); ?>"required></td>
             </tr>
         </tbody>
     </table>

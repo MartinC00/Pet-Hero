@@ -269,7 +269,7 @@
             else return "Incorrect reserve number! Please check";
         }
         
-        public function showReserveList_DEPRECATED($message='') //previo a implementacion de inner join en el mysql
+        /*public function showReserveList_DEPRECATED($message='') //previo a implementacion de inner join en el mysql
         {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -315,5 +315,6 @@
                 require_once(VIEWS_PATH . "keeper-reserve-list.php");
             }
 		}
+        */
 	}
  ?>
