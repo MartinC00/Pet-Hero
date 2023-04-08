@@ -1,5 +1,6 @@
 # Pet Hero
 
+Nota: utilizamos wampserver (localhost) y phpmyadmin (bbdd) para el funcionamiento de la aplicación.
 
 ### Integrantes
 * Agustin Lapenna
